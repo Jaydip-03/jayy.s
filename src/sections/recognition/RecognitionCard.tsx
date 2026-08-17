@@ -1,39 +1,72 @@
-import Image from "next/image";
-import { ExternalLink } from "lucide-react";
-import { Recognition } from "@/types/recognition";
+import { ArrowUpRight, BadgeCheck } from "lucide-react";
 
-export default function RecognitionCard({ item }: { item: Recognition }) {
+import type { Recognition } from "@/types/recognition";
+
+function getInitials(organization: string) {
+  const words = organization.split(/\s+/).filter(Boolean);
+  if (words.length >= 2) {
+    return (words[0][0] + words[1][0]).toUpperCase();
+  }
+  return organization.slice(0, 2).toUpperCase();
+}
+
+type RecognitionCardProps = {
+  item: Recognition;
+};
+
+export default function RecognitionCard({ item }: RecognitionCardProps) {
+  const href = item.credential || item.image;
+  const isPublication = item.category === "Publication";
+  const actionLabel = isPublication ? "View paper" : "Verify credential";
+
   return (
-    <div className="rounded-2xl border border-neutral-200 p-6 transition-colors hover:border-emerald-300">
-      <div className="relative h-14 w-14 overflow-hidden rounded-lg border border-neutral-200 bg-neutral-50">
-        {item.image ? (
-          <Image src={item.image} alt={item.title} fill className="object-cover object-top" />
-        ) : (
-          <div className="flex h-full items-center justify-center text-xs font-semibold text-neutral-400">
-            {item.organization.slice(0, 2).toUpperCase()}
-          </div>
-        )}
+    <article className="group flex flex-col gap-4 rounded-xl border border-neutral-200/80 bg-white px-4 py-4 transition-all duration-200 hover:border-neutral-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.05)] sm:flex-row sm:items-center sm:gap-5 sm:px-5 sm:py-[18px]">
+      <div
+        className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border text-sm font-semibold ${
+          isPublication
+            ? "border-amber-200/80 bg-amber-50 text-amber-800"
+            : "border-neutral-100 bg-neutral-50 text-neutral-500"
+        }`}
+      >
+        {getInitials(item.organization)}
       </div>
 
-      <p className="mt-4 text-xs uppercase tracking-wide text-neutral-400">
-        {item.category}
-      </p>
-      <h3 className="mt-1.5 text-lg font-semibold leading-snug">{item.title}</h3>
-      <p className="mt-1 text-sm text-neutral-500">
-        {item.organization} · {item.year}
-      </p>
-      <p className="mt-2.5 text-sm leading-6 text-neutral-600">{item.description}</p>
+      <div className="min-w-0 flex-1">
+        <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+          <h3 className="text-[15px] font-semibold leading-snug tracking-[-0.01em] text-neutral-950 sm:text-base">
+            {item.title}
+          </h3>
+          {href && (
+            <span className="inline-flex items-center gap-1 text-[10px] font-medium uppercase tracking-[0.14em] text-emerald-700 sm:hidden">
+              <BadgeCheck className="h-3 w-3" />
+              Verified
+            </span>
+          )}
+        </div>
+        <p className="mt-1 text-sm text-neutral-500">
+          {item.organization}
+          <span aria-hidden="true" className="mx-1.5 text-neutral-300">
+            ·
+          </span>
+          Issued {item.year}
+        </p>
+      </div>
 
-      {(item.credential || item.image) && (
+      {href ? (
         <a
-          href={item.credential || item.image}
+          href={href}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-emerald-700 hover:text-emerald-800"
+          className="inline-flex shrink-0 items-center gap-1.5 self-start border-neutral-100 text-sm font-medium text-neutral-600 transition hover:text-neutral-950 sm:border-l sm:pl-5 sm:self-center"
         >
-          View credential <ExternalLink size={14} />
+          <span>{actionLabel}</span>
+          <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </a>
+      ) : (
+        <span className="inline-flex shrink-0 items-center gap-1 self-start text-[10px] font-medium uppercase tracking-[0.14em] text-neutral-400 sm:self-center">
+          {item.category}
+        </span>
       )}
-    </div>
+    </article>
   );
 }

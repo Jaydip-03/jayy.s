@@ -19,7 +19,6 @@ import {
   SiNextdotjs,
   SiTailwindcss,
   SiFramer,
-  SiThreedotjs,
   SiGsap,
   SiJsonwebtokens,
   SiSwagger,
@@ -28,7 +27,11 @@ import {
   SiKubernetes,
 } from "react-icons/si";
 
-const iconMap: Record<string, React.ElementType> = {
+type SkillIconComponent = React.ComponentType<{
+  size?: string | number;
+}>;
+
+const iconMap: Record<string, SkillIconComponent> = {
   Java: Coffee,
   SQL: Database,
   JavaScript: SiJavascript,
@@ -42,7 +45,6 @@ const iconMap: Record<string, React.ElementType> = {
   "Next.js": SiNextdotjs,
   "Tailwind CSS": SiTailwindcss,
   "Framer Motion": SiFramer,
-  "Three.js": SiThreedotjs,
   GSAP: SiGsap,
   HTML5: SiHtml5,
   CSS3: SiCss,
@@ -56,7 +58,18 @@ const iconMap: Record<string, React.ElementType> = {
   "IntelliJ IDEA": SiIntellijidea,
   "Eclipse IDE": SiEclipseide,
   "VS Code": Code2,
+  "Hibernate / JPA": SiHibernate,
+  "Servlet & JSP": Server,
+  "REST APIs": Network,
+  "Git & GitHub": SiGithub,
+  JDBC: Database,
   "Spring Security": SiSpring,
+  "Swagger / OpenAPI": SiSwagger,
+  "System Design": Network,
+  Maven: Code2,
+  "Node.js": Code2,
+  "Express.js": Code2,
+  TypeScript: Code2,
   JWT: SiJsonwebtokens,
   Swagger: SiSwagger,
   Microservices: Network,

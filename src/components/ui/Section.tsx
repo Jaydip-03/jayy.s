@@ -1,4 +1,9 @@
-import { ReactNode } from "react";
+
+
+import {
+  forwardRef,
+  ReactNode,
+} from "react";
 import clsx from "clsx";
 
 type SectionProps = {
@@ -7,17 +12,28 @@ type SectionProps = {
   className?: string;
 };
 
-export default function Section({
-  id,
-  children,
-  className,
-}: SectionProps) {
-  return (
-    <section
-      id={id}
-      className={clsx("py-24", className)}
-    >
-      {children}
-    </section>
-  );
-}
+const Section = forwardRef<HTMLElement, SectionProps>(
+  function Section(
+    {
+      id,
+      children,
+      className,
+    },
+    ref
+  ) {
+    return (
+      <section
+        ref={ref}
+        id={id}
+        className={clsx(
+          "py-24",
+          className
+        )}
+      >
+        {children}
+      </section>
+    );
+  }
+);
+
+export default Section;

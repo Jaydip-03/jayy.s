@@ -11,14 +11,6 @@ export const skillCategories: { title: string; skills: Skill[]; learning?: boole
     ],
   },
   {
-    title: "Core Java",
-    skills: [
-      { name: "OOP", level: "expert" },
-      { name: "Collections Framework", level: "advanced" },
-      { name: "Java 8 / Streams", level: "advanced" },
-    ],
-  },
-  {
     title: "Backend",
     skills: [
       { name: "Spring Boot", level: "advanced" },
@@ -41,7 +33,6 @@ export const skillCategories: { title: string; skills: Skill[]; learning?: boole
       { name: "Next.js", level: "intermediate" },
       { name: "Tailwind CSS", level: "advanced" },
       { name: "Framer Motion", level: "intermediate" },
-      { name: "Three.js", level: "intermediate" },
       { name: "GSAP", level: "intermediate" },
     ],
   },

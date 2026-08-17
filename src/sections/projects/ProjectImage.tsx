@@ -1,93 +1,109 @@
-// import Link from "next/link";
-// import Image from "next/image";
-
-// import { Project } from "@/types/project";
-
-// type ProjectImageProps = {
-//   project: Project;
-// };
-
-// export default function ProjectImage({
-//   project,
-// }: ProjectImageProps) {
-//   return (
-//     <Link
-//       href={`/work/${project.slug}`}
-//       className="block overflow-hidden rounded-[14px] border border-[#cfd6df] bg-[#e8edf2] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600"
-//       aria-label={`View ${project.title} case study`}
-//     >
-//         <div className="flex h-8 items-center gap-1.5 border-b border-[#cfd6df] bg-[#f8fafc] px-3">
-//           <span className="h-2 w-2 rounded-full bg-[#ff5f57]" />
-//           <span className="h-2 w-2 rounded-full bg-[#febc2e]" />
-//           <span className="h-2 w-2 rounded-full bg-[#28c840]" />
-//           <span className="ml-2 truncate text-[10px] font-medium text-slate-400">{project.title}</span>
-//         </div>
-
-//         <div className="relative aspect-[16/8] overflow-hidden bg-[#e8edf2]">
-//           {project.slug === "developer-management-system" ? (
-//             <div className="flex h-full items-center justify-center bg-[radial-gradient(circle_at_top,#d9e9ff,transparent_58%),linear-gradient(135deg,#eff6ff,#e8eef4)] px-6 text-center">
-//               <span className="text-sm font-semibold text-slate-500">Developer Management System</span>
-//             </div>
-//           ) : (
-//             <Image src={project.image} alt="" fill className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.035]" />
-//           )}
-//           <div className="absolute inset-0 bg-gradient-to-t from-slate-950/10 via-transparent to-transparent" />
-//           <span className="absolute right-3 top-3 rounded-full border border-white/80 bg-white/90 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-slate-600 backdrop-blur-sm">
-//             {project.status}
-//           </span>
-//         </div>
-//     </Link>
-//   );
-// }
 
 
 
-
-import Link from "next/link";
 import Image from "next/image";
+import { ArrowUpRight } from "lucide-react";
 
 import { Project } from "@/types/project";
+import { cn } from "@/lib/utils";
 
 type ProjectImageProps = {
   project: Project;
+  priority?: boolean;
+  className?: string;
+  aspect?: string;
 };
 
-export default function ProjectImage({ project }: ProjectImageProps) {
+export default function ProjectImage({
+  project,
+  priority,
+  className,
+  aspect = "aspect-[16/8.4]",
+}: ProjectImageProps) {
   return (
-    <Link
-      href={`/work/${project.slug}`}
-      className="block overflow-hidden rounded-[12px] border border-[#cfd6df] bg-[#e8edf2] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-600"
-      aria-label={`View ${project.title} case study`}
+    <div
+      className={cn(
+  "mx-auto w-[58%] min-w-[190px] transition-transform duration-500 group-hover:-translate-y-1",
+  className,
+)}
     >
-      <div className="flex h-7 items-center gap-1.5 border-b border-[#cfd6df] bg-[#f8fafc] px-3">
-        <span className="h-2 w-2 rounded-full bg-[#ff5f57]" />
-        <span className="h-2 w-2 rounded-full bg-[#febc2e]" />
-        <span className="h-2 w-2 rounded-full bg-[#28c840]" />
-        <span className="ml-2 truncate text-[10px] font-medium text-slate-400">
-          {project.title}
-        </span>
+      {/* Browser chrome */}
+      <div className="mb-2 flex items-center gap-1.5 px-1">
+        <span className="h-2 w-2 rounded-full bg-spidey-red/70" />
+        <span className="h-2 w-2 rounded-full bg-amber-400/70" />
+        <span className="h-2 w-2 rounded-full bg-spidey-blue/60" />
       </div>
 
-      <div className="relative aspect-[16/9] overflow-hidden bg-[#e8edf2]">
+      <div
+        className={cn(
+          "relative overflow-hidden rounded-xl ring-1 ring-black/[0.05] transition-shadow duration-500 group-hover:ring-spidey-red/25 group-hover:shadow-[0_24px_60px_-18px_rgba(226,54,54,0.22),0_12px_32px_-16px_rgba(0,111,185,0.18)]",
+          aspect,
+        )}
+      >
         {project.image ? (
           <Image
             src={project.image}
-            alt=""
+            alt={`${project.title} interface preview`}
             fill
-            className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.035]"
+            priority={priority}
+            sizes="(min-width: 1024px) 30vw, 55vw"
+            className="object-cover object-top transition-transform duration-[600ms] ease-out group-hover:scale-[1.04]"
           />
         ) : (
-          <div className="flex h-full items-center justify-center bg-[radial-gradient(circle_at_top,#d9e9ff,transparent_58%),linear-gradient(135deg,#eff6ff,#e8eef4)] px-6 text-center">
-            <span className="text-sm font-semibold text-slate-500">
-              {project.title}
-            </span>
-          </div>
+          <ProjectFallback project={project} />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/10 via-transparent to-transparent" />
-        <span className="absolute right-3 top-3 rounded-full border border-white/80 bg-white/90 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-slate-600 backdrop-blur-sm">
-          {project.status}
+
+        {project.live && (
+          <span className="absolute right-2 top-2 z-10 inline-flex items-center gap-1 rounded-full border border-white/80 bg-white/90 px-2 py-0.5 text-[10px] font-medium text-zinc-700 backdrop-blur-sm">
+            Live
+            <ArrowUpRight className="h-2.5 w-2.5" />
+          </span>
+        )}
+
+        {/* Hover cue */}
+        <span className="pointer-events-none absolute bottom-2 right-2 z-10 flex h-7 w-7 translate-y-2 items-center justify-center rounded-full bg-zinc-950/85 text-white opacity-0 backdrop-blur-sm transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+          <ArrowUpRight className="h-3.5 w-3.5" />
         </span>
       </div>
-    </Link>
+    </div>
+  );
+}
+
+/**
+ * Branded placeholder for projects without a screenshot (e.g. backend/API work).
+ * Looks intentional instead of an empty gray box.
+ */
+function ProjectFallback({ project }: { project: Project }) {
+  const initials = project.title
+    .split(" ")
+    .slice(0, 2)
+    .map((w) => w[0])
+    .join("")
+    .toUpperCase();
+
+  return (
+    <div className="relative flex h-full w-full items-center justify-center overflow-hidden bg-[#1b1b1f]">
+      {/* mesh glow */}
+      <div className="absolute -left-16 -top-16 h-56 w-56 rounded-full bg-spidey-red/25 blur-3xl" />
+      <div className="absolute -bottom-20 -right-10 h-56 w-56 rounded-full bg-spidey-blue/30 blur-3xl" />
+      {/* dotted grid */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 opacity-[0.18]"
+        style={{
+          backgroundImage:
+            "radial-gradient(rgba(255,255,255,0.6) 1px, transparent 1px)",
+          backgroundSize: "22px 22px",
+        }}
+      />
+      <div className="relative flex flex-col items-center gap-2 px-4 text-center">
+        <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 font-display text-lg font-normal text-white ring-1 ring-white/15 backdrop-blur-sm">
+          {initials}
+        </span>
+        <span className="text-[10px] font-medium uppercase tracking-[0.24em] text-white/55">
+          {project.category}
+        </span>
+      </div>
+    </div>
   );
 }

@@ -1,10 +1,5 @@
 import Badge from "./Badge";
-import {
-  BriefcaseBusiness,
-  CodeXml,
-  GraduationCap,
-  Layers,
-} from "lucide-react";
+import { BriefcaseBusiness, CodeXml, GraduationCap } from "lucide-react";
 
 export default function HeroBadges() {
   return (
@@ -14,7 +9,7 @@ export default function HeroBadges() {
       </Badge>
 
       <Badge icon={<BriefcaseBusiness size={15} />}>
-        Open to Opportunities
+        Open to 
       </Badge>
 
       <Badge icon={<GraduationCap size={15} />}>

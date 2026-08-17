@@ -12,7 +12,7 @@ export default function OrbitingIcons() {
   return (
     <div
       className="absolute inset-0 pointer-events-none hidden lg:block"
-      style={{ ["--orbit-size" as string]: "440px", ["--orbit-duration" as string]: "18s" }}
+      style={{ ["--orbit-size" as string]: "360px", ["--orbit-duration" as string]: "18s" }}
     >
       {icons.map(({ Icon, start, color }, i) => (
         <div

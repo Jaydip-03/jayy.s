@@ -1,16 +1,28 @@
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
+import HeroAside from "./HeroAside";
+import HeroAsideReveal from "./HeroAsideReveal";
+import HeroBackground from "./HeroBackground";
 import HeroContent from "./HeroContent";
-import HeroVisual from "./HeroVisual";
 import ScrollIndicator from "./ScrollIndicator";
+
+import { useTheme } from "@/context/ThemeContext";
+import HeroAura from "@/components/effects/HeroAura";
 
 export default function Hero() {
   return (
-    <Section className="relative min-h-screen overflow-hidden">
-      <Container className="flex min-h-[calc(100vh-90px)] items-center pt-12 lg:pt-16">
-        <div className="grid w-full items-center gap-16 lg:grid-cols-2">
+    <Section
+      id="hero-main"
+      className="relative flex min-h-[100svh] flex-col overflow-hidden bg-black py-0"
+    >
+      <HeroBackground />
+
+      <Container className="relative z-10 flex flex-1 items-center py-8 sm:py-10">
+        <div className="grid w-full items-center gap-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.75fr)] lg:gap-8 xl:gap-12">
           <HeroContent />
-          <HeroVisual />
+          <HeroAsideReveal>
+            <HeroAside />
+          </HeroAsideReveal>
         </div>
       </Container>
 

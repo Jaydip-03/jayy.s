@@ -1,5 +1,6 @@
 "use client";
 
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 const roles = [
@@ -9,37 +10,36 @@ const roles = [
   "React & Next.js Builder",
 ];
 
+const ROTATE_INTERVAL_MS = 4200;
+
 export default function TypewriterRole() {
-  const [roleIndex, setRoleIndex] = useState(0);
-  const [text, setText] = useState("");
-  const [deleting, setDeleting] = useState(false);
+  const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    const current = roles[roleIndex];
-    const speed = deleting ? 35 : 80;
+    const interval = setInterval(() => {
+      setIndex((current) => (current + 1) % roles.length);
+    }, ROTATE_INTERVAL_MS);
 
-    const timeout = setTimeout(() => {
-      if (!deleting) {
-        const next = current.slice(0, text.length + 1);
-        setText(next);
-        if (next === current) setTimeout(() => setDeleting(true), 1300);
-      } else {
-        const next = current.slice(0, text.length - 1);
-        setText(next);
-        if (next === "") {
-          setDeleting(false);
-          setRoleIndex((roleIndex + 1) % roles.length);
-        }
-      }
-    }, speed);
-
-    return () => clearTimeout(timeout);
-  }, [text, deleting, roleIndex]);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <span className="font-mono text-emerald-400">
-      {text}
-      <span className="inline-block w-[2px] h-[1em] bg-emerald-400 ml-1 align-middle animate-pulse" />
+    <span className="relative inline-block h-6 overflow-hidden">
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.span
+          key={roles[index]}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{
+            duration: 0.45,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          className="absolute left-0 top-0 whitespace-nowrap font-mono text-accent"
+        >
+          {roles[index]}
+        </motion.span>
+      </AnimatePresence>
     </span>
   );
 }

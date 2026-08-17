@@ -10,4 +10,8 @@ export interface Experience {
   location?: string;
   achievements?: string[];
   relatedProject?: string;
+  chapter?: string;
+  yearMark?: string;
+  aside?: string;
+  highlight?: string;
 }

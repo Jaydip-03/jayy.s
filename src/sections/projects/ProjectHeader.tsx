@@ -1,50 +1,45 @@
-// export default function ProjectHeader() {
-//   return (
-//     <div className="mx-auto max-w-2xl text-center">
-//       <div className="flex items-center justify-center gap-2.5">
-//         <span className="h-1.5 w-1.5 rounded-full bg-blue-600" />
-//         <span className="h-1.5 w-1.5 rounded-full bg-blue-400" />
-//         <span className="text-xs font-bold uppercase tracking-[0.24em] text-blue-700">
-//         Featured Work
-//       </span>
-//         <span className="h-1.5 w-1.5 rounded-full bg-blue-400" />
-//         <span className="h-1.5 w-1.5 rounded-full bg-blue-600" />
-//       </div>
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
-//       <h2 className="mt-5 text-4xl font-semibold tracking-[-0.055em] text-[#172033] sm:text-5xl">
-//         Selected Projects
-//       </h2>
-
-//       <p className="mx-auto mt-5 max-w-xl text-base leading-7 text-zinc-600 sm:text-lg">
-//         A curated selection of full-stack, frontend, and IoT projects built
-//         with a focus on thoughtful, reliable experiences.
-//       </p>
-//     </div>
-//   );
-// }
-
+const SPIDEY_RED = "#e23636";
+const SPIDEY_BLUE = "#006fb9";
 
 export default function ProjectHeader() {
   return (
-    <div className="mx-auto max-w-2xl text-center">
-      <div className="flex items-center justify-center gap-2.5">
-        <span className="h-1.5 w-1.5 rounded-full bg-emerald-600" />
-        <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-        <span className="text-xs font-bold uppercase tracking-[0.24em] text-emerald-700">
-          Featured Work
-        </span>
-        <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-        <span className="h-1.5 w-1.5 rounded-full bg-emerald-600" />
+    <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between md:gap-12">
+      <div className="max-w-2xl">
+        <div className="flex items-center gap-3">
+          <span
+            aria-hidden="true"
+            className="h-px w-10"
+            style={{
+              background: `linear-gradient(90deg, ${SPIDEY_RED}, ${SPIDEY_BLUE})`,
+            }}
+          />
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-zinc-500">
+            Selected Work
+          </p>
+        </div>
+
+        <h2 className="mt-4 font-display text-4xl font-normal leading-[1.05] tracking-[-0.04em] text-zinc-950 sm:text-[3.25rem]">
+          Projects
+        </h2>
+        <p className="mt-4 max-w-xl text-pretty text-base leading-7 text-zinc-600 sm:text-[17px] sm:leading-8">
+          Full-stack builds, frontend experiments, and backend systems I&apos;ve
+          shipped — Spring Boot, Java, and product work.
+        </p>
       </div>
 
-      <h2 className="mt-5 text-4xl font-semibold tracking-[-0.055em] text-[#172033] sm:text-5xl">
-        Selected Projects
-      </h2>
-
-      <p className="mx-auto mt-5 max-w-xl text-base leading-7 text-zinc-600 sm:text-lg">
-        A curated selection of full-stack, frontend, and IoT projects built
-        with a focus on thoughtful, reliable experiences.
-      </p>
+      <Link
+        href="/work"
+        className="group inline-flex shrink-0 items-center gap-2 rounded-full border border-zinc-300/80 bg-white/60 px-4 py-2 text-sm font-medium text-zinc-700 transition-all duration-300 hover:-translate-y-0.5 hover:border-zinc-900 hover:bg-zinc-950 hover:text-white md:mb-1.5"
+      >
+        All projects
+        <ArrowRight
+          aria-hidden="true"
+          className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5"
+        />
+      </Link>
     </div>
   );
 }

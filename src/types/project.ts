@@ -31,6 +31,9 @@ export interface Project {
 
   featuredImage?: string;
 
+  year?: number;
+
   keyFixes?: KeyFix[];
   impact?: string;
+  highlights?: string[];
 }

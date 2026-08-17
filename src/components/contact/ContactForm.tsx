@@ -1,8 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
+
+import { contactContent } from "@/data/contact";
 
 type Status = "idle" | "loading" | "success" | "error";
+
+const fieldClassName =
+  "w-full border-b border-neutral-300 bg-transparent pb-3 text-base outline-none transition-colors duration-300 placeholder:text-neutral-400 focus:border-neutral-950 sm:text-lg";
 
 export default function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
@@ -33,62 +40,111 @@ export default function ContactForm() {
   };
 
   return (
-    <div>
-      <p className="mb-8 text-xs uppercase tracking-[0.35em] text-neutral-500">
-        Send a Message
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+      className="rounded-[24px] border border-neutral-200/70 bg-white p-6 shadow-[0_16px_48px_rgba(0,0,0,0.04)] sm:p-8"
+    >
+      <p className="text-xs font-medium uppercase tracking-[0.28em] text-neutral-500">
+        {contactContent.formLabel}
       </p>
 
-      <form onSubmit={handleSubmit} className="space-y-10">
-        <input type="checkbox" name="botcheck" className="hidden" style={{ display: "none" }} />
+      <form onSubmit={handleSubmit} className="mt-6 space-y-6">
+        <input
+          type="checkbox"
+          name="botcheck"
+          className="hidden"
+          style={{ display: "none" }}
+        />
 
         <div>
-          <label className="mb-3 block text-xs uppercase tracking-[0.3em] text-neutral-400">Name</label>
+          <label
+            htmlFor="contact-name"
+            className="mb-3 block text-xs uppercase tracking-[0.22em] text-neutral-400"
+          >
+            Name
+          </label>
           <input
-            type="text" name="name" required placeholder="Your name"
-            className="w-full border-b border-neutral-300 bg-transparent pb-3 text-lg outline-none transition-all duration-300 placeholder:text-neutral-400 focus:border-black"
+            id="contact-name"
+            type="text"
+            name="name"
+            required
+            placeholder="Your name"
+            className={fieldClassName}
           />
         </div>
 
         <div>
-          <label className="mb-3 block text-xs uppercase tracking-[0.3em] text-neutral-400">Email</label>
+          <label
+            htmlFor="contact-email"
+            className="mb-3 block text-xs uppercase tracking-[0.22em] text-neutral-400"
+          >
+            Email
+          </label>
           <input
-            type="email" name="email" required placeholder="you@example.com"
-            className="w-full border-b border-neutral-300 bg-transparent pb-3 text-lg outline-none transition-all duration-300 placeholder:text-neutral-400 focus:border-black"
+            id="contact-email"
+            type="email"
+            name="email"
+            required
+            placeholder="you@example.com"
+            className={fieldClassName}
           />
         </div>
 
         <div>
-          <label className="mb-3 block text-xs uppercase tracking-[0.3em] text-neutral-400">Subject</label>
+          <label
+            htmlFor="contact-subject"
+            className="mb-3 block text-xs uppercase tracking-[0.22em] text-neutral-400"
+          >
+            Subject
+          </label>
           <input
-            type="text" name="subject" placeholder="Project / Opportunity"
-            className="w-full border-b border-neutral-300 bg-transparent pb-3 text-lg outline-none transition-all duration-300 placeholder:text-neutral-400 focus:border-black"
+            id="contact-subject"
+            type="text"
+            name="subject"
+            placeholder="Project / opportunity"
+            className={fieldClassName}
           />
         </div>
 
         <div>
-          <label className="mb-3 block text-xs uppercase tracking-[0.3em] text-neutral-400">Message</label>
+          <label
+            htmlFor="contact-message"
+            className="mb-3 block text-xs uppercase tracking-[0.22em] text-neutral-400"
+          >
+            Message
+          </label>
           <textarea
-            rows={6} name="message" required placeholder="Tell me about your project..."
-            className="w-full resize-none border-b border-neutral-300 bg-transparent pb-3 text-lg outline-none transition-all duration-300 placeholder:text-neutral-400 focus:border-black"
+            id="contact-message"
+            rows={4}
+            name="message"
+            required
+            placeholder="Tell me what you're building..."
+            className={`${fieldClassName} resize-none`}
           />
         </div>
 
         <button
           type="submit"
           disabled={status === "loading"}
-          className="group inline-flex items-center gap-3 border border-black px-8 py-4 text-sm font-medium uppercase tracking-[0.2em] transition-all duration-300 hover:bg-black hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
+          className="group inline-flex items-center gap-2 rounded-full bg-neutral-950 px-7 py-3.5 text-sm font-medium text-white transition hover:bg-neutral-800 disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {status === "loading" ? "Sending..." : "Send Message"}
-          <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+          {status === "loading" ? "Sending..." : "Send message"}
+          <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </button>
 
-        {status === "success" && (
-          <p className="text-sm text-emerald-600">Message sent — I&apos;ll get back to you soon.</p>
-        )}
-        {status === "error" && (
-          <p className="text-sm text-red-600">Something went wrong — email me directly instead.</p>
-        )}
+        {status === "success" ? (
+          <p className="text-sm text-emerald-700">
+            Message sent — I&apos;ll get back to you soon.
+          </p>
+        ) : null}
+        {status === "error" ? (
+          <p className="text-sm text-red-600">
+            Something went wrong — copy my email and reach out directly.
+          </p>
+        ) : null}
       </form>
-    </div>
+    </motion.div>
   );
 }

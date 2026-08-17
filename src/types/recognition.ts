@@ -8,4 +8,5 @@ export interface Recognition {
   credential?: string;
   image?: string;
   slug: string;
+  featured?: boolean;
 }
