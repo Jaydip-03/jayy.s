@@ -1,5 +1,12 @@
+
+
+<aside className="relative min-h-[320px] xl:min-h-[360px]"></aside>
+
+
 const SPIDEY_RED = "#e23636";
 const SPIDEY_BLUE = "#006fb9";
+
+
 
 function SpiderDoodle() {
   return (
@@ -279,11 +286,9 @@ function WebHalo() {
 
 export default function HeroAside() {
   return (
-    <aside
-      className="relative min-h-[320px] xl:min-h-[360px]"
-      aria-hidden="true"
-    >
+    <aside className="relative min-h-[320px] xl:min-h-[360px]">
       <div className="relative ml-auto h-[320px] w-full max-w-[340px] xl:h-[360px]">
+
         <WebHalo />
         <SpiderDoodle />
         <WebSquare />

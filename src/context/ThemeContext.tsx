@@ -17,30 +17,62 @@ type ThemeContextType = {
   toggleMode: () => void;
 };
 
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+const ThemeContext = createContext<ThemeContextType | undefined>(
+  undefined
+);
 
-export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [mode, setMode] = useState<ThemeMode>("spidey");
+const THEME_SESSION_KEY = "portfolio-theme";
 
+type ThemeProviderProps = {
+  children: ReactNode;
+  initialMode: ThemeMode;
+};
+
+export function ThemeProvider({
+  children,
+  initialMode,
+}: ThemeProviderProps) {
+  const [mode, setMode] = useState<ThemeMode>(initialMode);
+
+  /*
+   * Restore the selected mode for this browser tab.
+   *
+   * sessionStorage survives refreshes,
+   * but is cleared when the tab/session is closed.
+   */
   useEffect(() => {
-    const savedMode = window.localStorage.getItem("portfolio-theme");
+    const savedMode = window.sessionStorage.getItem(
+      THEME_SESSION_KEY
+    );
 
-    if (savedMode === "normal" || savedMode === "spidey") {
+    if (savedMode === "spidey" || savedMode === "normal") {
       setMode(savedMode);
     }
   }, []);
 
+  /*
+   * Keep the DOM and session storage synchronized.
+   */
   useEffect(() => {
-    window.localStorage.setItem("portfolio-theme", mode);
+    document.documentElement.dataset.theme = mode;
+
+    window.sessionStorage.setItem(
+      THEME_SESSION_KEY,
+      mode
+    );
   }, [mode]);
 
   const value = useMemo(
     () => ({
       mode,
+
       isSpideyMode: mode === "spidey",
+
       toggleMode: () => {
         setMode((current) =>
-          current === "spidey" ? "normal" : "spidey"
+          current === "spidey"
+            ? "normal"
+            : "spidey"
         );
       },
     }),
@@ -58,7 +90,9 @@ export function useTheme() {
   const context = useContext(ThemeContext);
 
   if (!context) {
-    throw new Error("useTheme must be used inside ThemeProvider");
+    throw new Error(
+      "useTheme must be used inside ThemeProvider"
+    );
   }
 
   return context;

@@ -32,12 +32,12 @@ export default function ProjectHeader() {
 
       <Link
         href="/work"
-        className="group inline-flex shrink-0 items-center gap-2 rounded-full border border-zinc-300/80 bg-white/60 px-4 py-2 text-sm font-medium text-zinc-700 transition-all duration-300 hover:-translate-y-0.5 hover:border-zinc-900 hover:bg-zinc-950 hover:text-white md:mb-1.5"
+        className="group inline-flex shrink-0 items-center gap-2 self-start border-b border-zinc-300 pb-1.5 text-sm font-medium text-zinc-700 transition-colors duration-300 hover:border-zinc-950 hover:text-zinc-950 md:mb-1.5 md:self-auto"
       >
-        All projects
+        View all projects
         <ArrowRight
           aria-hidden="true"
-          className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5"
+          className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
         />
       </Link>
     </div>

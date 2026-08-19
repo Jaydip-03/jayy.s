@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import HeroCube from "./HeroCube";
-import OrbitingIcons from "./OrbitingIcons";
 
 type Rotation = {
   x: number;
@@ -87,10 +85,8 @@ export default function InteractiveVisual() {
         perspective: "1000px",
       }}
     >
-      <OrbitingIcons />
 
       <div ref={cubeRef} className="hero-cube-tilt hero-cube-tilt--compact">
-        <HeroCube />
       </div>
     </div>
   );

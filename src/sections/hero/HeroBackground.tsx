@@ -21,6 +21,7 @@ function HeroWebPattern() {
             strokeWidth="0.6"
             fill="none"
           />
+
           <circle
             cx="60"
             cy="60"
@@ -29,6 +30,7 @@ function HeroWebPattern() {
             strokeWidth="0.5"
             fill="none"
           />
+
           <circle
             cx="60"
             cy="60"
@@ -39,12 +41,23 @@ function HeroWebPattern() {
           />
         </pattern>
       </defs>
+
       <rect width="100%" height="100%" fill="url(#hero-web)" />
     </svg>
   );
 }
 
-export default function HeroBackground() {
+type HeroBackgroundProps = {
+  isSpideyMode: boolean;
+};
+
+export default function HeroBackground({
+  isSpideyMode,
+}: HeroBackgroundProps) {
+  if (!isSpideyMode) {
+    return null;
+  }
+
   return (
     <>
       <HeroWebPattern />

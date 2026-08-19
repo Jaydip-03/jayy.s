@@ -3,14 +3,21 @@
 import { useLayoutEffect, useState } from "react";
 
 import Intro from "@/components/intro/Intro";
-import { hasIntroBeenSeen } from "@/lib/intro";
+import {
+  clearIntroActive,
+  hasIntroBeenSeen,
+} from "@/lib/intro";
 
 export default function IntroGate() {
   const [showIntro, setShowIntro] = useState(false);
 
   useLayoutEffect(() => {
-    if (!hasIntroBeenSeen()) {
-      setShowIntro(true);
+    const shouldShowIntro = !hasIntroBeenSeen();
+
+    setShowIntro(shouldShowIntro);
+
+    if (!shouldShowIntro) {
+      clearIntroActive();
     }
   }, []);
 
@@ -18,5 +25,11 @@ export default function IntroGate() {
     return null;
   }
 
-  return <Intro onFinished={() => setShowIntro(false)} />;
+  return (
+    <Intro
+      onFinished={() => {
+        setShowIntro(false);
+      }}
+    />
+  );
 }

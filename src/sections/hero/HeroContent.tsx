@@ -12,7 +12,13 @@ import HeroSocials from "./HeroSocials";
 const SPIDEY_RED = "#e23636";
 const SPIDEY_BLUE = "#006fb9";
 
-export default function HeroContent() {
+type HeroContentProps = {
+  isSpideyMode: boolean;
+};
+
+export default function HeroContent({
+  isSpideyMode,
+}: HeroContentProps) {
   return (
     <div className="max-w-[640px]">
       <HeroRevealItem delay={0}>
@@ -20,26 +26,30 @@ export default function HeroContent() {
           aria-hidden="true"
           className="mb-4 h-px w-12 opacity-70"
           style={{
-            background: `linear-gradient(90deg, ${SPIDEY_RED}, ${SPIDEY_BLUE})`,
-          }}
+                    background: isSpideyMode
+                      ? `linear-gradient(90deg, ${SPIDEY_RED}, ${SPIDEY_BLUE})`
+                      : "linear-gradient(90deg, rgba(255,255,255,0.5), rgba(255,255,255,0.08))",
+                  }}
         />
         <AvailabilityBadge />
       </HeroRevealItem>
 
       <div className="relative mt-5 overflow-visible sm:mt-6">
         <HeroRevealItem delay={0.08}>
-          <HeroHeading />
+          <HeroHeading isSpideyMode={isSpideyMode} />
         </HeroRevealItem>
 
         <HeroRevealItem delay={0.14}>
-          <HeroMobileVisual />
+          <HeroMobileVisual isSpideyMode={isSpideyMode} />
         </HeroRevealItem>
       </div>
 
       <HeroRevealItem delay={0.2} className="mt-5 space-y-1.5 sm:mt-6">
         <p
           className="font-display text-[15px] italic leading-snug sm:text-base"
-          style={{ color: SPIDEY_BLUE }}
+          style={{
+  color: isSpideyMode ? SPIDEY_BLUE : "rgba(255,255,255,0.62)",
+}}
         >
           {siteConfig.role}
         </p>

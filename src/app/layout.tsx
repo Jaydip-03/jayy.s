@@ -5,8 +5,10 @@ import "./globals.css";
 import CustomCursor from "@/components/CustomCursor";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/layout/Navbar";
-import { INTRO_BOOT_SCRIPT } from "@/lib/intro";
+import IntroGate from "@/components/intro/IntroGate";
 import { siteConfig } from "@/lib/site";
+
+import { ThemeProvider } from "@/context/ThemeContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,14 +35,25 @@ const caveat = Caveat({
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
+
   title: {
     default: siteConfig.title,
     template: `%s | ${siteConfig.name}`,
   },
+
   description: siteConfig.description,
+
   keywords: [...siteConfig.keywords],
-  authors: [{ name: siteConfig.name, url: siteConfig.url }],
+
+  authors: [
+    {
+      name: siteConfig.name,
+      url: siteConfig.url,
+    },
+  ],
+
   creator: siteConfig.name,
+
   openGraph: {
     type: "website",
     locale: siteConfig.locale,
@@ -49,42 +62,54 @@ export const metadata: Metadata = {
     title: siteConfig.title,
     description: siteConfig.description,
   },
+
   twitter: {
     card: "summary_large_image",
     title: siteConfig.title,
     description: siteConfig.description,
     creator: "@Desale_Jay27",
   },
+
   robots: {
     index: true,
     follow: true,
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  
+  const initialMode = "normal";
+
   return (
     <html
-      lang="en"
-      data-scroll-behavior="smooth"
-      suppressHydrationWarning
-    >
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: INTRO_BOOT_SCRIPT }} />
-      </head>
+  lang="en"
+  data-scroll-behavior="smooth"
+  data-theme={initialMode}
+  data-intro-active="true"
+  suppressHydrationWarning
+>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} ${caveat.variable} antialiased`}
       >
-        <CustomCursor />
+        <ThemeProvider initialMode={initialMode}>
+          {/* Main portfolio */}
+          <div id="portfolio-shell">
+            <CustomCursor />
 
-        <Navbar />
+            <Navbar />
 
-        {children}
+            {children}
 
-        <Footer />
+            <Footer />
+          </div>
+
+          {/* First-visit intro */}
+          <IntroGate />
+        </ThemeProvider>
       </body>
     </html>
   );

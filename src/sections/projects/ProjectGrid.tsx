@@ -4,27 +4,30 @@ import { motion } from "framer-motion";
 
 import { getFeaturedProjects } from "@/lib/projects";
 
-import ProjectCard from "./ProjectCard";
+import ProjectEditorialRow from "./ProjectEditorialRow";
 
 export default function ProjectGrid() {
   const projects = getFeaturedProjects().slice(0, 4);
 
   return (
-    <div className="grid gap-x-8 gap-y-10 md:grid-cols-2 lg:gap-x-10 lg:gap-y-12">
+    <div className="[&>div:first-child>article]:border-t-0">
       {projects.map((project, index) => (
         <motion.div
           key={project.slug}
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.15 }}
+          viewport={{ once: true, amount: 0.12 }}
           transition={{
-            duration: 0.55,
-            delay: index * 0.08,
+            duration: 0.5,
+            delay: Math.min(index * 0.045, 0.14),
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="h-full"
         >
-          <ProjectCard project={project} />
+          <ProjectEditorialRow
+            project={project}
+            index={index}
+            priority={index === 0}
+          />
         </motion.div>
       ))}
     </div>

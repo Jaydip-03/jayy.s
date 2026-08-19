@@ -2,9 +2,16 @@ const SPIDEY_BLUE = "#006fb9";
 
 type HeroNameNoteProps = {
   variant: "desktop" | "mobile";
+  isSpideyMode: boolean;
 };
 
-export default function HeroNameNote({ variant }: HeroNameNoteProps) {
+export default function HeroNameNote({
+  variant,
+  isSpideyMode,
+}: HeroNameNoteProps) {
+  if (!isSpideyMode) {
+    return null;
+  }
   if (variant === "desktop") {
     return (
       <div

@@ -67,7 +67,17 @@ function MobileWebSquare() {
   );
 }
 
-export default function HeroMobileVisual() {
+type HeroMobileVisualProps = {
+  isSpideyMode: boolean;
+};
+
+export default function HeroMobileVisual({
+  isSpideyMode,
+}: HeroMobileVisualProps) {
+  if (!isSpideyMode) {
+    return null;
+  }
+
   return (
     <div
       className="relative mt-5 flex items-center justify-between gap-4 sm:mt-6 lg:hidden"
