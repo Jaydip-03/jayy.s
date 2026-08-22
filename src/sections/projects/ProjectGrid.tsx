@@ -1,35 +1,44 @@
 "use client";
 
-import { motion } from "framer-motion";
-
 import { getFeaturedProjects } from "@/lib/projects";
+import { useTheme } from "@/context/ThemeContext";
+import ProjectFeatured from "./ProjectFeatured";
+import ProjectSupportingList from "./ProjectSupportingList";
 
-import ProjectEditorialRow from "./ProjectEditorialRow";
+const SPIDEY_BLUE = "#006fb9";
 
 export default function ProjectGrid() {
-  const projects = getFeaturedProjects().slice(0, 4);
+  const { isSpideyMode } = useTheme();
+  const featuredProjects = getFeaturedProjects();
+  const mainProject = featuredProjects[0];
+  const supportingProjects = featuredProjects.slice(1);
+
+  if (!mainProject) return null;
 
   return (
-    <div className="[&>div:first-child>article]:border-t-0">
-      {projects.map((project, index) => (
-        <motion.div
-          key={project.slug}
-          initial={{ opacity: 0, y: 18 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.12 }}
-          transition={{
-            duration: 0.5,
-            delay: Math.min(index * 0.045, 0.14),
-            ease: [0.22, 1, 0.36, 1],
-          }}
-        >
-          <ProjectEditorialRow
-            project={project}
-            index={index}
-            priority={index === 0}
-          />
-        </motion.div>
-      ))}
+    <div className="space-y-12 sm:space-y-16 lg:space-y-20">
+      {/* Featured Main Project */}
+      <ProjectFeatured project={mainProject} />
+
+      {/* Supporting Editorial Project List */}
+      {supportingProjects.length > 0 && (
+        <div className="pt-4 sm:pt-6">
+          <div className="mb-6 flex items-center justify-between">
+            <h4 className="text-[11px] font-mono uppercase tracking-[0.2em] text-zinc-400">
+              {isSpideyMode ? "Archived Dossiers // More Work" : "More Selected Work"}
+            </h4>
+            {isSpideyMode && (
+              <span
+                className="font-handwritten text-[16px] leading-none"
+                style={{ color: SPIDEY_BLUE }}
+              >
+                built with spider-precision 🕸️
+              </span>
+            )}
+          </div>
+          <ProjectSupportingList projects={supportingProjects} />
+        </div>
+      )}
     </div>
   );
 }

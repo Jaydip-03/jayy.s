@@ -1,175 +1,112 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useTheme } from "@/context/ThemeContext";
+
+const SPIDEY_RED = "#e23636";
+const SPIDEY_BLUE = "#006fb9";
 
 export default function SkillsSpidey() {
+  const { isSpideyMode } = useTheme();
+
+  if (!isSpideyMode) return null;
+
   return (
-    <div
-      aria-hidden="true"
-      className="pointer-events-none absolute inset-0 z-0 overflow-hidden"
-    >
-      {/* Top-left web */}
-      <svg
-        viewBox="0 0 320 320"
-        className="absolute -left-20 -top-16 h-[300px] w-[300px] text-neutral-900/[0.10]"
-        fill="none"
-      >
-        <path
-          d="M0 80C70 30 145 20 220 55C260 74 290 100 320 135"
-          stroke="currentColor"
-          strokeWidth="1"
-        />
-        <path
-          d="M0 145C75 95 150 90 220 125C260 145 290 175 320 210"
-          stroke="currentColor"
-          strokeWidth="1"
-        />
-        <path
-          d="M40 0C20 70 35 145 85 210C115 250 150 280 195 320"
-          stroke="currentColor"
-          strokeWidth="1"
-        />
-        <path
-          d="M125 0C105 65 120 130 165 190C195 230 230 270 280 320"
-          stroke="currentColor"
-          strokeWidth="1"
-        />
-        <path
-          d="M220 0C195 65 210 120 250 170C275 205 300 235 320 255"
-          stroke="currentColor"
-          strokeWidth="1"
-        />
-      </svg>
-
-      {/* Small hanging spider */}
+    <AnimatePresence>
       <motion.div
-        className="absolute left-7 top-[38%] hidden lg:block"
-        animate={{ rotate: [-2, 2, -2] }}
-        transition={{
-          duration: 4,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.6 }}
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-0 overflow-hidden"
       >
-        <div className="relative flex flex-col items-center">
-          {/* silk */}
-          <div className="absolute bottom-full h-24 w-px bg-neutral-900/[0.14]" />
-
-          <svg
-            viewBox="0 0 100 130"
-            className="h-[78px] w-[60px] text-neutral-900/[0.55]"
-            fill="currentColor"
-          >
-            <circle cx="50" cy="25" r="12" />
-
-            <ellipse cx="50" cy="68" rx="23" ry="35" />
-
-            <path
-              d="M38 40C22 32 10 30 -2 36"
-              stroke="currentColor"
-              strokeWidth="4"
-              strokeLinecap="round"
-              fill="none"
-            />
-
-            <path
-              d="M62 40C78 32 90 30 102 36"
-              stroke="currentColor"
-              strokeWidth="4"
-              strokeLinecap="round"
-              fill="none"
-            />
-
-            <path
-              d="M34 50C18 48 8 52 -4 62"
-              stroke="currentColor"
-              strokeWidth="4"
-              strokeLinecap="round"
-              fill="none"
-            />
-
-            <path
-              d="M66 50C82 48 92 52 104 62"
-              stroke="currentColor"
-              strokeWidth="4"
-              strokeLinecap="round"
-              fill="none"
-            />
-
-            <path
-              d="M34 68C18 76 10 88 5 102"
-              stroke="currentColor"
-              strokeWidth="4"
-              strokeLinecap="round"
-              fill="none"
-            />
-
-            <path
-              d="M66 68C82 76 90 88 95 102"
-              stroke="currentColor"
-              strokeWidth="4"
-              strokeLinecap="round"
-              fill="none"
-            />
-          </svg>
-        </div>
-      </motion.div>
-
-      {/* Top-right small web */}
-      <svg
-        viewBox="0 0 240 240"
-        className="absolute -right-16 -top-12 h-[230px] w-[230px] text-neutral-900/[0.09]"
-        fill="none"
-      >
-        <circle cx="180" cy="55" r="28" stroke="currentColor" />
-        <circle cx="180" cy="55" r="58" stroke="currentColor" />
-        <circle cx="180" cy="55" r="92" stroke="currentColor" />
-        <circle cx="180" cy="55" r="128" stroke="currentColor" />
-
-        <path d="M180 55L80 0" stroke="currentColor" />
-        <path d="M180 55L145 0" stroke="currentColor" />
-        <path d="M180 55L205 0" stroke="currentColor" />
-        <path d="M180 55L240 10" stroke="currentColor" />
-        <path d="M180 55L240 75" stroke="currentColor" />
-        <path d="M180 55L235 130" stroke="currentColor" />
-      </svg>
-
-      {/* Tiny crawling spider near the bottom */}
-      <motion.div
-        className="absolute bottom-8 right-[42%] hidden lg:block"
-        animate={{
-          x: [0, 10, 0],
-          rotate: [-3, 3, -3],
-        }}
-        transition={{
-          duration: 5,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      >
+        {/* Top-left Web Corner */}
         <svg
-          viewBox="0 0 100 100"
-          className="h-10 w-10 rotate-[-8deg] text-neutral-900/[0.48]"
-          fill="currentColor"
+          viewBox="0 0 320 320"
+          className="absolute -left-16 -top-12 h-[300px] w-[300px] opacity-25"
+          fill="none"
         >
-          <circle cx="50" cy="30" r="10" />
-          <ellipse cx="50" cy="58" rx="17" ry="25" />
-
           <path
-            d="M38 40L10 25M37 48L5 45M37 58L8 68M40 68L18 88"
-            stroke="currentColor"
-            strokeWidth="3"
-            strokeLinecap="round"
+            d="M0 80C70 30 145 20 220 55C260 74 290 100 320 135"
+            stroke={SPIDEY_RED}
+            strokeWidth="1.2"
           />
-
           <path
-            d="M62 40L90 25M63 48L95 45M63 58L92 68M60 68L82 88"
-            stroke="currentColor"
-            strokeWidth="3"
-            strokeLinecap="round"
+            d="M0 145C75 95 150 90 220 125C260 145 290 175 320 210"
+            stroke={SPIDEY_BLUE}
+            strokeWidth="1.2"
+          />
+          <path
+            d="M40 0C20 70 35 145 85 210C115 250 150 280 195 320"
+            stroke={SPIDEY_RED}
+            strokeWidth="1.2"
+          />
+          <path
+            d="M125 0C105 65 120 130 165 190C195 230 230 270 280 320"
+            stroke={SPIDEY_BLUE}
+            strokeWidth="1"
           />
         </svg>
+
+        {/* Hanging Swinging Spider */}
+        <motion.div
+          className="absolute left-10 top-[28%] hidden lg:block"
+          animate={{ rotate: [-4, 4, -4] }}
+          transition={{
+            duration: 3.5,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        >
+          <div className="relative flex flex-col items-center">
+            {/* Web Thread */}
+            <div
+              className="absolute bottom-full h-32 w-px"
+              style={{ backgroundColor: `${SPIDEY_BLUE}66` }}
+            />
+
+            {/* Spider Figure */}
+            <svg
+              viewBox="0 0 100 130"
+              className="h-[64px] w-[50px]"
+              fill="none"
+            >
+              <circle cx="50" cy="25" r="10" fill={SPIDEY_RED} />
+              <ellipse cx="50" cy="62" rx="20" ry="28" fill={SPIDEY_RED} />
+
+              {/* Spider Eyes */}
+              <ellipse cx="46" cy="24" rx="2" ry="3" fill="white" />
+              <ellipse cx="54" cy="24" rx="2" ry="3" fill="white" />
+
+              {/* Legs */}
+              <path
+                d="M38 35C22 28 10 26 -2 32 M62 35C78 28 90 26 102 32 M34 45C18 43 8 47 -4 57 M66 45C82 43 92 47 104 57 M34 62C18 70 10 82 5 96 M66 62C82 70 90 82 95 96"
+                stroke={SPIDEY_BLUE}
+                strokeWidth="3.5"
+                strokeLinecap="round"
+              />
+            </svg>
+          </div>
+        </motion.div>
+
+        {/* Top-right Web Rings */}
+        <svg
+          viewBox="0 0 240 240"
+          className="absolute -right-12 -top-8 h-[220px] w-[220px] opacity-20"
+          fill="none"
+        >
+          <circle cx="180" cy="55" r="30" stroke={SPIDEY_RED} strokeWidth="1" />
+          <circle cx="180" cy="55" r="65" stroke={SPIDEY_BLUE} strokeWidth="1" />
+          <circle cx="180" cy="55" r="100" stroke={SPIDEY_RED} strokeWidth="0.8" />
+          <path d="M180 55L80 0 M180 55L145 0 M180 55L205 0 M180 55L240 10" stroke={SPIDEY_BLUE} strokeWidth="0.8" />
+        </svg>
+
+        {/* Spider Web Badge */}
+        <div className="absolute bottom-6 right-8 hidden lg:flex items-center gap-2 rounded-full border border-spidey-red/20 bg-white/80 px-3 py-1 text-[11px] font-mono uppercase tracking-[0.16em] text-spidey-red shadow-xs">
+          <span>Spidey Mode Active</span>
+        </div>
       </motion.div>
-    </div>
+    </AnimatePresence>
   );
 }

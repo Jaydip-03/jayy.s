@@ -14,7 +14,7 @@ const socials = [
 
 export default function HeroSocials() {
   return (
-    <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
+    <div className="flex items-center gap-4 sm:gap-5">
       {socials.map((social) => {
         const Icon = social.icon;
 
@@ -24,13 +24,10 @@ export default function HeroSocials() {
             href={social.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="social-spidey-pill group inline-flex h-8 items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3.5 text-[12px] font-medium text-zinc-400 sm:h-9 sm:px-4 sm:text-[13px]"
+            aria-label={social.name}
+            className="social-spidey-icon text-zinc-500 transition-colors duration-200 hover:text-zinc-200"
           >
-            <Icon
-              size={14}
-              className="social-spidey-icon text-zinc-400 transition-colors duration-300"
-            />
-            {social.name}
+            <Icon size={16} />
           </a>
         );
       })}

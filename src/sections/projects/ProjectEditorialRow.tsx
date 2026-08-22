@@ -5,7 +5,6 @@ import { FaGithub } from "react-icons/fa";
 import { Project } from "@/types/project";
 
 import ProjectEditorialImage from "./ProjectEditorialImage";
-import ProjectTech from "./ProjectTech";
 
 type ProjectEditorialRowProps = {
   project: Project;
@@ -22,30 +21,58 @@ export default function ProjectEditorialRow({
   const description = project.description ?? project.shortDescription;
 
   return (
-    <article className="group relative grid gap-7 border-t border-zinc-900/[0.10] py-10 first:border-t-0 first:pt-0 sm:gap-9 sm:py-12 lg:grid-cols-[56px_minmax(0,0.92fr)_minmax(360px,1fr)] lg:items-center lg:gap-8 lg:py-14">
-      <div className="flex items-center gap-3 lg:block lg:self-start lg:pt-2">
-        <span className="font-display text-2xl font-normal tracking-[-0.04em] text-spidey-red sm:text-3xl">
+    <article className="group grid gap-6 border-t border-zinc-900/[0.10] py-9 first:border-t-0 sm:grid-cols-[42px_minmax(0,250px)_minmax(0,1fr)] sm:gap-7 sm:py-10 lg:grid-cols-[64px_minmax(0,300px)_minmax(0,1fr)_60px] lg:items-center lg:gap-8 lg:py-11">
+      {/* Number */}
+      <div className="flex items-center gap-3 sm:block sm:self-start sm:pt-1">
+        <span
+          className={`font-display text-xl tracking-[-0.04em] ${
+            index % 2 === 0 ? "text-spidey-red" : "text-spidey-blue"
+          }`}
+        >
           {number}
         </span>
-        <span className="block h-px w-8 bg-spidey-red/45 lg:mt-4" />
+
+        <span
+          aria-hidden="true"
+          className={`block h-px w-6 sm:mt-3 sm:w-8 ${
+            index % 2 === 0
+              ? "bg-spidey-red/40"
+              : "bg-spidey-blue/40"
+          }`}
+        />
       </div>
 
+      {/* Image */}
       <Link
         href={`/work/${project.slug}`}
         aria-label={`View ${project.title} case study`}
-        className="relative block focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-spidey-red"
+        className="block w-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-spidey-red"
       >
-        <ProjectEditorialImage project={project} priority={priority} />
+        <ProjectEditorialImage
+          project={project}
+          priority={priority}
+        />
       </Link>
 
-      <div className="min-w-0 lg:pr-4">
-        <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1.5 text-[10px] font-semibold uppercase tracking-[0.18em]">
-          <span className="text-spidey-blue">{project.category}</span>
-          {project.year && <span className="text-zinc-400">· {project.year}</span>}
-          {project.status && <span className="text-emerald-600">· {project.status}</span>}
+      {/* Content */}
+      <div className="min-w-0">
+        <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.2em]">
+          <span className="text-spidey-blue">
+            {project.category}
+          </span>
+
+          {project.status && (
+            <>
+              <span className="text-zinc-300">·</span>
+
+              <span className="text-emerald-600">
+                {project.status}
+              </span>
+            </>
+          )}
         </div>
 
-        <h3 className="mt-2.5 font-display text-3xl font-normal leading-[1.02] tracking-[-0.035em] text-zinc-950 sm:text-4xl">
+        <h3 className="mt-2 font-display text-[1.7rem] font-normal leading-[1.05] tracking-[-0.035em] text-zinc-950 sm:text-[1.9rem]">
           <Link
             href={`/work/${project.slug}`}
             className="transition-colors duration-300 hover:text-spidey-blue focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-spidey-red"
@@ -54,23 +81,20 @@ export default function ProjectEditorialRow({
           </Link>
         </h3>
 
-        <p className="mt-3 max-w-xl text-[14px] leading-6 text-zinc-600 sm:text-[15px] sm:leading-7">
-          {description}
-        </p>
+        {description && (
+          <p className="mt-2.5 max-w-[560px] text-[13px] leading-6 text-zinc-600 sm:text-[14px]">
+            {description}
+          </p>
+        )}
 
-        <ProjectTech
-          technologies={project.technologies}
-          max={5}
-          className="mt-4"
-        />
-
-        <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm font-medium">
+        <div className="mt-3.5 flex items-center gap-5 text-[12px] font-medium">
           <Link
             href={`/work/${project.slug}`}
-            className="link-spidey-underline inline-flex items-center gap-1.5 text-spidey-red transition-colors hover:text-zinc-950 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-spidey-red"
+            className="inline-flex items-center gap-1 text-spidey-red transition-colors hover:text-zinc-950"
           >
-            {project.live ? "View Case Study" : "View Project"}
-            <ArrowUpRight className="h-4 w-4" />
+            {project.live ? "View case study" : "View project"}
+
+            <ArrowUpRight className="h-3.5 w-3.5" />
           </Link>
 
           {project.github && (
@@ -78,14 +102,19 @@ export default function ProjectEditorialRow({
               href={project.github}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={`${project.title} on GitHub`}
-              className="inline-flex items-center gap-1.5 text-zinc-700 transition-colors hover:text-spidey-blue focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-spidey-blue"
+              className="inline-flex items-center gap-1 text-zinc-500 transition-colors hover:text-zinc-950"
             >
               GitHub
-              <FaGithub className="h-3.5 w-3.5" />
+
+              <FaGithub className="h-3 w-3" />
             </Link>
           )}
         </div>
+      </div>
+
+      {/* Year */}
+      <div className="hidden self-start pt-1 text-right text-[11px] font-medium tracking-[0.08em] text-zinc-400 lg:block">
+        {project.year}
       </div>
     </article>
   );

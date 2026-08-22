@@ -9,43 +9,32 @@ type SkillCategoryProps = {
   };
 };
 
-export default function SkillCategory({
-  category,
-}: SkillCategoryProps) {
+export default function SkillCategory({ category }: SkillCategoryProps) {
   return (
-    <section
-      className={[
-        "grid gap-5 py-7 first:pt-0 last:pb-0",
-        "md:grid-cols-[150px_minmax(0,1fr)]",
-        category.learning ? "text-[#b45309]" : "",
-      ].join(" ")}
-    >
-      {/* Category */}
+    <div className="flex flex-col gap-2 py-4 sm:flex-row sm:items-baseline sm:gap-6">
+      {/* Category Header */}
       <h3
-        className={[
-          "self-start text-[13px] font-semibold uppercase",
-          "leading-[0.9] tracking-[-0.035em]",
-          "md:text-[32px]",
-          "break-words",
-          category.learning
-            ? "text-[#c17a12]"
-            : "text-neutral-400",
-        ].join(" ")}
+        className={`font-mono text-xs uppercase tracking-[0.22em] sm:w-36 sm:shrink-0 ${
+          category.learning ? "text-amber-700" : "text-neutral-400"
+        }`}
       >
         {category.title}
       </h3>
 
-      {/* Skills */}
-      <div className="grid min-w-0 grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2 xl:grid-cols-3">
-        {category.skills.map((skill) => (
-          <SkillChip
-            key={skill.name}
-            label={skill.name}
-            level={skill.level}
-            learning={category.learning}
-          />
+      {/* Skills Inline Flow */}
+      <div className="flex flex-wrap items-center gap-1 sm:gap-1.5">
+        {category.skills.map((skill, index) => (
+          <div key={skill.name} className="flex items-center">
+            <SkillChip
+              label={skill.name}
+              learning={category.learning}
+            />
+            {index < category.skills.length - 1 && (
+              <span className="text-neutral-300 select-none px-0.5">·</span>
+            )}
+          </div>
         ))}
       </div>
-    </section>
+    </div>
   );
 }

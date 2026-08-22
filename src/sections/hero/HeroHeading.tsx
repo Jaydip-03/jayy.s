@@ -31,7 +31,7 @@ export default function HeroHeading({
 />
 
         <span className="mt-[-0.04em] flex items-center gap-3 sm:gap-4">
-          <span className="ml-[0.38em] shrink-0 text-[clamp(3rem,10vw,6rem)] text-white/45 sm:ml-[0.44em] lg:ml-[0.5em]">
+          <span className="ml-[0.38em] shrink-0 text-[clamp(3rem,10vw,6rem)] text-white/60 sm:ml-[0.44em] lg:ml-[0.5em]">
             Desale
           </span>
 

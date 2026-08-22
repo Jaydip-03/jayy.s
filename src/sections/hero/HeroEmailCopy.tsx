@@ -45,7 +45,7 @@ export default function HeroEmailCopy() {
   }, [copyEmail]);
 
   return (
-    <div className="flex flex-wrap items-center gap-y-2">
+    <div className="flex flex-col gap-2.5">
       <button
         type="button"
         onClick={() => void copyEmail()}
@@ -66,15 +66,15 @@ export default function HeroEmailCopy() {
       </button>
 
       <div
-        className="relative ml-8 w-fit sm:ml-12 lg:ml-16"
+        className="pointer-events-none relative w-fit pl-5"
         aria-hidden="true"
       >
         <svg
-          width="44"
-          height="28"
+          width="36"
+          height="24"
           viewBox="0 0 44 28"
           fill="none"
-          className="absolute -left-9 top-2 text-[#e8a849]"
+          className="absolute -left-1 -top-0.5 text-[#e8a849]"
         >
           <path
             d="M40 6C30 8 20 12 12 16C8 18 6 20 4 22"
@@ -91,7 +91,7 @@ export default function HeroEmailCopy() {
           />
         </svg>
 
-        <p className="rotate-[-4deg] font-handwritten text-[20px] leading-none text-[#e8a849] lg:text-[22px]">
+        <p className="rotate-[-4deg] font-handwritten text-[19px] leading-none text-[#e8a849]">
           I actually reply
         </p>
       </div>

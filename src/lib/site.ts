@@ -3,7 +3,7 @@ export const siteConfig = {
   title: "Jaydip Desale — Java Full Stack Developer",
   description:
     "Portfolio of Jaydip Desale — Spring Boot engineer and product builder crafting scalable full-stack applications from Mumbai, India.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://jaydipdesale.dev",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://jayy-s.vercel.app",
   locale: "en_IN",
   location: "Mumbai, India",
   role: "Java Full Stack Developer",

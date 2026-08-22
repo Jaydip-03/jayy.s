@@ -1,9 +1,10 @@
 import AboutIntro from "@/sections/about/AboutIntro";
-import AboutJourney from "@/sections/about/AboutJourney";
-import AboutSignOff from "@/sections/about/AboutSignOff";
-import AboutSnapshot from "@/sections/about/AboutSnapshot";
 import AboutStory from "@/sections/about/AboutStory";
 import AboutTestimonials from "@/sections/about/AboutTestimonials";
+import AboutJourney from "@/sections/about/AboutJourney";
+import AboutSnapshot from "@/sections/about/AboutSnapshot";
+import AboutCollage from "@/sections/about/AboutCollage";
+import AboutSignOff from "@/sections/about/AboutSignOff";
 import { siteConfig } from "@/lib/site";
 
 export const metadata = {
@@ -19,6 +20,7 @@ export default function AboutPage() {
       <AboutTestimonials />
       <AboutJourney />
       <AboutSnapshot />
+      <AboutCollage />
       <AboutSignOff />
     </main>
   );

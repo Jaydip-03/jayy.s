@@ -2,8 +2,48 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+import { useTheme } from "@/context/ThemeContext";
+
+const SPIDEY_RED = "#e23636";
+const SPIDEY_BLUE = "#006fb9";
+
+// ── Spidey Mask / Spider-Sense Comic Sticker ──────────────────────
+
+function SpideyOriginSticker() {
+  return (
+    <motion.div
+      animate={{ rotate: [-4, 2, -4], scale: [1, 1.04, 1] }}
+      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+      className="hidden sm:block"
+    >
+      <div className="relative flex items-center gap-2 rounded-xl border border-white/10 bg-[#18181c] px-3 py-2 shadow-[0_12px_24px_rgba(0,0,0,0.6)]">
+        {/* Mini Spidey Mask Doodle */}
+        <svg width="24" height="24" viewBox="0 0 28 28" fill="none">
+          <ellipse cx="14" cy="14" rx="11" ry="12" fill={SPIDEY_RED} />
+          {/* Web lines on mask */}
+          <path d="M14 2V26M3 14H25M6 6L22 22M22 6L6 22" stroke="#18181b" strokeWidth="1" opacity="0.6" />
+          {/* Eyes */}
+          <path d="M7 11Q11 11 13 14Q10 17 6 15Z" fill="white" stroke="#18181b" strokeWidth="1.2" />
+          <path d="M21 11Q17 11 15 14Q18 17 22 15Z" fill="white" stroke="#18181b" strokeWidth="1.2" />
+        </svg>
+
+        <div>
+          <p className="font-mono text-[9px] font-bold uppercase tracking-wider text-white">
+            ORIGIN STORY
+          </p>
+          <p className="font-mono text-[7.5px] uppercase tracking-wide text-zinc-400">
+            Level 1 · Intern to Builder
+          </p>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
 
 export default function ExperienceIntro() {
+  const { isSpideyMode } = useTheme();
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -14,46 +54,70 @@ export default function ExperienceIntro() {
     >
       <div className="max-w-3xl">
         <div className="flex items-center gap-3">
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white/40 opacity-20" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-white/70" />
-          </span>
-          <p className="font-mono text-xs uppercase tracking-[0.32em] text-white/45">
-            Career
-          </p>
+          {isSpideyMode ? (
+            <>
+              <span className="h-2 w-2 rounded-full animate-pulse" style={{ backgroundColor: SPIDEY_RED }} />
+              <p className="font-mono text-xs font-bold uppercase tracking-[0.32em]" style={{ color: SPIDEY_RED }}>
+                SPIDER-TRACK // FIELD EXPERIENCE
+              </p>
+            </>
+          ) : (
+            <>
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white/40 opacity-20" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-white/70" />
+              </span>
+              <p className="font-mono text-xs uppercase tracking-[0.32em] text-white/45">
+                Career
+              </p>
+            </>
+          )}
         </div>
 
-        <h2 className="mt-5 text-[clamp(2.75rem,7vw,4.5rem)] font-semibold leading-[0.92] tracking-[-0.045em] text-white">
+        <h2 className="mt-5 text-[clamp(2.75rem,7vw,4.5rem)] font-normal leading-[0.92] tracking-[-0.045em] text-white">
           Where I learned.
           <br />
           <span className="font-display italic font-normal text-white/40">
             Where I ship.
           </span>
+          {isSpideyMode && (
+            <span
+              className="ml-3 font-display italic text-3xl"
+              style={{ color: SPIDEY_BLUE }}
+            >
+              ✦
+            </span>
+          )}
         </h2>
 
-        <p className="mt-6 max-w-xl text-base leading-8 text-white/55 sm:text-[17px]">
-          From structured Java training to building production-style backend
-          features — every role pushed me closer to writing code I&apos;d
-          actually deploy.
+        <p className="mt-6 max-w-xl text-sm leading-relaxed text-white/55 sm:text-base sm:leading-7">
+          {isSpideyMode
+            ? "From deep Java fundamentals to production-grade distributed backend systems — trained to respond when the city calls."
+            : "From structured Java training to building production-style backend features — every role pushed me closer to writing code I'd actually deploy."}
         </p>
       </div>
 
       <div className="relative flex shrink-0 flex-col items-start gap-5 lg:items-end lg:pb-1">
+        {isSpideyMode && <SpideyOriginSticker />}
+
         <p
-          className="pointer-events-none rotate-[-6deg] font-handwritten text-[25px] leading-none text-[#f59e0b] lg:-translate-x-8"
+          className="pointer-events-none rotate-[-6deg] font-handwritten text-[22px] leading-none text-white/45 lg:-translate-x-8"
+          style={{ color: isSpideyMode ? SPIDEY_BLUE : undefined }}
           aria-hidden="true"
         >
-          the grind mattered ↗
+          {isSpideyMode ? "the web slinger's grind 🕷️" : "the grind mattered ↗"}
         </p>
 
         <Link
           href="/experience"
-          className="group inline-flex items-center gap-2 border border-white/[0.14] bg-white/[0.03] px-5 py-2.5 text-sm font-medium text-white transition hover:border-white/25 hover:bg-white/[0.07]"
+          className="group inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-xs font-medium uppercase tracking-[0.12em] text-white transition-all duration-300 hover:bg-white/[0.08]"
+          style={{
+            borderColor: isSpideyMode ? `${SPIDEY_RED}50` : "rgba(255,255,255,0.14)",
+            backgroundColor: isSpideyMode ? `${SPIDEY_RED}0a` : "rgba(255,255,255,0.03)",
+          }}
         >
-          Full timeline
-          <span className="transition-transform group-hover:translate-x-0.5">
-            →
-          </span>
+          <span>{isSpideyMode ? "Full dossier timeline" : "Full timeline"}</span>
+          <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
         </Link>
       </div>
     </motion.div>

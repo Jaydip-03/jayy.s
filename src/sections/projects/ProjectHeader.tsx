@@ -1,45 +1,84 @@
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+"use client";
+
+import { motion } from "framer-motion";
+import { useTheme } from "@/context/ThemeContext";
 
 const SPIDEY_RED = "#e23636";
 const SPIDEY_BLUE = "#006fb9";
 
-export default function ProjectHeader() {
+// ── THWIP! Comic Burst Sticker ────────────────────────────────────
+
+function ThwipSticker() {
   return (
-    <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between md:gap-12">
-      <div className="max-w-2xl">
-        <div className="flex items-center gap-3">
-          <span
-            aria-hidden="true"
-            className="h-px w-10"
-            style={{
-              background: `linear-gradient(90deg, ${SPIDEY_RED}, ${SPIDEY_BLUE})`,
-            }}
+    <motion.div
+      animate={{ scale: [1, 1.06, 1], rotate: [6, 9, 6] }}
+      transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
+      className="hidden sm:block"
+      aria-hidden="true"
+    >
+      <div className="relative flex h-[54px] w-[54px] items-center justify-center drop-shadow-[0_8px_16px_rgba(0,0,0,0.15)]">
+        <svg width="54" height="54" viewBox="0 0 62 62" fill="none">
+          <path
+            d="M31 2L35 22L52 10L42 28L60 26L46 34L58 48L40 40L36 60L31 42L26 60L22 40L4 48L16 34L2 26L20 28L10 10L27 22Z"
+            fill={SPIDEY_RED}
+            stroke="white"
+            strokeWidth="3"
+            strokeLinejoin="round"
           />
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-zinc-500">
-            Selected Work
-          </p>
+        </svg>
+        <span
+          className="absolute font-mono text-[8px] font-black uppercase tracking-tight text-white"
+          style={{ textShadow: "0 1px 3px rgba(0,0,0,0.5)" }}
+        >
+          THWIP!
+        </span>
+      </div>
+    </motion.div>
+  );
+}
+
+export default function ProjectHeader() {
+  const { isSpideyMode } = useTheme();
+
+  return (
+    <div className="relative flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
+      <div className="relative max-w-2xl">
+        <div className="flex items-center gap-2.5">
+          {isSpideyMode ? (
+            <>
+              <span className="h-2 w-2 rounded-full animate-pulse" style={{ backgroundColor: SPIDEY_RED }} />
+              <p className="text-[11px] font-mono font-bold uppercase tracking-[0.25em]" style={{ color: SPIDEY_RED }}>
+                SPIDER-FILES // SELECTED WORK
+              </p>
+            </>
+          ) : (
+            <p className="text-[11px] font-mono uppercase tracking-[0.25em] text-zinc-400">
+              Selected Work
+            </p>
+          )}
         </div>
 
-        <h2 className="mt-4 font-display text-4xl font-normal leading-[1.05] tracking-[-0.04em] text-zinc-950 sm:text-[3.25rem]">
+        {/* Clean Editorial Heading */}
+        <h2 className="relative mt-3 font-display text-4xl font-normal leading-none tracking-[-0.04em] text-zinc-950 sm:text-5xl md:text-6xl">
           Projects
+          {isSpideyMode && (
+            <span
+              className="ml-2 font-display italic text-2xl sm:text-3xl"
+              style={{ color: SPIDEY_BLUE }}
+            >
+              ✦
+            </span>
+          )}
         </h2>
-        <p className="mt-4 max-w-xl text-pretty text-base leading-7 text-zinc-600 sm:text-[17px] sm:leading-8">
-          Full-stack builds, frontend experiments, and backend systems I&apos;ve
-          shipped — Spring Boot, Java, and product work.
+
+        <p className="mt-4 max-w-lg text-sm leading-relaxed text-zinc-600 sm:text-base sm:leading-7">
+          {isSpideyMode
+            ? "Every system built with precision, resilience, and web-slinging architectural clarity."
+            : "A curated selection of full-stack systems and web applications I've designed, built, and delivered."}
         </p>
       </div>
 
-      <Link
-        href="/work"
-        className="group inline-flex shrink-0 items-center gap-2 self-start border-b border-zinc-300 pb-1.5 text-sm font-medium text-zinc-700 transition-colors duration-300 hover:border-zinc-950 hover:text-zinc-950 md:mb-1.5 md:self-auto"
-      >
-        View all projects
-        <ArrowRight
-          aria-hidden="true"
-          className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
-        />
-      </Link>
+      {isSpideyMode && <ThwipSticker />}
     </div>
   );
 }

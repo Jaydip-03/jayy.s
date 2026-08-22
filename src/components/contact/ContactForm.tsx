@@ -5,14 +5,19 @@ import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 
 import { contactContent } from "@/data/contact";
+import { useTheme } from "@/context/ThemeContext";
 
 type Status = "idle" | "loading" | "success" | "error";
 
-const fieldClassName =
-  "w-full border-b border-neutral-300 bg-transparent pb-3 text-base outline-none transition-colors duration-300 placeholder:text-neutral-400 focus:border-neutral-950 sm:text-lg";
+const SPIDEY_RED = "#e23636";
+const DEFAULT_KEY = "1f77d07a-3c07-4dba-be54-887a159371d7";
 
 export default function ContactForm() {
+  const { isSpideyMode } = useTheme();
   const [status, setStatus] = useState<Status>("idle");
+
+  const fieldClassName =
+    "w-full border-b border-neutral-300 bg-transparent pb-3 text-sm sm:text-base outline-none transition-colors duration-300 placeholder:text-neutral-400 focus:border-neutral-950";
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -20,7 +25,8 @@ export default function ContactForm() {
 
     const form = e.currentTarget;
     const formData = new FormData(form);
-    formData.append("access_key", process.env.NEXT_PUBLIC_WEB3FORMS_KEY ?? "");
+    const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_KEY || DEFAULT_KEY;
+    formData.append("access_key", accessKey);
 
     try {
       const res = await fetch("https://api.web3forms.com/submit", {
@@ -44,11 +50,21 @@ export default function ContactForm() {
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-      className="rounded-[24px] border border-neutral-200/70 bg-white p-6 shadow-[0_16px_48px_rgba(0,0,0,0.04)] sm:p-8"
+      className="rounded-2xl border border-neutral-200/80 bg-white/80 p-6 shadow-[0_4px_24px_-8px_rgba(0,0,0,0.04)] backdrop-blur-md sm:p-8"
+      style={{
+        borderColor: isSpideyMode ? `${SPIDEY_RED}25` : undefined,
+      }}
     >
-      <p className="text-xs font-medium uppercase tracking-[0.28em] text-neutral-500">
-        {contactContent.formLabel}
-      </p>
+      <div className="flex items-center justify-between">
+        <p className="font-mono text-xs uppercase tracking-[0.24em] text-neutral-400">
+          {isSpideyMode ? "TRANSMISSION // DISPATCH FORM" : contactContent.formLabel}
+        </p>
+        {isSpideyMode && (
+          <span className="font-mono text-[9px] font-bold text-red-500">
+            ENCRYPTED · DIRECT
+          </span>
+        )}
+      </div>
 
       <form onSubmit={handleSubmit} className="mt-6 space-y-6">
         <input
@@ -61,7 +77,7 @@ export default function ContactForm() {
         <div>
           <label
             htmlFor="contact-name"
-            className="mb-3 block text-xs uppercase tracking-[0.22em] text-neutral-400"
+            className="mb-2 block font-mono text-[11px] uppercase tracking-[0.2em] text-neutral-400"
           >
             Name
           </label>
@@ -78,7 +94,7 @@ export default function ContactForm() {
         <div>
           <label
             htmlFor="contact-email"
-            className="mb-3 block text-xs uppercase tracking-[0.22em] text-neutral-400"
+            className="mb-2 block font-mono text-[11px] uppercase tracking-[0.2em] text-neutral-400"
           >
             Email
           </label>
@@ -95,7 +111,7 @@ export default function ContactForm() {
         <div>
           <label
             htmlFor="contact-subject"
-            className="mb-3 block text-xs uppercase tracking-[0.22em] text-neutral-400"
+            className="mb-2 block font-mono text-[11px] uppercase tracking-[0.2em] text-neutral-400"
           >
             Subject
           </label>
@@ -111,7 +127,7 @@ export default function ContactForm() {
         <div>
           <label
             htmlFor="contact-message"
-            className="mb-3 block text-xs uppercase tracking-[0.22em] text-neutral-400"
+            className="mb-2 block font-mono text-[11px] uppercase tracking-[0.2em] text-neutral-400"
           >
             Message
           </label>
@@ -128,19 +144,28 @@ export default function ContactForm() {
         <button
           type="submit"
           disabled={status === "loading"}
-          className="group inline-flex items-center gap-2 rounded-full bg-neutral-950 px-7 py-3.5 text-sm font-medium text-white transition hover:bg-neutral-800 disabled:cursor-not-allowed disabled:opacity-50"
+          className="group inline-flex items-center gap-2 rounded-full px-6 py-3 text-xs font-medium uppercase tracking-[0.12em] text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-50"
+          style={{
+            backgroundColor: isSpideyMode ? SPIDEY_RED : "#0a0a0a",
+          }}
         >
-          {status === "loading" ? "Sending..." : "Send message"}
-          <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          <span>
+            {status === "loading"
+              ? "Transmitting..."
+              : isSpideyMode
+                ? "Send Transmission ⚡"
+                : "Send Message"}
+          </span>
+          <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </button>
 
         {status === "success" ? (
-          <p className="text-sm text-emerald-700">
-            Message sent — I&apos;ll get back to you soon.
+          <p className="text-xs font-medium text-emerald-600">
+            ✓ Message sent successfully! I&apos;ll get back to you soon.
           </p>
         ) : null}
         {status === "error" ? (
-          <p className="text-sm text-red-600">
+          <p className="text-xs text-red-600">
             Something went wrong — copy my email and reach out directly.
           </p>
         ) : null}

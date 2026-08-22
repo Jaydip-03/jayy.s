@@ -1,11 +1,5 @@
-
-
-<aside className="relative min-h-[320px] xl:min-h-[360px]"></aside>
-
-
 const SPIDEY_RED = "#e23636";
 const SPIDEY_BLUE = "#006fb9";
-
 
 
 function SpiderDoodle() {

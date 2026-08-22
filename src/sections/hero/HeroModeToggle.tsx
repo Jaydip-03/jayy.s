@@ -89,68 +89,15 @@ export default function HeroModeToggle() {
             Handwritten annotation
         ========================== */}
         <div
-          className="
-            pointer-events-none
-            absolute
-
-            /* Mobile */
-            bottom-1
-            right-12
-            w-[125px]
-
-            /* Desktop */
-            sm:bottom-7
-            sm:right-9
-            sm:w-[170px]
-          "
+          className="pointer-events-none absolute bottom-14 right-1 w-[110px] sm:bottom-16 sm:right-2 sm:w-[130px]"
           aria-hidden="true"
         >
           <p
-            className="
-              font-handwritten
-              text-[17px]
-              leading-[1.05]
-              tracking-wide
-
-              sm:text-[21px]
-            "
+            className="font-handwritten text-[15px] leading-[1.15] tracking-wide sm:text-[18px]"
             style={{ color: SPIDEY_BLUE }}
           >
-            want u
-            <br />
-            change mode?
+            switch the vibe ↓
           </p>
-
-          {/* Hand-drawn arrow */}
-          <svg
-            width="105"
-            height="34"
-            viewBox="0 0 105 34"
-            fill="none"
-            className="
-              absolute
-              -bottom-5
-              right-[-4px]
-
-              sm:-bottom-6
-              sm:right-0
-            "
-          >
-            <path
-              d="M3 25C27 30 57 26 92 7"
-              stroke={SPIDEY_BLUE}
-              strokeWidth="1.4"
-              strokeLinecap="round"
-            />
-
-            <path
-              d="M84 7L93 7L89 14"
-              stroke={SPIDEY_BLUE}
-              strokeWidth="1.4"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
         </div>
 
         {/* =========================
@@ -169,41 +116,10 @@ export default function HeroModeToggle() {
               ? "Switch to normal mode"
               : "Switch to Spidey mode"
           }
-          className="
-            group
-            relative
-            flex
-            h-12
-            w-12
-            items-center
-            justify-center
-            rounded-full
-            border
-            border-white/15
-            bg-black/40
-            backdrop-blur-sm
-            transition-all
-            duration-300
-            hover:border-white/30
-            hover:bg-white/[0.04]
-            active:scale-95
-          "
+          className="group relative flex h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-black/40 backdrop-blur-sm transition-all duration-300 hover:border-white/30 hover:bg-white/[0.04] active:scale-95"
         >
           {/* Subtle outer ring */}
-          <span
-            className="
-              pointer-events-none
-              absolute
-              inset-0
-              rounded-full
-              border
-              border-transparent
-              transition-all
-              duration-500
-              group-hover:scale-110
-              group-hover:border-white/10
-            "
-          />
+          <span className="pointer-events-none absolute inset-0 rounded-full border border-transparent transition-all duration-500 group-hover:scale-110 group-hover:border-white/10" />
 
           {/* =========================
               Spidey mode → Sun icon
