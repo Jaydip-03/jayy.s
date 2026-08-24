@@ -12,7 +12,7 @@ import {
 const SPIDEY_RED = "#e23636";
 const SPIDEY_BLUE = "#006fb9";
 
-const greetings = ["नमस्ते", "Hello", "こんにちは", "Namaskar"];
+const greetings = ["नमस्ते", "Hello", "こんにちは", "Namaskar", "Hello"];
 
 const TAGLINE = "Thanks for being here.";
 const GREETING_INTERVAL_MS = 380;

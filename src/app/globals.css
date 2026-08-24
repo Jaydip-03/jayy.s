@@ -246,10 +246,14 @@ html[data-intro-active]::before {
   position: absolute;
   left: 0;
   bottom: -0.5rem;
-  height: 1px;
+  height: 1.5px;
   width: 0;
+  background: rgba(255, 255, 255, 0.85);
+  transition: width 0.25s ease;
+}
+
+html[data-theme="spidey"] .link-spidey-underline::after {
   background: linear-gradient(90deg, var(--spidey-red), var(--spidey-blue));
-  transition: width 0.3s ease;
 }
 
 .link-spidey-underline:hover {

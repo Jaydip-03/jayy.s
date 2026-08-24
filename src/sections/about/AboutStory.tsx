@@ -10,6 +10,44 @@ import { useTheme } from "@/context/ThemeContext";
 const SPIDEY_RED = "#e23636";
 const SPIDEY_BLUE = "#006fb9";
 
+function CornerWeb({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      width="140"
+      height="140"
+      viewBox="0 0 140 140"
+      fill="none"
+      aria-hidden="true"
+      className={`pointer-events-none absolute opacity-20 ${className}`}
+    >
+      <line x1="0" y1="0" x2="140" y2="0" stroke={SPIDEY_RED} strokeWidth="1" />
+      <line x1="0" y1="0" x2="130" y2="50" stroke={SPIDEY_RED} strokeWidth="1" />
+      <line x1="0" y1="0" x2="100" y2="100" stroke={SPIDEY_RED} strokeWidth="1" />
+      <line x1="0" y1="0" x2="50" y2="130" stroke={SPIDEY_RED} strokeWidth="1" />
+      <line x1="0" y1="0" x2="0" y2="140" stroke={SPIDEY_RED} strokeWidth="1" />
+      <path d="M40 0 Q 38 18, 28 28 Q 18 38, 0 40" stroke={SPIDEY_BLUE} strokeWidth="0.8" fill="none" />
+      <path d="M80 0 Q 75 35, 56 56 Q 35 75, 0 80" stroke={SPIDEY_BLUE} strokeWidth="0.8" fill="none" />
+      <path d="M120 0 Q 112 52, 85 85 Q 52 112, 0 120" stroke={SPIDEY_BLUE} strokeWidth="0.8" fill="none" />
+    </svg>
+  );
+}
+
+function HangingSpiderDoodle() {
+  return (
+    <motion.div
+      animate={{ y: [0, 8, 0], rotate: [-4, 4, -4] }}
+      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+      className="hidden sm:flex flex-col items-center"
+      aria-hidden="true"
+    >
+      <div className="h-10 w-px bg-gradient-to-b from-neutral-400/40 via-[#e23636]/60 to-[#e23636]" />
+      <div className="relative flex h-7 w-7 items-center justify-center rounded-full bg-[#18181b] shadow-md border border-[#e23636]/50">
+        <span className="text-xs">🕷️</span>
+      </div>
+    </motion.div>
+  );
+}
+
 function IssueBadge() {
   return (
     <motion.div
@@ -35,8 +73,16 @@ export default function AboutStory() {
   const { story } = aboutContent;
 
   return (
-    <section className="bg-[#f5f5f0] pb-16 pt-14 text-neutral-900 md:pb-24 md:pt-20">
-      <Container>
+    <section className="relative overflow-hidden bg-[#f5f5f0] pb-16 pt-14 text-neutral-900 md:pb-24 md:pt-20">
+      {/* Spidey Mode Corner Webs */}
+      {isSpideyMode && (
+        <>
+          <CornerWeb className="left-0 top-0" />
+          <CornerWeb className="right-0 top-0 -scale-x-100" />
+        </>
+      )}
+
+      <Container className="relative z-10">
         <div className="grid gap-14 lg:grid-cols-[minmax(260px,0.8fr)_1.2fr] lg:gap-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -45,20 +91,24 @@ export default function AboutStory() {
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className="lg:sticky lg:top-28 lg:self-start"
           >
-            <div className="flex items-center gap-2.5">
-              {isSpideyMode ? (
-                <>
-                  <span className="h-2 w-2 rounded-full animate-pulse" style={{ backgroundColor: SPIDEY_RED }} />
-                  <p className="font-mono text-xs font-bold uppercase tracking-[0.28em]" style={{ color: SPIDEY_RED }}>
-                    ORIGIN STORY // SPIDER-LOGS
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                {isSpideyMode ? (
+                  <>
+                    <span className="h-2 w-2 rounded-full animate-pulse" style={{ backgroundColor: SPIDEY_RED }} />
+                    <p className="font-mono text-xs font-bold uppercase tracking-[0.28em]" style={{ color: SPIDEY_RED }}>
+                      ORIGIN STORY // SPIDER-LOGS
+                    </p>
+                    <IssueBadge />
+                  </>
+                ) : (
+                  <p className="font-mono text-xs uppercase tracking-[0.28em] text-neutral-400">
+                    {story.label}
                   </p>
-                  <IssueBadge />
-                </>
-              ) : (
-                <p className="font-mono text-xs uppercase tracking-[0.28em] text-neutral-400">
-                  {story.label}
-                </p>
-              )}
+                )}
+              </div>
+
+              {isSpideyMode && <HangingSpiderDoodle />}
             </div>
 
             <h2 className="mt-3 font-display text-4xl font-normal leading-[1.08] tracking-[-0.04em] text-neutral-950 sm:text-5xl">
@@ -96,7 +146,7 @@ export default function AboutStory() {
               {/* Photo */}
               <div className="relative aspect-[3/3.8] w-full overflow-hidden rounded-md bg-neutral-100">
                 <Image
-                  src="/about/jayyAbout.jpg"
+                  src={isSpideyMode ? "/about/jayySpidey.jpg" : "/about/jayyAbout.jpg"}
                   alt="Jaydip Desale"
                   fill
                   sizes="235px"
@@ -117,7 +167,7 @@ export default function AboutStory() {
                   </p>
                 </div>
 
-                {/* Bottom Right Doodle (Coffee cup in Normal Mode vs Spider in Spidey Mode) */}
+                {/* Bottom Right Doodle */}
                 <div className="absolute right-0 bottom-[-2px] opacity-85 transition-transform duration-300 group-hover:scale-110">
                   {isSpideyMode ? (
                     <svg width="24" height="24" viewBox="0 0 28 28" fill="none">

@@ -6,6 +6,26 @@ import { useTheme } from "@/context/ThemeContext";
 const SPIDEY_RED = "#e23636";
 const SPIDEY_BLUE = "#006fb9";
 
+// ── Hanging Spider Doodle ────────────────────────────────────────
+
+function HangingSpiderDoodle() {
+  return (
+    <motion.div
+      animate={{ y: [0, 8, 0], rotate: [-4, 4, -4] }}
+      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+      className="hidden sm:flex flex-col items-center"
+      aria-hidden="true"
+    >
+      {/* Silk thread */}
+      <div className="h-10 w-px bg-gradient-to-b from-zinc-400/40 via-[#e23636]/60 to-[#e23636]" />
+      {/* Spider body */}
+      <div className="relative flex h-7 w-7 items-center justify-center rounded-full bg-[#18181b] shadow-md border border-[#e23636]/40">
+        <span className="text-xs">🕷️</span>
+      </div>
+    </motion.div>
+  );
+}
+
 // ── THWIP! Comic Burst Sticker ────────────────────────────────────
 
 function ThwipSticker() {
@@ -78,7 +98,12 @@ export default function ProjectHeader() {
         </p>
       </div>
 
-      {isSpideyMode && <ThwipSticker />}
+      {isSpideyMode && (
+        <div className="flex items-center gap-4">
+          <HangingSpiderDoodle />
+          <ThwipSticker />
+        </div>
+      )}
     </div>
   );
 }

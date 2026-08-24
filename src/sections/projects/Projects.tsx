@@ -13,6 +13,30 @@ import ProjectHeader from "./ProjectHeader";
 const SPIDEY_RED = "#e23636";
 const SPIDEY_BLUE = "#006fb9";
 
+function CornerWeb({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      width="140"
+      height="140"
+      viewBox="0 0 140 140"
+      fill="none"
+      aria-hidden="true"
+      className={`pointer-events-none absolute opacity-25 ${className}`}
+    >
+      {/* Radiating Web Spines */}
+      <line x1="0" y1="0" x2="140" y2="0" stroke={SPIDEY_RED} strokeWidth="1" />
+      <line x1="0" y1="0" x2="130" y2="50" stroke={SPIDEY_RED} strokeWidth="1" />
+      <line x1="0" y1="0" x2="100" y2="100" stroke={SPIDEY_RED} strokeWidth="1" />
+      <line x1="0" y1="0" x2="50" y2="130" stroke={SPIDEY_RED} strokeWidth="1" />
+      <line x1="0" y1="0" x2="0" y2="140" stroke={SPIDEY_RED} strokeWidth="1" />
+      {/* Concentric Web Arcs */}
+      <path d="M40 0 Q 38 18, 28 28 Q 18 38, 0 40" stroke={SPIDEY_BLUE} strokeWidth="0.8" fill="none" />
+      <path d="M80 0 Q 75 35, 56 56 Q 35 75, 0 80" stroke={SPIDEY_BLUE} strokeWidth="0.8" fill="none" />
+      <path d="M120 0 Q 112 52, 85 85 Q 52 112, 0 120" stroke={SPIDEY_BLUE} strokeWidth="0.8" fill="none" />
+    </svg>
+  );
+}
+
 function WebPattern() {
   return (
     <svg
@@ -40,17 +64,19 @@ export default function Projects() {
       id="projects"
       className="relative overflow-hidden bg-[#f5f5f0] py-24 text-zinc-950 md:py-32"
     >
-      {/* Spidey Mode Background Web & Glow */}
+      {/* Spidey Mode Background Web & Corner Spiderwebs */}
       {isSpideyMode && (
         <>
+          <CornerWeb className="left-0 top-0" />
+          <CornerWeb className="right-0 top-0 -scale-x-100" />
           <WebPattern />
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute right-[-10%] top-[-5%] h-[400px] w-[500px] rounded-full bg-[radial-gradient(circle,rgba(226,54,54,0.06),transparent_70%)]"
+            className="pointer-events-none absolute right-[-10%] top-[-5%] h-[400px] w-[500px] rounded-full bg-[radial-gradient(circle,rgba(226,54,54,0.08),transparent_70%)]"
           />
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute left-[-10%] bottom-[-5%] h-[400px] w-[500px] rounded-full bg-[radial-gradient(circle,rgba(0,111,185,0.05),transparent_70%)]"
+            className="pointer-events-none absolute left-[-10%] bottom-[-5%] h-[400px] w-[500px] rounded-full bg-[radial-gradient(circle,rgba(0,111,185,0.06),transparent_70%)]"
           />
         </>
       )}
@@ -70,7 +96,7 @@ export default function Projects() {
             href="/work"
             className="group inline-flex items-center gap-2 text-sm font-medium text-zinc-600 transition-colors duration-300 hover:text-zinc-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-950"
           >
-            <span>{isSpideyMode ? "Browse all classified files" : "View all projects"}</span>
+            <span>{isSpideyMode ? "Browse all classified dossiers" : "View all projects"}</span>
             <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
         </div>

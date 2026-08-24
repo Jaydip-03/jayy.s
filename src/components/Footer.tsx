@@ -251,7 +251,7 @@ export default function Footer() {
             Built with Next.js, TypeScript, Tailwind CSS &amp; Framer Motion
           </p>
           <p className="font-mono text-[11px]">
-            MUMBAI, INDIA 🇮🇳
+            Pune, INDIA 🇮🇳
           </p>
         </div>
       </Container>
