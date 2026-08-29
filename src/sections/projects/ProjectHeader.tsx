@@ -6,6 +6,34 @@ import { useTheme } from "@/context/ThemeContext";
 const SPIDEY_RED = "#e23636";
 const SPIDEY_BLUE = "#006fb9";
 
+// ── Rotating Architectural Craft Emblem (Normal Mode) ─────────────
+
+function CraftSeal() {
+  return (
+    <div className="hidden sm:flex flex-col items-center">
+      <motion.div
+        animate={{ rotate: 360 }}
+        transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+        className="relative flex h-20 w-20 items-center justify-center"
+      >
+        <svg viewBox="0 0 100 100" className="h-full w-full">
+          <path
+            id="craft-seal-path"
+            d="M 50, 50 m -36, 0 a 36,36 0 1,1 72,0 a 36,36 0 1,1 -72,0"
+            fill="none"
+          />
+          <text className="fill-zinc-400 font-mono text-[8.5px] uppercase tracking-[0.24em]">
+            <textPath href="#craft-seal-path" startOffset="0%">
+              • PRODUCTION CODE • ZERO TEMPLATES
+            </textPath>
+          </text>
+        </svg>
+        <span className="absolute font-serif text-xs text-zinc-600">✦</span>
+      </motion.div>
+    </div>
+  );
+}
+
 // ── Hanging Spider Doodle ────────────────────────────────────────
 
 function HangingSpiderDoodle() {
@@ -16,9 +44,7 @@ function HangingSpiderDoodle() {
       className="hidden sm:flex flex-col items-center"
       aria-hidden="true"
     >
-      {/* Silk thread */}
       <div className="h-10 w-px bg-gradient-to-b from-zinc-400/40 via-[#e23636]/60 to-[#e23636]" />
-      {/* Spider body */}
       <div className="relative flex h-7 w-7 items-center justify-center rounded-full bg-[#18181b] shadow-md border border-[#e23636]/40">
         <span className="text-xs">🕷️</span>
       </div>
@@ -72,9 +98,14 @@ export default function ProjectHeader() {
               </p>
             </>
           ) : (
-            <p className="text-[11px] font-mono uppercase tracking-[0.25em] text-zinc-400">
-              Selected Work
-            </p>
+            <div className="flex items-center gap-2">
+              <span className="rounded-sm bg-zinc-200/80 px-1.5 py-0.5 font-mono text-[9px] font-semibold text-zinc-700">
+                INDEX // 01—03
+              </span>
+              <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-zinc-400">
+                Selected Work · 2024–2025
+              </p>
+            </div>
           )}
         </div>
 
@@ -98,11 +129,14 @@ export default function ProjectHeader() {
         </p>
       </div>
 
-      {isSpideyMode && (
+      {/* Right-hand Emblem */}
+      {isSpideyMode ? (
         <div className="flex items-center gap-4">
           <HangingSpiderDoodle />
           <ThwipSticker />
         </div>
+      ) : (
+        <CraftSeal />
       )}
     </div>
   );

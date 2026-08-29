@@ -23,18 +23,17 @@ export default function ProjectGrid() {
       {/* Supporting Editorial Project List */}
       {supportingProjects.length > 0 && (
         <div className="pt-4 sm:pt-6">
-          <div className="mb-6 flex items-center justify-between">
+          <div className="mb-6 flex items-center justify-between border-b border-zinc-200/80 pb-3">
             <h4 className="text-[11px] font-mono uppercase tracking-[0.2em] text-zinc-400">
               {isSpideyMode ? "Archived Dossiers // More Work" : "More Selected Work"}
             </h4>
-            {isSpideyMode && (
-              <span
-                className="font-handwritten text-[16px] leading-none"
-                style={{ color: SPIDEY_BLUE }}
-              >
-                built with spider-precision 🕸️
-              </span>
-            )}
+            
+            <span
+              className="font-handwritten text-[16px] leading-none"
+              style={{ color: isSpideyMode ? SPIDEY_BLUE : "#71717a" }}
+            >
+              {isSpideyMode ? "built with spider-precision 🕸️" : "real backend logic & clean APIs ⤷"}
+            </span>
           </div>
           <ProjectSupportingList projects={supportingProjects} />
         </div>
