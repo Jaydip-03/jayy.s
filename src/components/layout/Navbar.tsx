@@ -6,6 +6,11 @@ import { usePathname } from "next/navigation";
 import { ArrowUpRight, Menu, X, Moon } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
+import {
+  hasIntroBeenSeen,
+  INTRO_COMPLETE_EVENT,
+  INTRO_COMPLETE_MS,
+} from "@/lib/intro";
 
 const navLinks: {
   name: string;
@@ -21,10 +26,43 @@ const navLinks: {
 const SPIDEY_RED = "#e23636";
 const SPIDEY_BLUE = "#006fb9";
 
-export default function Navbar() {
+type NavbarProps = {
+  initialVisible?: boolean;
+};
+
+export default function Navbar({ initialVisible = false }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
   const { isSpideyMode, toggleMode } = useTheme();
+
+  const [showNav, setShowNav] = useState(initialVisible);
+
+  useEffect(() => {
+    setMounted(true);
+
+    if (initialVisible || hasIntroBeenSeen()) {
+      setShowNav(true);
+      return;
+    }
+
+    // First-visit intro: wait for intro to begin exiting before revealing navbar
+    const handleIntroComplete = () => {
+      setShowNav(true);
+    };
+
+    window.addEventListener(INTRO_COMPLETE_EVENT, handleIntroComplete);
+
+    // Safety fallback in case intro event doesn't fire
+    const fallbackTimer = window.setTimeout(() => {
+      setShowNav(true);
+    }, INTRO_COMPLETE_MS + 200);
+
+    return () => {
+      window.removeEventListener(INTRO_COMPLETE_EVENT, handleIntroComplete);
+      window.clearTimeout(fallbackTimer);
+    };
+  }, []);
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
@@ -58,48 +96,45 @@ export default function Navbar() {
     return false;
   };
 
-  return (
-    <header className="fixed inset-x-0 top-5 z-50 sm:top-6">
-      <nav className="container-custom">
-        <div className="grid h-[58px] grid-cols-[auto_1fr_auto] items-center gap-4 rounded-full border border-white/[0.08] bg-black/75 px-4 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl sm:h-[60px] sm:px-6 md:px-7">
-          
-          {/* Logo */}
-          <Link
-            href="/"
-            onClick={() => setIsOpen(false)}
-            className="group inline-flex items-center font-mono text-[20px] font-semibold tracking-tight sm:text-[22px]"
-          >
-            <span className="text-zinc-600 transition-colors group-hover:text-zinc-400">
-              &lt;
-            </span>
-            <span className="text-white">jayy</span>
-            <span style={{ color: SPIDEY_BLUE }}>/</span>
-            <span className="text-zinc-600 transition-colors group-hover:text-zinc-400">
-              &gt;
-            </span>
-          </Link>
+  const effectiveSpidey = mounted ? isSpideyMode : false;
 
-          {/* Desktop Navigation Links */}
-          <div className="hidden items-center justify-center gap-8 md:flex lg:gap-10">
+  return (
+    <motion.header
+      initial={initialVisible ? { y: 0, opacity: 1 } : { y: -70, opacity: 0 }}
+      animate={showNav ? { y: 0, opacity: 1 } : { y: -70, opacity: 0 }}
+      transition={{ duration: initialVisible ? 0.2 : 0.5, ease: [0.22, 1, 0.36, 1] }}
+      className="fixed inset-x-0 top-0 z-50 px-4 pt-3 sm:px-6 sm:pt-4"
+    >
+      <nav className="container-custom">
+        <div className="grid h-[58px] grid-cols-2 items-center rounded-full border border-white/10 bg-black/80 px-4 shadow-[0_8px_32px_rgba(0,0,0,0.37)] backdrop-blur-md sm:h-[62px] sm:px-5 md:grid-cols-3">
+          
+          {/* Logo / Monogram */}
+          <div className="flex items-center">
+            <Link
+              href="/"
+              className="group inline-flex items-center gap-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-spidey-red"
+              aria-label="Jaydip Desale home"
+            >
+              <span className="font-mono text-base font-medium tracking-tight text-white transition-opacity group-hover:opacity-80">
+                &lt;jayy<span className="text-spidey-blue">/</span>&gt;
+              </span>
+            </Link>
+          </div>
+
+          {/* Center Navigation Links (Desktop) */}
+          <div className="hidden items-center justify-center gap-6 md:flex">
             {navLinks.map((link) => {
               const active = isActiveLink(link.href);
-              return link.external ? (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="link-spidey-underline text-[14px] tracking-[0.01em] text-zinc-400 hover:text-white"
-                >
-                  {link.name}
-                </a>
-              ) : (
+
+              return (
                 <Link
                   key={link.name}
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
-                  className={`link-spidey-underline text-[14px] tracking-[0.01em] transition-colors ${
-                    active ? "text-white font-medium" : "text-zinc-400 hover:text-white"
+                  className={`text-sm transition-colors duration-200 ${
+                    active
+                      ? "font-medium text-white"
+                      : "text-zinc-400 hover:text-white"
                   }`}
                 >
                   {link.name}
@@ -115,15 +150,16 @@ export default function Navbar() {
             <button
               type="button"
               onClick={toggleMode}
-              aria-label={isSpideyMode ? "Switch to normal mode" : "Switch to Spidey mode"}
-              title={isSpideyMode ? "Switch to normal mode" : "Switch to Spidey mode"}
+              suppressHydrationWarning
+              aria-label={effectiveSpidey ? "Switch to normal mode" : "Switch to Spidey mode"}
+              title={effectiveSpidey ? "Switch to normal mode" : "Switch to Spidey mode"}
               className={`group relative flex h-9 w-9 items-center justify-center rounded-full transition-all duration-300 ${
-                isSpideyMode
+                effectiveSpidey
                   ? "border border-[#e23636]/60 bg-[#e23636]/15 text-white shadow-[0_0_20px_rgba(226,54,54,0.3)] hover:border-[#e23636] hover:scale-105"
                   : "border border-white/10 bg-white/[0.04] text-zinc-400 hover:border-white/20 hover:bg-white/[0.08] hover:text-white"
               }`}
             >
-              {isSpideyMode ? (
+              {effectiveSpidey ? (
                 <svg
                   width="18"
                   height="18"
@@ -206,6 +242,6 @@ export default function Navbar() {
           )}
         </AnimatePresence>
       </nav>
-    </header>
+    </motion.header>
   );
 }

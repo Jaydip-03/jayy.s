@@ -1,33 +1,47 @@
 "use client";
 
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import Intro from "@/components/intro/Intro";
 import {
   clearIntroActive,
   hasIntroBeenSeen,
+  INTRO_COMPLETE_MS,
 } from "@/lib/intro";
 
 export default function IntroGate() {
+  const [mounted, setMounted] = useState(false);
   const [showIntro, setShowIntro] = useState(false);
 
-  useLayoutEffect(() => {
-    const shouldShowIntro = !hasIntroBeenSeen();
-
-    setShowIntro(shouldShowIntro);
-
-    if (!shouldShowIntro) {
+  useEffect(() => {
+    setMounted(true);
+    const seen = hasIntroBeenSeen();
+    if (!seen) {
+      setShowIntro(true);
+    } else {
       clearIntroActive();
     }
   }, []);
 
-  if (!showIntro) {
+  useEffect(() => {
+    if (!showIntro) return;
+
+    const fallbackTimer = window.setTimeout(() => {
+      clearIntroActive();
+      setShowIntro(false);
+    }, INTRO_COMPLETE_MS + 1000);
+
+    return () => window.clearTimeout(fallbackTimer);
+  }, [showIntro]);
+
+  if (!mounted || !showIntro) {
     return null;
   }
 
   return (
     <Intro
       onFinished={() => {
+        clearIntroActive();
         setShowIntro(false);
       }}
     />

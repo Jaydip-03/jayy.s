@@ -45,7 +45,7 @@ export const aboutContent = {
       "Good software isn't loud. It just works — and keeps working when someone else reads your code.",
   },
   snapshot: [
-    { label: "Based in", value: "Mumbai, India" },
+    { label: "Based in", value: "Pune, India" },
     { label: "Education", value: "B.Tech IT, 2025" },
     { label: "Currently", value: "Intern @ Robowaves" },
     { label: "Focus", value: "Java & Spring Boot" },

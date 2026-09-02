@@ -359,10 +359,10 @@ export default function AboutCollage() {
               </div>
             </HoverableItem>
 
-            {/* 4. TOP-RIGHT: Marine Drive Polaroid + Tape on Top */}
+            {/* 4. TOP-RIGHT: Pune Polaroid + Tape on Top */}
             <HoverableItem
-              label="MUMBAI // HOME"
-              caption="the city that never sleeps. Mumbai is where my story began."
+              label="PUNE // BASE"
+              caption="Pune — where the code, the craft, and the engineering journey grow."
               rotate={4}
               className="absolute left-[410px] top-[20px] z-20"
             >
@@ -373,7 +373,7 @@ export default function AboutCollage() {
                 <div className="relative aspect-[4/3] w-full overflow-hidden rounded-md bg-neutral-900">
                   <Image
                     src="/about/marine_drive.jpg"
-                    alt="Marine Drive Mumbai"
+                    alt="Pune, India"
                     fill
                     sizes="195px"
                     className="object-cover object-center"

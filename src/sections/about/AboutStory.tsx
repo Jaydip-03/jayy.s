@@ -133,24 +133,32 @@ export default function AboutStory() {
               whileInView={{ opacity: 1, scale: 1, rotate: -2.5 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.15 }}
-              className="group relative mt-8 w-full max-w-[235px] rounded-xl bg-white p-3 pb-3.5 shadow-[0_14px_35px_rgba(0,0,0,0.07)] ring-1 ring-neutral-900/5 transition-all duration-300 hover:rotate-0 hover:shadow-[0_20px_45px_rgba(0,0,0,0.11)]"
+              className="group relative mt-8 w-full max-w-[245px] rounded-xl bg-white p-3 pb-3.5 shadow-[0_14px_35px_rgba(0,0,0,0.07)] ring-1 ring-neutral-900/5 transition-all duration-300 hover:rotate-0 hover:shadow-[0_22px_45px_rgba(0,0,0,0.12)]"
             >
+              {/* Spidey Mode Subtle Washi Tape Decor */}
+              {isSpideyMode && (
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute -top-2.5 left-4 z-20 h-4 w-12 -rotate-6 rounded-xs bg-[#fef08a]/90 shadow-xs border-t border-b border-yellow-300/60"
+                />
+              )}
+
               {/* Mono Label at Top of Photo */}
               <p
-                className="mb-2 font-mono text-[9px] uppercase tracking-[0.18em]"
+                className="mb-2 font-mono text-[8.5px] font-semibold uppercase tracking-[0.2em]"
                 style={{ color: isSpideyMode ? SPIDEY_RED : "#a3a3a3" }}
               >
-                {isSpideyMode ? "JAYDIP // FRIENDLY NEIGHBORHOOD DEV" : "JAYDIP // MUMBAI, INDIA"}
+                {isSpideyMode ? "JAYDIP // THE ENGINEER BEHIND THE MASK" : "JAYDIP // PUNE, INDIA"}
               </p>
 
               {/* Photo */}
-              <div className="relative aspect-[3/3.8] w-full overflow-hidden rounded-md bg-neutral-100">
+              <div className="relative aspect-[3/3.8] w-full overflow-hidden rounded-md bg-neutral-100 shadow-inner">
                 <Image
-                  src={isSpideyMode ? "/about/jayySpidey.jpg" : "/about/jayyAbout.jpg"}
+                  src={isSpideyMode ? "/about/jayyStoryPortrait.jpg" : "/about/jayyAbout.jpg"}
                   alt="Jaydip Desale"
                   fill
-                  sizes="235px"
-                  className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+                  sizes="245px"
+                  className="object-cover object-[center_18%] transition-transform duration-500 group-hover:scale-[1.03]"
                   priority
                 />
               </div>
@@ -163,7 +171,7 @@ export default function AboutStory() {
                     className="font-handwritten text-[19px] leading-none"
                     style={{ color: isSpideyMode ? SPIDEY_BLUE : "#404040" }}
                   >
-                    glad you&apos;re here ⤷
+                    {isSpideyMode ? "friendly neighborhood dev ⤷" : "glad you're here ⤷"}
                   </p>
                 </div>
 

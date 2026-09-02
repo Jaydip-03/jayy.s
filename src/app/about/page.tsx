@@ -4,6 +4,7 @@ import AboutTestimonials from "@/sections/about/AboutTestimonials";
 import AboutJourney from "@/sections/about/AboutJourney";
 import AboutSnapshot from "@/sections/about/AboutSnapshot";
 import AboutCollage from "@/sections/about/AboutCollage";
+import AboutStudioDesk from "@/sections/about/AboutStudioDesk";
 import AboutSignOff from "@/sections/about/AboutSignOff";
 import { siteConfig } from "@/lib/site";
 
@@ -21,6 +22,7 @@ export default function AboutPage() {
       <AboutJourney />
       <AboutSnapshot />
       <AboutCollage />
+      <AboutStudioDesk />
       <AboutSignOff />
     </main>
   );

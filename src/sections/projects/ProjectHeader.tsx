@@ -14,7 +14,7 @@ function CraftSeal() {
       <motion.div
         animate={{ rotate: 360 }}
         transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-        className="relative flex h-20 w-20 items-center justify-center"
+        className="relative flex h-22 w-22 items-center justify-center drop-shadow-xs"
       >
         <svg viewBox="0 0 100 100" className="h-full w-full">
           <path
@@ -22,13 +22,13 @@ function CraftSeal() {
             d="M 50, 50 m -36, 0 a 36,36 0 1,1 72,0 a 36,36 0 1,1 -72,0"
             fill="none"
           />
-          <text className="fill-zinc-400 font-mono text-[8.5px] uppercase tracking-[0.24em]">
+          <text className="fill-zinc-500 font-mono text-[8.5px] uppercase tracking-[0.24em]">
             <textPath href="#craft-seal-path" startOffset="0%">
               • PRODUCTION CODE • ZERO TEMPLATES
             </textPath>
           </text>
         </svg>
-        <span className="absolute font-serif text-xs text-zinc-600">✦</span>
+        <span className="absolute font-serif text-sm text-zinc-700">✦</span>
       </motion.div>
     </div>
   );
@@ -87,57 +87,60 @@ export default function ProjectHeader() {
   const { isSpideyMode } = useTheme();
 
   return (
-    <div className="relative flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
-      <div className="relative max-w-2xl">
-        <div className="flex items-center gap-2.5">
-          {isSpideyMode ? (
-            <>
-              <span className="h-2 w-2 rounded-full animate-pulse" style={{ backgroundColor: SPIDEY_RED }} />
-              <p className="text-[11px] font-mono font-bold uppercase tracking-[0.25em]" style={{ color: SPIDEY_RED }}>
-                SPIDER-FILES // SELECTED WORK
-              </p>
-            </>
-          ) : (
-            <div className="flex items-center gap-2">
-              <span className="rounded-sm bg-zinc-200/80 px-1.5 py-0.5 font-mono text-[9px] font-semibold text-zinc-700">
-                INDEX // 01—03
-              </span>
-              <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-zinc-400">
-                Selected Work · 2024–2025
-              </p>
-            </div>
-          )}
+    <div className="relative">
+      {/* ── Top Architectural Ruler Guide ── */}
+      <div className="mb-6 flex items-center justify-between border-b border-zinc-200/90 pb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-600">
+        <div className="flex items-center gap-2">
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+          <span>{isSpideyMode ? "DOSSIER ARCHIVE // SPIDER-TRACK" : "INDEX // 01 — 03"}</span>
         </div>
 
-        {/* Clean Editorial Heading */}
-        <h2 className="relative mt-3 font-display text-4xl font-normal leading-none tracking-[-0.04em] text-zinc-950 sm:text-5xl md:text-6xl">
-          Projects
-          {isSpideyMode && (
-            <span
-              className="ml-2 font-display italic text-2xl sm:text-3xl"
-              style={{ color: SPIDEY_BLUE }}
-            >
-              ✦
-            </span>
-          )}
-        </h2>
+        <div className="hidden sm:block">
+          <span>{isSpideyMode ? "STATUS: ACTIVE COMBAT CODE" : "PUNE, IN · 2024–2025"}</span>
+        </div>
 
-        <p className="mt-4 max-w-lg text-sm leading-relaxed text-zinc-600 sm:text-base sm:leading-7">
-          {isSpideyMode
-            ? "Every system built with precision, resilience, and web-slinging architectural clarity."
-            : "A curated selection of full-stack systems and web applications I've designed, built, and delivered."}
-        </p>
+        <div>
+          <span>{isSpideyMode ? "PRIORITY: OMEGA" : "03 SHIPPED REPOSITORIES"}</span>
+        </div>
       </div>
 
-      {/* Right-hand Emblem */}
-      {isSpideyMode ? (
-        <div className="flex items-center gap-4">
-          <HangingSpiderDoodle />
-          <ThwipSticker />
+      {/* ── Main Two-Tier Heading & Actions ── */}
+      <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
+        <div className="relative max-w-2xl">
+          {/* Two-Tier Editorial Headline */}
+          <h2 className="font-display text-4xl font-normal leading-[1.04] tracking-[-0.04em] text-zinc-950 sm:text-5xl md:text-6xl">
+            {isSpideyMode ? "Spider-Files." : "Selected Works."}
+            <br />
+            <span className="font-display italic font-normal text-zinc-600">
+              {isSpideyMode ? "Built with web precision." : "Crafted from scratch."}
+            </span>
+            {isSpideyMode && (
+              <span
+                className="ml-2 font-display italic text-2xl sm:text-3xl"
+                style={{ color: SPIDEY_BLUE }}
+              >
+                ✦
+              </span>
+            )}
+          </h2>
+
+          <p className="mt-4 max-w-lg text-sm leading-relaxed text-zinc-600 sm:text-base sm:leading-7">
+            {isSpideyMode
+              ? "Every system built with resilience, concurrency discipline, and web-slinging architectural clarity."
+              : "Full-stack architectures and web systems built with production discipline — security hardened, tested under load, and designed to scale."}
+          </p>
         </div>
-      ) : (
-        <CraftSeal />
-      )}
+
+        {/* Right-hand Emblem */}
+        {isSpideyMode ? (
+          <div className="flex items-center gap-4">
+            <HangingSpiderDoodle />
+            <ThwipSticker />
+          </div>
+        ) : (
+          <CraftSeal />
+        )}
+      </div>
     </div>
   );
 }

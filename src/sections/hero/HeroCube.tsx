@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useLayoutEffect, useEffect, useState, useRef } from "react";
 import { motion, useSpring } from "framer-motion";
 
 type HeroCubeProps = {
@@ -54,6 +54,175 @@ function InteractiveEyes() {
         </div>
       ))}
     </div>
+  );
+}
+
+// ── Floating Zero-Gravity Astronaut ───────────────────────────────
+
+function FloatingAstronaut() {
+  return (
+    <motion.div
+      animate={{
+        y: [0, -14, 0],
+        rotate: [-3, 6, -3],
+      }}
+      transition={{
+        duration: 6.5,
+        repeat: Infinity,
+        ease: "easeInOut",
+      }}
+      whileHover={{
+        scale: 1.12,
+        rotate: 12,
+        transition: { type: "spring", stiffness: 300, damping: 15 },
+      }}
+      className="pointer-events-auto cursor-pointer drop-shadow-[0_12px_24px_rgba(0,0,0,0.7)]"
+    >
+      <svg
+        width="46"
+        height="56"
+        viewBox="0 0 54 66"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        {/* Backpack / Life Support Unit */}
+        <rect
+          x="10"
+          y="18"
+          width="34"
+          height="28"
+          rx="6"
+          fill="#cbd5e1"
+          stroke="#475569"
+          strokeWidth="1.5"
+        />
+
+        {/* Left Arm Floating */}
+        <motion.path
+          animate={{ rotate: [-4, 6, -4] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          style={{ transformOrigin: "12px 24px" }}
+          d="M12 24L4 32C3 34 5 37 8 36L14 30"
+          stroke="#f8fafc"
+          strokeWidth="5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+
+        {/* Right Arm Waving */}
+        <motion.path
+          animate={{ rotate: [6, -8, 6] }}
+          transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
+          style={{ transformOrigin: "42px 24px" }}
+          d="M42 24L50 16C52 14 54 17 52 19L44 28"
+          stroke="#f8fafc"
+          strokeWidth="5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+
+        {/* Spacesuit Body Torso */}
+        <rect
+          x="14"
+          y="20"
+          width="26"
+          height="25"
+          rx="8"
+          fill="#f8fafc"
+          stroke="#94a3b8"
+          strokeWidth="1.5"
+        />
+
+        {/* Chest Console Control Box */}
+        <rect x="21" y="26" width="12" height="9" rx="2.5" fill="#1e293b" />
+        <circle cx="24.5" cy="30.5" r="1.2" fill="#38bdf8" />
+        <circle cx="29.5" cy="30.5" r="1.2" fill="#f43f5e" />
+
+        {/* Legs Floating */}
+        <path
+          d="M20 44L17 58C16.5 60.5 19.5 62 21.5 60.5L24 54"
+          stroke="#f8fafc"
+          strokeWidth="5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M34 44L37 57C37.5 59.5 35 61.5 33 60L30 54"
+          stroke="#f8fafc"
+          strokeWidth="5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+
+        {/* Helmet Outer */}
+        <circle
+          cx="27"
+          cy="14"
+          r="13"
+          fill="#ffffff"
+          stroke="#94a3b8"
+          strokeWidth="1.5"
+        />
+
+        {/* Gold Visor with Reflection */}
+        <ellipse cx="27" cy="14" rx="9" ry="7.5" fill="url(#visor-grad)" />
+        {/* Visor Glint Reflection */}
+        <path
+          d="M23 10C26 8.5 29 9 31 10.5"
+          stroke="#ffffff"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          opacity="0.85"
+        />
+
+        {/* Gradients */}
+        <defs>
+          <linearGradient id="visor-grad" x1="18" y1="7" x2="36" y2="21" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#fbbf24" />
+            <stop offset="60%" stopColor="#f59e0b" />
+            <stop offset="100%" stopColor="#b45309" />
+          </linearGradient>
+        </defs>
+      </svg>
+    </motion.div>
+  );
+}
+
+// ── Retro Deep-Space Satellite Probe ──────────────────────────────
+
+function SatelliteProbe() {
+  return (
+    <motion.div
+      animate={{
+        y: [0, -8, 0],
+        rotate: [0, 5, 0],
+      }}
+      transition={{
+        duration: 8,
+        repeat: Infinity,
+        ease: "easeInOut",
+      }}
+      className="pointer-events-auto cursor-pointer drop-shadow-[0_0_12px_rgba(56,189,248,0.3)]"
+    >
+      <svg width="42" height="28" viewBox="0 0 48 32" fill="none">
+        {/* Left Solar Panel */}
+        <rect x="2" y="10" width="13" height="12" rx="2" fill="#0284c7" stroke="#38bdf8" strokeWidth="0.8" />
+        <line x1="8.5" y1="10" x2="8.5" y2="22" stroke="#bae6fd" strokeWidth="0.6" />
+        <line x1="2" y1="16" x2="15" y2="16" stroke="#bae6fd" strokeWidth="0.6" />
+
+        {/* Right Solar Panel */}
+        <rect x="33" y="10" width="13" height="12" rx="2" fill="#0284c7" stroke="#38bdf8" strokeWidth="0.8" />
+        <line x1="39.5" y1="10" x2="39.5" y2="22" stroke="#bae6fd" strokeWidth="0.6" />
+        <line x1="33" y1="16" x2="46" y2="16" stroke="#bae6fd" strokeWidth="0.6" />
+
+        {/* Central Satellite Body */}
+        <rect x="18" y="8" width="12" height="16" rx="3" fill="#e2e8f0" stroke="#94a3b8" strokeWidth="1" />
+        {/* Antenna Mast */}
+        <line x1="24" y1="8" x2="24" y2="2" stroke="#94a3b8" strokeWidth="1.2" />
+        {/* Antenna Blinking Signal Tip */}
+        <circle cx="24" cy="2" r="1.5" fill="#38bdf8" />
+      </svg>
+    </motion.div>
   );
 }
 
@@ -165,16 +334,20 @@ function ShootingStar() {
 export default function HeroCube({ isSpideyMode }: HeroCubeProps) {
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    // useLayoutEffect runs before paint, so this doesn't cause a visual flash
+    // Hydration guard: must call setState to prevent hydration mismatch
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
-  if (isSpideyMode || !mounted) return null;
+  // Don't render if still hydrating or in spidey mode
+  if (!mounted || isSpideyMode) return null;
 
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute right-[1%] top-[8%] z-[4] hidden h-[580px] w-[530px] md:block lg:right-[3%] xl:right-[7%]"
+      className="pointer-events-none absolute right-[1%] top-[8%] z-[4] hidden h-[580px] w-[540px] md:block lg:right-[3%] xl:right-[7%]"
     >
       {/* Ambient Deep Space Glow */}
       <div className="absolute left-1/2 top-1/2 h-[420px] w-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(79,70,229,0.08),rgba(59,130,246,0.03)_50%,transparent_75%)] blur-3xl" />
@@ -202,12 +375,29 @@ export default function HeroCube({ isSpideyMode }: HeroCubeProps) {
         <CrescentMoon />
       </div>
 
-      {/* ── 3. Interactive Googly Eyes (Mid-Right) ── */}
+      {/* ── 3. Floating Zero-Gravity Astronaut 👨‍🚀 (Upper Right, Above Eyes) ── */}
+      <div className="absolute right-6 top-[105px] z-10">
+        <FloatingAstronaut />
+      </div>
+
+      {/* ── 4. Interactive Googly Eyes (Mid-Right) ── */}
       <div className="pointer-events-auto absolute right-12 top-[245px] z-10">
         <InteractiveEyes />
       </div>
 
-      {/* ── 4. Galaxy Constellation Stars ✨ ── */}
+      {/* ── 5. Orbiting Satellite Probe 🛰️ (Lower Mid-Left) ── */}
+      <div className="absolute left-8 top-[330px] z-10">
+        <SatelliteProbe />
+      </div>
+
+      {/* ── 6. Distant Mars Red Moonlet 🔴 ── */}
+      <motion.div
+        animate={{ scale: [1, 1.15, 1], opacity: [0.7, 1, 0.7] }}
+        transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute left-[36%] bottom-[75px] h-3.5 w-3.5 rounded-full bg-gradient-to-br from-rose-400 to-red-700 shadow-[0_0_8px_rgba(244,63,94,0.6)]"
+      />
+
+      {/* ── 7. Galaxy Constellation Stars ✨ ── */}
 
       {/* Star 1: Large Amber 8-Point Cosmic Star (Bottom Left) */}
       <motion.div
@@ -224,7 +414,7 @@ export default function HeroCube({ isSpideyMode }: HeroCubeProps) {
       <motion.div
         animate={{ scale: [0.85, 1.3, 0.85], opacity: [0.6, 1, 0.6] }}
         transition={{ duration: 4.8, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-        className="absolute right-16 top-16 text-blue-400 drop-shadow-[0_0_14px_rgba(96,165,250,0.85)]"
+        className="absolute right-16 top-12 text-blue-400 drop-shadow-[0_0_14px_rgba(96,165,250,0.85)]"
       >
         <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
           <path d="M12 0L15 9L24 12L15 15L12 24L9 15L0 12L9 9L12 0Z" />
@@ -257,17 +447,17 @@ export default function HeroCube({ isSpideyMode }: HeroCubeProps) {
       <motion.div
         animate={{ scale: [1, 1.4, 1], opacity: [0.5, 1, 0.5] }}
         transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut", delay: 0.9 }}
-        className="absolute left-24 top-[250px] text-amber-200 drop-shadow-[0_0_8px_rgba(253,230,138,0.7)]"
+        className="absolute left-24 top-[240px] text-amber-200 drop-shadow-[0_0_8px_rgba(253,230,138,0.7)]"
       >
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
           <path d="M12 0L15 9L24 12L15 15L12 24L9 15L0 12L9 9L12 0Z" />
         </svg>
       </motion.div>
 
-      {/* ── 5. Delicate Pinpoint Stardust Specks ── */}
+      {/* ── 8. Delicate Pinpoint Stardust Specks ── */}
       {[
         { top: "110px", left: "190px", delay: 0 },
-        { top: "340px", left: "90px", delay: 1.5 },
+        { top: "340px", left: "140px", delay: 1.5 },
         { top: "420px", right: "120px", delay: 2.2 },
         { top: "200px", right: "30px", delay: 0.8 },
         { top: "320px", right: "70px", delay: 1.8 },

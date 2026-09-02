@@ -11,7 +11,7 @@ export const contactContent = {
     "Java",
     "Spring Boot",
     "Full Stack",
-    "Mumbai",
+    "Pune",
     "Open to work",
     "Building products",
     "Clean APIs",
@@ -28,7 +28,7 @@ export const contactContent = {
         id: "hire",
         question: "Are you available to hire?",
         answer:
-          "Yes — I'm open to full-time roles. Based in Mumbai, and happy to discuss hybrid or remote opportunities that fit.",
+          "Yes — I'm open to full-time roles. Based in Pune, and happy to discuss hybrid or remote opportunities that fit.",
       },
       {
         id: "working",

@@ -103,30 +103,6 @@ body {
    Intro Boot Lock
 ========================= */
 
-/* =========================
-   Intro Boot Lock
-========================= */
-
-html[data-intro-active] {
-  background: #000;
-}
-
-html[data-intro-active] body {
-  background: #000;
-}
-
-html[data-intro-active] #portfolio-shell {
-  visibility: hidden;
-}
-
-html[data-intro-active]::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 9998;
-  background: #000;
-  pointer-events: none;
-}
 
 @keyframes hero-float-spider {
   0%,

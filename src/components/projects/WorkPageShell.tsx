@@ -19,14 +19,32 @@ export default function WorkPageShell({
 }: WorkPageShellProps) {
   return (
     <main
-      className={`min-h-screen bg-[#f5f5f0] pb-24 pt-28 text-zinc-950 md:pt-32 ${className}`}
+      className={`relative min-h-screen overflow-hidden bg-[#f5f5f0] pb-24 pt-28 text-zinc-950 md:pt-32 ${className}`}
     >
-      <Container>
+      {/* ── Subtle Architectural Paper Dot Grid Texture ── */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 opacity-[0.045]"
+        style={{
+          backgroundImage: "radial-gradient(#18181b 1px, transparent 1px)",
+          backgroundSize: "24px 24px",
+        }}
+      />
+
+      {/* ── Swiss Precision Crosshairs at Top Corners ── */}
+      <div aria-hidden="true" className="pointer-events-none absolute left-6 top-8 font-mono text-[11px] text-zinc-400 select-none">
+        +
+      </div>
+      <div aria-hidden="true" className="pointer-events-none absolute right-6 top-8 font-mono text-[11px] text-zinc-400 select-none">
+        +
+      </div>
+
+      <Container className="relative z-10">
         <Link
           href={backHref}
-          className="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-500 transition-colors hover:text-zinc-950"
+          className="inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-zinc-500 transition-colors hover:text-zinc-950"
         >
-          <ArrowLeft className="h-4 w-4" />
+          <ArrowLeft className="h-3.5 w-3.5" />
           {backLabel}
         </Link>
         {children}

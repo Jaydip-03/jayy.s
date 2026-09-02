@@ -16,24 +16,28 @@ export function useHeroRevealReady() {
   useEffect(() => {
     if (ready) return;
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setReady(true);
-      return;
-    }
+    const checkAndSetReady = () => {
+      if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        setReady(true);
+        return;
+      }
 
-    const handleIntroComplete = () => setReady(true);
+      const handleIntroComplete = () => setReady(true);
+      window.addEventListener(INTRO_COMPLETE_EVENT, handleIntroComplete);
 
-    window.addEventListener(INTRO_COMPLETE_EVENT, handleIntroComplete);
+      const fallbackTimer = window.setTimeout(
+        () => setReady(true),
+        INTRO_COMPLETE_MS + 100,
+      );
 
-    const fallbackTimer = window.setTimeout(
-      () => setReady(true),
-      INTRO_COMPLETE_MS + 100,
-    );
-
-    return () => {
-      window.removeEventListener(INTRO_COMPLETE_EVENT, handleIntroComplete);
-      window.clearTimeout(fallbackTimer);
+      return () => {
+        window.removeEventListener(INTRO_COMPLETE_EVENT, handleIntroComplete);
+        window.clearTimeout(fallbackTimer);
+      };
     };
+
+    const cleanup = checkAndSetReady();
+    return cleanup;
   }, [ready]);
 
   return ready;

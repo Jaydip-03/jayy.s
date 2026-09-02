@@ -98,7 +98,7 @@ export default function ExperienceChapterCard({
         )}
 
         <Link
-          href={`/experience/${experience.slug}`}
+          href={`/experience#${experience.slug}`}
           className="group/link mt-6 inline-flex items-center gap-1.5 text-xs font-medium uppercase tracking-[0.14em] text-white transition-colors hover:text-white/70"
         >
           <span>Open chapter</span>

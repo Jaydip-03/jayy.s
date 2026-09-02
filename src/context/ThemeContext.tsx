@@ -34,40 +34,43 @@ export function ThemeProvider({
   const [mode, setMode] = useState<ThemeMode>(initialMode);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  useEffect(() => {
+    try {
+      const savedCookie = document.cookie.match(/(?:^|;\s*)portfolio-theme=([^;]+)/)?.[1] as ThemeMode | undefined;
+      const savedMode = savedCookie || (window.sessionStorage.getItem(THEME_SESSION_KEY) as ThemeMode | null);
+      if (savedMode === "spidey" || savedMode === "normal") {
+        setMode(savedMode);
+      }
+    } catch (e) {}
+  }, []);
+
   /*
    * Initialize background audio once at root provider level
    */
   useEffect(() => {
-    const audio = new Audio("/audio/sunflower.mp3");
-    audio.loop = true;
-    audio.volume = 0.4;
-    audio.preload = "auto";
-    audioRef.current = audio;
+   const audio = new Audio("/audio/sunflower.mp3");
+   audio.loop = true;
+   audio.volume = 0.4;
+   audio.preload = "auto";
+   audioRef.current = audio;
 
-    return () => {
-      audio.pause();
-      audio.currentTime = 0;
-      audioRef.current = null;
-    };
+   return () => {
+     audio.pause();
+     audio.currentTime = 0;
+     audioRef.current = null;
+   };
   }, []);
 
   /*
-   * Restore the selected mode from sessionStorage on client mount
-   */
-  useEffect(() => {
-    const savedMode = window.sessionStorage.getItem(THEME_SESSION_KEY);
-    if (savedMode === "spidey" || savedMode === "normal") {
-      setMode(savedMode);
-    }
-  }, []);
-
-  /*
-   * Keep DOM, session storage, and Audio perfectly synchronized.
+   * Keep DOM, cookies, session storage, and Audio perfectly synchronized.
    * If autoplay is blocked by browser on refresh, resume on first user interaction.
    */
   useEffect(() => {
     document.documentElement.dataset.theme = mode;
-    window.sessionStorage.setItem(THEME_SESSION_KEY, mode);
+    try {
+      window.sessionStorage.setItem(THEME_SESSION_KEY, mode);
+      document.cookie = `${THEME_SESSION_KEY}=${mode}; path=/; max-age=31536000; SameSite=Lax`;
+    } catch (e) {}
 
     const audio = audioRef.current;
     if (!audio) return;

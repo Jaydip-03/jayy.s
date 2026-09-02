@@ -2,7 +2,7 @@ export const siteConfig = {
   name: "Jaydip Desale",
   title: "Jaydip Desale — Java Full Stack Developer",
   description:
-    "Portfolio of Jaydip Desale — Spring Boot engineer and product builder crafting scalable full-stack applications from Mumbai, India.",
+    "Portfolio of Jaydip Desale — Spring Boot engineer and product builder crafting scalable full-stack applications from Pune, India.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://jayy-s.vercel.app",
   locale: "en_IN",
   location: "Pune, India",
@@ -13,7 +13,7 @@ export const siteConfig = {
     "Java Developer",
     "Spring Boot",
     "Full Stack Developer",
-    "Mumbai",
+    "Pune",
     "Portfolio",
     "React",
     "Next.js",

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import { Fraunces, Geist, Geist_Mono, Caveat } from "next/font/google";
-import Script from "next/script";
 import "./globals.css";
 
 import CustomCursor from "@/components/CustomCursor";
@@ -8,7 +8,6 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/layout/Navbar";
 import IntroGate from "@/components/intro/IntroGate";
 import { siteConfig } from "@/lib/site";
-import { INTRO_BOOT_SCRIPT } from "@/lib/intro";
 
 import { ThemeProvider } from "@/context/ThemeContext";
 
@@ -98,7 +97,7 @@ const jsonLd = {
       ],
       address: {
         "@type": "PostalAddress",
-        addressLocality: "Mumbai",
+        addressLocality: "Pune",
         addressCountry: "IN",
       },
     },
@@ -119,14 +118,17 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const initialMode = "normal";
+  const cookieStore = await cookies();
+  const themeCookie = cookieStore.get("portfolio-theme")?.value;
+  const initialMode: "spidey" | "normal" =
+    themeCookie === "spidey" ? "spidey" : "normal";
+  const introSeen = cookieStore.get("jaydip-intro-seen")?.value === "1";
 
   return (
     <html
       lang="en"
       data-scroll-behavior="smooth"
       data-theme={initialMode}
-      data-intro-active="true"
       suppressHydrationWarning
     >
       <head>
@@ -134,36 +136,36 @@ export default async function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        {/* Instant zero-latency theme detection before first paint */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                var c = document.cookie.match(/(?:^|;\\s*)portfolio-theme=([^;]+)/);
+                var t = c ? c[1] : sessionStorage.getItem('portfolio-theme');
+                if (t === 'spidey' || t === 'normal') document.documentElement.dataset.theme = t;
+              } catch(e) {}
+            `,
+          }}
+        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} ${caveat.variable} antialiased`}
       >
-        {/*
-          Runs synchronously before React hydrates.
-          If the intro has already been seen (sessionStorage flag set),
-          this removes data-intro-active from <html> so #portfolio-shell
-          is never hidden on repeat visits.
-        */}
-        <Script
-          id="intro-boot"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{ __html: INTRO_BOOT_SCRIPT }}
-        />
-
         <ThemeProvider initialMode={initialMode}>
           {/* Main portfolio */}
           <div id="portfolio-shell">
             <CustomCursor />
 
-            <Navbar />
+            <Navbar initialVisible={introSeen} />
 
             {children}
 
             <Footer />
           </div>
 
-          {/* First-visit intro */}
-          <IntroGate />
+          {/* First-visit intro: only runs if intro was never seen */}
+          {!introSeen && <IntroGate />}
         </ThemeProvider>
       </body>
     </html>

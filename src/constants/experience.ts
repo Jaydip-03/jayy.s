@@ -55,5 +55,32 @@ export const experiences: Experience[] = [
       "Built multiple hands-on projects applying MVC architecture and REST API design.",
       "Practiced SQL, JPQL, and database design principles.",
     ],
+    relatedProject: "developer-management-system",
+  },
+  {
+    id: 3,
+    slug: "engineering-education",
+    company: "University Academic Program",
+    role: "B.Tech in Information Technology",
+    duration: "2021 – 2025",
+    location: "Pune, India",
+    chapter: "03",
+    yearMark: "21",
+    highlight: "The core computer science foundation — data structures, systems, and algorithms.",
+    aside: "where the curiosity began",
+    description:
+      "Rigorous 4-year engineering curriculum building a rock-solid foundation across computer science fundamentals, Object-Oriented Programming, Database Management Systems, and Software Engineering principles.",
+    technologies: [
+      "Data Structures & Algorithms",
+      "DBMS & SQL",
+      "Operating Systems",
+      "Computer Networks",
+      "OOP Principles",
+    ],
+    achievements: [
+      "Deep study of algorithmic complexity, memory management, and relational schema normalization.",
+      "Hands-on database design projects applying SQL transactions and ACID properties.",
+      "Comprehensive understanding of network protocols (TCP/IP, HTTP/HTTPS, REST) and OS process concurrency.",
+    ],
   },
 ];
