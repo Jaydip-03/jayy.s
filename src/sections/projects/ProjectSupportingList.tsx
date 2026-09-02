@@ -33,10 +33,10 @@ export default function ProjectSupportingList({ projects }: ProjectSupportingLis
           >
             <Link
               href={`/work/${project.slug}`}
-              className="group grid grid-cols-[auto_auto_1fr_auto] items-center gap-4 py-5 px-3 transition-all duration-300 hover:bg-white hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] sm:gap-6 sm:py-6 sm:px-5 rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-950"
+              className="group grid grid-cols-[auto_1fr_auto] sm:grid-cols-[auto_auto_1fr_auto] items-center gap-3.5 sm:gap-6 py-4 sm:py-6 px-3 sm:px-5 transition-all duration-300 hover:bg-white hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-950"
             >
-              {/* Bold Index Numeral */}
-              <div className="font-mono text-sm font-semibold tracking-wider text-zinc-600 transition-colors group-hover:text-zinc-950 sm:text-base">
+              {/* Bold Index Numeral (Desktop / Tablet) */}
+              <div className="hidden sm:block font-mono text-sm font-semibold tracking-wider text-zinc-600 transition-colors group-hover:text-zinc-950 sm:text-base">
                 [ {itemNumber} ]
               </div>
 
@@ -64,7 +64,8 @@ export default function ProjectSupportingList({ projects }: ProjectSupportingLis
 
               {/* Title, Category & Description */}
               <div className="min-w-0 pr-2">
-                <div className="flex flex-wrap items-center gap-2 text-[10px] font-mono uppercase tracking-[0.18em] text-zinc-600">
+                <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 text-[10px] font-mono uppercase tracking-[0.18em] text-zinc-600">
+                  <span className="sm:hidden font-semibold text-zinc-950 mr-1">[ {itemNumber} ]</span>
                   <span className="font-semibold">{project.category}</span>
                   {project.technologies && project.technologies.length > 0 && (
                     <>

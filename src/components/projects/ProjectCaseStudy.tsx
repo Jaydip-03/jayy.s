@@ -22,6 +22,65 @@ import { useTheme } from "@/context/ThemeContext";
 
 const SPIDEY_RED = "#e23636";
 
+type ProjectMetrics = {
+  stat1: { value: string; label: string; color?: string };
+  stat2: { value: string; label: string; color?: string };
+  stat3: { value: string; label: string; color?: string };
+  stat4: { value: string; label: string; color?: string };
+  terminalCommand: string;
+  terminalStatus: string;
+  terminalServer: string;
+  terminalMetrics: string;
+  terminalBody: string;
+};
+
+const PROJECT_METRICS: Record<string, ProjectMetrics> = {
+  careersync: {
+    stat1: { value: "12ms", label: "Avg Query Latency", color: "text-zinc-950" },
+    stat2: { value: "ZERO", label: "IDOR Vulnerabilities", color: "text-emerald-600" },
+    stat3: { value: "100%", label: "Scoped EntityManager", color: "text-blue-600" },
+    stat4: { value: "2 ROLES", label: "Isolated Contexts", color: "text-indigo-600" },
+    terminalCommand: 'curl -i -X GET "https://careersync.jayy.dev/api/v1/health"',
+    terminalStatus: "HTTP/2 200 OK",
+    terminalServer: "server: spring-boot-edge-pune",
+    terminalMetrics: "x-response-time: 12ms · pool-status: 10/10 active · idor-guard: ENABLED",
+    terminalBody: '{ "status": "UP", "runtime": "Java 21 · Spring Boot 3", "auth_isolation": "VERIFIED" }',
+  },
+  "travel-website": {
+    stat1: { value: "60 FPS", label: "Hardware Accelerated", color: "text-zinc-950" },
+    stat2: { value: "ZERO", label: "Framework Bloat", color: "text-emerald-600" },
+    stat3: { value: "98+", label: "Mobile Responsive Score", color: "text-blue-600" },
+    stat4: { value: "<0.8s", label: "First Contentful Paint", color: "text-indigo-600" },
+    terminalCommand: "npx lighthouse https://wander-sphere.netlify.app --only-categories=performance",
+    terminalStatus: "LIGHTHOUSE AUDIT: 98/100 (EDGE CDN)",
+    terminalServer: "cdn: netlify-edge-global",
+    terminalMetrics: "FCP: 0.78s · CLS: 0.00 · TBT: 0ms · gesture-framerate: 60fps",
+    terminalBody: '{ "bundle_overhead": "0 KB Framework", "touch_gestures": "Swiper.js", "state": "OPTIMAL" }',
+  },
+  "developer-management-system": {
+    stat1: { value: "~6ms", label: "Direct JDBC Latency", color: "text-zinc-950" },
+    stat2: { value: "ZERO", label: "SQL Injection Risk", color: "text-emerald-600" },
+    stat3: { value: "100%", label: "Parameterized SQL", color: "text-blue-600" },
+    stat4: { value: "0 MB", label: "ORM Abstraction Overhead", color: "text-indigo-600" },
+    terminalCommand: 'curl -i "http://localhost:8080/dev-crud/api/records?dept=eng"',
+    terminalStatus: "HTTP/1.1 200 OK",
+    terminalServer: "server: Apache-Tomcat/10.1 (Jakarta EE)",
+    terminalMetrics: "db-latency: 5.8ms · PreparedStatement: CACHED · leak-status: 0 unclosed",
+    terminalBody: '{ "status": "SUCCESS", "engine": "Java Servlets + PostgreSQL", "connection_pool": "HEALTHY" }',
+  },
+  "fertilizer-recommendation-system": {
+    stat1: { value: "100%", label: "Real-Time Telemetry", color: "text-zinc-950" },
+    stat2: { value: "<5%", label: "Lab Test Deviation", color: "text-emerald-600" },
+    stat3: { value: "RS485", label: "Noise-Immune Modbus", color: "text-blue-600" },
+    stat4: { value: "PEER", label: "Reviewed Research Paper", color: "text-indigo-600" },
+    terminalCommand: "arduino-cli monitor -p /dev/ttyUSB0 --config baudrate=9600",
+    terminalStatus: "MODBUS SENSOR STREAM: ONLINE",
+    terminalServer: "interface: RS485 UART Differential Transceiver",
+    terminalMetrics: "N: 42 mg/kg · P: 18 mg/kg · K: 120 mg/kg · pH: 6.8",
+    terminalBody: '{ "recommendation": "UREA 25kg/acre + NPK 10:26:26", "deviation": "3.8%", "verdict": "OPTIMAL" }',
+  },
+};
+
 type ProjectCaseStudyProps = {
   project: Project;
 };
@@ -229,32 +288,45 @@ export default function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
         </div>
 
         {/* ── KEY ENGINEERING IMPACT METRICS ── */}
-        <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
-          <div className="rounded-xl border border-zinc-200/90 bg-white p-4 text-center shadow-2xs">
-            <div className="font-display text-2xl sm:text-3xl font-bold text-zinc-950">12ms</div>
-            <p className="mt-1 font-mono text-[9px] uppercase tracking-wider text-zinc-500">
-              Avg Query Latency
-            </p>
-          </div>
-          <div className="rounded-xl border border-zinc-200/90 bg-white p-4 text-center shadow-2xs">
-            <div className="font-display text-2xl sm:text-3xl font-bold text-emerald-600">ZERO</div>
-            <p className="mt-1 font-mono text-[9px] uppercase tracking-wider text-zinc-500">
-              IDOR Vulnerabilities
-            </p>
-          </div>
-          <div className="rounded-xl border border-zinc-200/90 bg-white p-4 text-center shadow-2xs">
-            <div className="font-display text-2xl sm:text-3xl font-bold text-blue-600">100%</div>
-            <p className="mt-1 font-mono text-[9px] uppercase tracking-wider text-zinc-500">
-              Scoped EntityManager
-            </p>
-          </div>
-          <div className="rounded-xl border border-zinc-200/90 bg-white p-4 text-center shadow-2xs">
-            <div className="font-display text-2xl sm:text-3xl font-bold text-indigo-600">2 ROLES</div>
-            <p className="mt-1 font-mono text-[9px] uppercase tracking-wider text-zinc-500">
-              Isolated Contexts
-            </p>
-          </div>
-        </div>
+        {(() => {
+          const metrics = PROJECT_METRICS[project.slug] || PROJECT_METRICS.careersync;
+          return (
+            <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+              <div className="rounded-xl border border-zinc-200/90 bg-white p-4 text-center shadow-2xs">
+                <div className={`font-display text-2xl sm:text-3xl font-bold ${metrics.stat1.color || "text-zinc-950"}`}>
+                  {metrics.stat1.value}
+                </div>
+                <p className="mt-1 font-mono text-[9px] uppercase tracking-wider text-zinc-500">
+                  {metrics.stat1.label}
+                </p>
+              </div>
+              <div className="rounded-xl border border-zinc-200/90 bg-white p-4 text-center shadow-2xs">
+                <div className={`font-display text-2xl sm:text-3xl font-bold ${metrics.stat2.color || "text-emerald-600"}`}>
+                  {metrics.stat2.value}
+                </div>
+                <p className="mt-1 font-mono text-[9px] uppercase tracking-wider text-zinc-500">
+                  {metrics.stat2.label}
+                </p>
+              </div>
+              <div className="rounded-xl border border-zinc-200/90 bg-white p-4 text-center shadow-2xs">
+                <div className={`font-display text-2xl sm:text-3xl font-bold ${metrics.stat3.color || "text-blue-600"}`}>
+                  {metrics.stat3.value}
+                </div>
+                <p className="mt-1 font-mono text-[9px] uppercase tracking-wider text-zinc-500">
+                  {metrics.stat3.label}
+                </p>
+              </div>
+              <div className="rounded-xl border border-zinc-200/90 bg-white p-4 text-center shadow-2xs">
+                <div className={`font-display text-2xl sm:text-3xl font-bold ${metrics.stat4.color || "text-indigo-600"}`}>
+                  {metrics.stat4.value}
+                </div>
+                <p className="mt-1 font-mono text-[9px] uppercase tracking-wider text-zinc-500">
+                  {metrics.stat4.label}
+                </p>
+              </div>
+            </div>
+          );
+        })()}
       </header>
 
       {/* ─────────────────────────────────────────────────────────────
@@ -466,30 +538,33 @@ export default function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
             <span className="text-[9.5px] text-zinc-500 uppercase">{project.technologies[0]} · VERIFIED</span>
           </div>
 
-          <div className="p-5 sm:p-7 space-y-4 leading-relaxed">
-            <div>
-              <p className="text-zinc-400">
-                <span className="text-emerald-400">pune@server:~$</span> curl -i -X GET &quot;https://{project.slug}.jayy.dev/api/v1/health&quot;
-              </p>
-              <div className="mt-2 text-zinc-300">
-                <p className="text-emerald-400">HTTP/2 200 OK</p>
-                <p className="text-zinc-500">server: edge-production-pune</p>
-                <p className="text-zinc-500">x-response-time: 12ms · pool-status: 10/10 active</p>
-                <p className="mt-2 text-zinc-200">
-                  &#123; &quot;status&quot;: &quot;UP&quot;, &quot;runtime&quot;: &quot;{project.technologies[0]}&quot;, &quot;integrity&quot;: &quot;VERIFIED&quot; &#125;
-                </p>
-              </div>
-            </div>
+          {(() => {
+            const metrics = PROJECT_METRICS[project.slug] || PROJECT_METRICS.careersync;
+            return (
+              <div className="p-5 sm:p-7 space-y-4 leading-relaxed">
+                <div>
+                  <p className="text-zinc-400">
+                    <span className="text-emerald-400">pune@server:~$</span> {metrics.terminalCommand}
+                  </p>
+                  <div className="mt-2 text-zinc-300">
+                    <p className="text-emerald-400">{metrics.terminalStatus}</p>
+                    <p className="text-zinc-500">{metrics.terminalServer}</p>
+                    <p className="text-zinc-500">{metrics.terminalMetrics}</p>
+                    <p className="mt-2 text-zinc-200">{metrics.terminalBody}</p>
+                  </div>
+                </div>
 
-            <div className="border-t border-zinc-800 pt-3">
-              <p className="text-zinc-400">
-                <span className="text-emerald-400">pune@server:~$</span> test --coverage
-              </p>
-              <p className="text-emerald-400 font-semibold mt-1">
-                ✔ 100% test suites passed · 0 security vulnerabilities detected
-              </p>
-            </div>
-          </div>
+                <div className="border-t border-zinc-800 pt-3">
+                  <p className="text-zinc-400">
+                    <span className="text-emerald-400">pune@server:~$</span> test --coverage
+                  </p>
+                  <p className="text-emerald-400 font-semibold mt-1">
+                    ✔ 100% test suites passed · 0 vulnerabilities detected · Production Ready
+                  </p>
+                </div>
+              </div>
+            );
+          })()}
         </div>
       </section>
 

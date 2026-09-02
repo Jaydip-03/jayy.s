@@ -7,7 +7,7 @@ import { projects } from "@/constants/projects";
 import ProjectCard from "@/sections/projects/ProjectCard";
 
 const CATEGORIES = [
-  { id: "all", label: "All Works", count: 4 },
+  { id: "all", label: "All Works", filter: "" },
   { id: "full-stack", label: "Full-Stack", filter: "Full Stack" },
   { id: "backend", label: "Backend", filter: "Backend" },
   { id: "frontend", label: "Frontend", filter: "Frontend" },
@@ -32,6 +32,12 @@ export default function AllProjectsGrid() {
       <div className="flex flex-wrap items-center gap-2 border-b border-zinc-200/80 pb-4">
         {CATEGORIES.map((tab) => {
           const isActive = activeCategory === tab.id;
+          const count =
+            tab.id === "all"
+              ? projects.length
+              : projects.filter((p) =>
+                  p.category.toLowerCase().includes(tab.filter.toLowerCase())
+                ).length;
 
           return (
             <button
@@ -44,9 +50,7 @@ export default function AllProjectsGrid() {
               }`}
             >
               <span>{tab.label}</span>
-              {tab.id === "all" && (
-                <span className="ml-1.5 opacity-60">({tab.count})</span>
-              )}
+              <span className="ml-1.5 opacity-60">({count})</span>
             </button>
           );
         })}

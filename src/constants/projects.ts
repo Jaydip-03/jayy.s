@@ -324,7 +324,7 @@ export const projects: Project[] = [
     ],
     github: "https://github.com/Jaydip-03/Developer-CRUD-Servlet-JSP",
     live: "",
-    image: "",
+    image: "/projects/developer-management/cover.png",
     highlights: [
       "Complete CRUD for developer records",
       "MVC-style separation with Servlets and JSP",

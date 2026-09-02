@@ -67,11 +67,13 @@ export default function ProjectFeatured({ project }: ProjectFeaturedProps) {
                 </button>
               </div>
 
-              <span className="hidden sm:inline text-zinc-400">SPRING BOOT 3 · JVM 21</span>
+              <span className="hidden sm:inline text-zinc-400 font-mono">
+                {`${project.technologies[1] || "SPRING BOOT 3"} · ${project.technologies[0] || "JVM 21"}`.toUpperCase()}
+              </span>
             </div>
 
             {/* Main Interactive Screen Area */}
-            <div className="relative aspect-[16/9.8] overflow-hidden rounded-xl bg-zinc-950 ring-1 ring-zinc-900/5">
+            <div className="relative min-h-[360px] sm:min-h-0 sm:aspect-[16/9.8] overflow-hidden rounded-xl bg-zinc-950 ring-1 ring-zinc-900/5">
               <AnimatePresence mode="wait">
                 {viewMode === "ui" ? (
                   <motion.div
@@ -104,7 +106,7 @@ export default function ProjectFeatured({ project }: ProjectFeaturedProps) {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -8 }}
                     transition={{ duration: 0.25 }}
-                    className="flex h-full w-full flex-col justify-between p-4 sm:p-6 text-zinc-200 font-mono"
+                    className="flex h-full w-full flex-col justify-between overflow-y-auto p-4 sm:p-6 text-zinc-200 font-mono"
                   >
                     {/* Architectural Ledger Header */}
                     <div>
@@ -216,11 +218,14 @@ export default function ProjectFeatured({ project }: ProjectFeaturedProps) {
 
           {/* 3 Architectural Craft Callout Chips */}
           <div className="mt-5 flex flex-wrap gap-2">
-            {[
-              "01 / Role-Based Access",
-              "02 / IDOR Hardened",
-              "03 / Clean JPA Pool",
-            ].map((chip) => (
+            {(project.highlights && project.highlights.length > 0
+              ? project.highlights.slice(0, 3).map((h, i) => `0${i + 1} / ${h}`)
+              : [
+                  "01 / Role-Based Access",
+                  "02 / IDOR Hardened",
+                  "03 / Clean JPA Pool",
+                ]
+            ).map((chip) => (
               <span
                 key={chip}
                 className="rounded-md border border-zinc-900/10 bg-white/70 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-zinc-700 shadow-2xs"
