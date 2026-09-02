@@ -141,6 +141,7 @@ export default async function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
               try {
+                document.cookie = "jaydip-intro-seen=; path=/; max-age=0;";
                 var c = document.cookie.match(/(?:^|;\\s*)portfolio-theme=([^;]+)/);
                 var t = c ? c[1] : sessionStorage.getItem('portfolio-theme');
                 if (t === 'spidey' || t === 'normal') document.documentElement.dataset.theme = t;
@@ -157,15 +158,15 @@ export default async function RootLayout({
           <div id="portfolio-shell">
             <CustomCursor />
 
-            <Navbar initialVisible={introSeen} />
+            <Navbar />
 
             {children}
 
             <Footer />
           </div>
 
-          {/* First-visit intro: only runs if intro was never seen */}
-          {!introSeen && <IntroGate />}
+          {/* First-visit intro */}
+          <IntroGate />
         </ThemeProvider>
       </body>
     </html>

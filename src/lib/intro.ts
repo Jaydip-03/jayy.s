@@ -36,10 +36,7 @@ export function dispatchIntroComplete() {
 export function hasIntroBeenSeen() {
   if (typeof window === "undefined") return false;
   try {
-    return (
-      sessionStorage.getItem(INTRO_SEEN_KEY) === "1" ||
-      document.cookie.includes(`${INTRO_SEEN_KEY}=1`)
-    );
+    return sessionStorage.getItem(INTRO_SEEN_KEY) === "1";
   } catch (e) {
     return false;
   }
@@ -49,7 +46,8 @@ export function markIntroSeen() {
   if (typeof window === "undefined") return;
   try {
     sessionStorage.setItem(INTRO_SEEN_KEY, "1");
-    document.cookie = `${INTRO_SEEN_KEY}=1; path=/; max-age=31536000; SameSite=Lax`;
+    // Clear any persistent cookie so intro runs normally per browser session
+    document.cookie = `${INTRO_SEEN_KEY}=; path=/; max-age=0;`;
   } catch (e) {}
 }
 
