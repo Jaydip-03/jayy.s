@@ -149,6 +149,22 @@ export default async function RootLayout({
             `,
           }}
         />
+        {/* Intro Boot Lock: Synchronously prevents hero flash before intro on first visit */}
+        <script
+          id="intro-boot"
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                if (sessionStorage.getItem("jaydip-intro-seen") !== "1") {
+                  document.documentElement.setAttribute("data-intro-active", "true");
+                }
+              } catch(e) {}
+              setTimeout(function() {
+                try { document.documentElement.removeAttribute("data-intro-active"); } catch(e) {}
+              }, 4500);
+            `,
+          }}
+        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} ${caveat.variable} antialiased`}

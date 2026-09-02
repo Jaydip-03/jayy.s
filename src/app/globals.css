@@ -100,8 +100,29 @@ body {
 /* First-visit intro: cover page before React, hide hero until intro exits */
 
 /* =========================
-   Intro Boot Lock
+   Intro Boot Lock: Prevents hero/content flash before intro
 ========================= */
+
+html[data-intro-active] {
+  background: #000 !important;
+}
+
+html[data-intro-active] body {
+  background: #000 !important;
+}
+
+html[data-intro-active] #portfolio-shell {
+  visibility: hidden !important;
+}
+
+html[data-intro-active]::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  background: #000;
+  pointer-events: none;
+}
 
 
 @keyframes hero-float-spider {
