@@ -4,6 +4,7 @@ import { Fraunces, Geist, Geist_Mono, Caveat } from "next/font/google";
 import "./globals.css";
 
 import CustomCursor from "@/components/CustomCursor";
+import CommandPalette from "@/components/CommandPalette";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/layout/Navbar";
 import IntroGate from "@/components/intro/IntroGate";
@@ -195,6 +196,7 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} ${caveat.variable} antialiased`}
       >
         <ThemeProvider initialMode={initialMode}>
+          <CommandPalette />
           {/* Main portfolio */}
           <div id="portfolio-shell">
             <CustomCursor />

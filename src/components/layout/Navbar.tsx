@@ -3,9 +3,10 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ArrowUpRight, Menu, X, Moon } from "lucide-react";
+import { ArrowUpRight, Menu, X, Moon, Search } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
+import { openCommandPalette } from "@/components/CommandPalette";
 import {
   hasIntroBeenSeen,
   INTRO_COMPLETE_EVENT,
@@ -144,8 +145,26 @@ export default function Navbar({ initialVisible = false }: NavbarProps) {
           </div>
 
           {/* Actions: Mode Toggle & Let's Talk CTA */}
-          <div className="flex items-center justify-end gap-2.5 sm:gap-3">
+          <div className="flex items-center justify-end gap-2 sm:gap-2.5">
             
+            {/* Command Palette Trigger Button */}
+            <button
+              type="button"
+              onClick={() => openCommandPalette()}
+              aria-label="Open command palette (Cmd+K)"
+              title="Open command palette (Cmd+K or Ctrl+K)"
+              className={`group flex items-center gap-1.5 rounded-full border px-2.5 py-1.5 text-xs font-mono transition-all duration-300 ${
+                effectiveSpidey
+                  ? "border-[#e23636]/40 bg-[#e23636]/10 text-zinc-300 hover:border-[#e23636] hover:text-white shadow-[0_0_15px_rgba(226,54,54,0.15)]"
+                  : "border-white/10 bg-white/[0.04] text-zinc-400 hover:border-white/20 hover:bg-white/[0.08] hover:text-white"
+              }`}
+            >
+              <Search className="h-3.5 w-3.5 text-zinc-400 group-hover:text-white transition-colors" />
+              <span className="hidden sm:inline text-[10.5px] font-semibold tracking-wider text-zinc-400 group-hover:text-zinc-200">
+                ⌘K
+              </span>
+            </button>
+
             {/* Minimal Icon-Only Mode Toggle */}
             <button
               type="button"
@@ -216,6 +235,22 @@ export default function Navbar({ initialVisible = false }: NavbarProps) {
               className="mt-3 overflow-hidden rounded-3xl border border-white/[0.08] bg-black/90 backdrop-blur-xl md:hidden"
             >
               <div className="flex flex-col divide-y divide-white/[0.06] px-5">
+                {/* Command Palette Mobile Entry */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsOpen(false);
+                    openCommandPalette();
+                  }}
+                  className="flex items-center justify-between py-4 text-[15px] text-zinc-300 transition-colors hover:text-white font-mono"
+                >
+                  <span className="flex items-center gap-2.5">
+                    <Search className="h-4 w-4 text-zinc-400" />
+                    <span>Command Palette</span>
+                  </span>
+                  <span className="rounded bg-white/10 px-2 py-0.5 text-[11px] text-zinc-400">⌘K</span>
+                </button>
+
                 {navLinks.map((link) =>
                   link.external ? (
                     <a
