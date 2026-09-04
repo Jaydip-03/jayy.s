@@ -112,16 +112,22 @@ export default function Footer() {
         >
           {isSpideyMode ? (
             <div className="mb-4 inline-flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full animate-pulse" style={{ backgroundColor: SPIDEY_RED }} />
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#e23636] opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-[#e23636]" />
+              </span>
               <p className="font-mono text-xs font-bold uppercase tracking-[0.3em]" style={{ color: SPIDEY_RED }}>
                 SIGNAL THE SQUAD // LET&apos;S CONNECT
               </p>
             </div>
           ) : (
-            <div className="mb-4 inline-flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-white/40" />
-              <p className="font-mono text-xs uppercase tracking-[0.3em] text-zinc-400">
-                Let&apos;s Connect
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/[0.06] px-3.5 py-1">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+              </span>
+              <p className="font-mono text-xs uppercase tracking-[0.25em] text-emerald-400 font-medium">
+                Available for New Roles · Remote &amp; Pune
               </p>
             </div>
           )}

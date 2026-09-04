@@ -26,6 +26,12 @@ export const siteConfig = {
     "Arduino",
     "JPA Hibernate",
   ],
+  availability: {
+    status: "available",
+    label: "Available for new roles",
+    spideyLabel: "Patrolling Sector // Active On Call",
+    subtext: "Remote & Pune, IN",
+  },
   links: {
     github: "https://github.com/Jaydip-03",
     linkedin: "https://www.linkedin.com/in/jaydip-desale-760770234/",

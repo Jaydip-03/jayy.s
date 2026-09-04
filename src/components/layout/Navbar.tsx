@@ -196,15 +196,27 @@ export default function Navbar({ initialVisible = false }: NavbarProps) {
               )}
             </button>
 
-            {/* Let's Talk Button */}
+            {/* Let's Talk Button with Live Availability Indicator */}
             <Link
               href="/contact"
               onClick={() => setIsOpen(false)}
-              className="group inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-black/40 px-3.5 py-1.5 text-xs text-white transition-all duration-300 hover:border-white/25 sm:px-4 sm:py-2 sm:text-sm"
+              className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/40 px-3.5 py-1.5 text-xs text-white transition-all duration-300 hover:border-white/25 sm:px-4 sm:py-2 sm:text-sm"
               style={{
                 borderColor: isSpideyMode ? `${SPIDEY_RED}50` : undefined,
               }}
             >
+              <span className="relative flex h-1.5 w-1.5">
+                <span
+                  className={`absolute inline-flex h-full w-full animate-ping rounded-full opacity-75 ${
+                    isSpideyMode ? "bg-[#e23636]" : "bg-emerald-400"
+                  }`}
+                />
+                <span
+                  className={`relative inline-flex h-1.5 w-1.5 rounded-full ${
+                    isSpideyMode ? "bg-[#e23636]" : "bg-emerald-500"
+                  }`}
+                />
+              </span>
               <span>Let&apos;s Talk</span>
               <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </Link>
