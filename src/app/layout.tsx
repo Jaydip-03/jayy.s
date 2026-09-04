@@ -59,6 +59,10 @@ export const metadata: Metadata = {
 
   creator: siteConfig.name,
 
+  alternates: {
+    canonical: siteConfig.url,
+  },
+
   openGraph: {
     type: "website",
     locale: siteConfig.locale,
@@ -66,6 +70,14 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     title: siteConfig.title,
     description: siteConfig.description,
+    images: [
+      {
+        url: "/og-cover.jpg",
+        width: 1200,
+        height: 630,
+        alt: `${siteConfig.name} — ${siteConfig.role}`,
+      },
+    ],
   },
 
   twitter: {
@@ -73,11 +85,24 @@ export const metadata: Metadata = {
     title: siteConfig.title,
     description: siteConfig.description,
     creator: "@Desale_Jay27",
+    images: [
+      {
+        url: "/og-cover.jpg",
+        alt: `${siteConfig.name} — ${siteConfig.role}`,
+      },
+    ],
   },
 
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 
@@ -161,7 +186,7 @@ export default async function RootLayout({
               } catch(e) {}
               setTimeout(function() {
                 try { document.documentElement.removeAttribute("data-intro-active"); } catch(e) {}
-              }, 4500);
+              }, 5500);
             `,
           }}
         />

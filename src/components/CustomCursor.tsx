@@ -169,6 +169,7 @@ export default function CustomCursor() {
     <div
       ref={cursorRef}
       aria-hidden="true"
+      data-custom-cursor
       className="pointer-events-none fixed left-0 top-0 z-[9999] hidden opacity-0 transition-opacity duration-200 lg:block"
       style={{ willChange: "transform" }}
     >

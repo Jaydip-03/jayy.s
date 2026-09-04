@@ -44,7 +44,7 @@ export default function SpiderMagSticker({
       ) : (
         <Image
           src="/about/spidermag.png"
-          alt="spidermag"
+          alt="The Daily Bugle — Spider-Man newspaper magazine cover"
           width={size}
           height={size}
           className="h-full w-full object-cover"

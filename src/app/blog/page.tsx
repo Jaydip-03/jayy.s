@@ -5,7 +5,7 @@ import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import Container from "@/components/ui/Container";
 
 export const metadata: Metadata = {
-  title: "Blog | Jaydip Desale",
+  title: "Blog",
   description:
     "Thoughts on Java, Spring Boot, full-stack development, and building products — coming soon.",
 };

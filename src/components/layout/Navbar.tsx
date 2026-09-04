@@ -196,6 +196,7 @@ export default function Navbar({ initialVisible = false }: NavbarProps) {
               onClick={() => setIsOpen((prev) => !prev)}
               aria-label={isOpen ? "Close menu" : "Open menu"}
               aria-expanded={isOpen}
+              aria-controls="mobile-nav-menu"
               className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/[0.08] text-zinc-300 transition-colors hover:border-white/15 hover:text-white md:hidden"
             >
               {isOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
@@ -207,6 +208,7 @@ export default function Navbar({ initialVisible = false }: NavbarProps) {
         <AnimatePresence>
           {isOpen && (
             <motion.div
+              id="mobile-nav-menu"
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}

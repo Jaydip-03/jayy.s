@@ -44,61 +44,55 @@ export function ThemeProvider({
     } catch (e) {}
   }, []);
 
-  /*
-   * Initialize background audio once at root provider level
-   */
-  useEffect(() => {
-   const audio = new Audio("/audio/sunflower.mp3");
-   audio.loop = true;
-   audio.volume = 0.4;
-   audio.preload = "auto";
-   audioRef.current = audio;
-
-   return () => {
-     audio.pause();
-     audio.currentTime = 0;
-     audioRef.current = null;
-   };
-  }, []);
-
-  /*
-   * Keep DOM, cookies, session storage, and Audio perfectly synchronized.
-   * If autoplay is blocked by browser on refresh, resume on first user interaction.
-   */
+  /* Sync DOM attribute + persist theme to cookie & sessionStorage on every mode change */
   useEffect(() => {
     document.documentElement.dataset.theme = mode;
     try {
       window.sessionStorage.setItem(THEME_SESSION_KEY, mode);
       document.cookie = `${THEME_SESSION_KEY}=${mode}; path=/; max-age=31536000; SameSite=Lax`;
     } catch (e) {}
+  }, [mode]);
+
+  /*
+   * Lazy-initialize background audio ONLY when Spidey mode is activated.
+   * This prevents downloading the 6MB mp3 on every page load.
+   */
+  useEffect(() => {
+    if (mode !== "spidey") {
+      // If not in spidey mode, pause & release audio if it exists
+      const audio = audioRef.current;
+      if (audio) {
+        audio.pause();
+        audio.currentTime = 0;
+      }
+      return;
+    }
+
+    // First time activating spidey mode: create the audio element
+    if (!audioRef.current) {
+      const audio = new Audio("/audio/sunflower.mp3");
+      audio.loop = true;
+      audio.volume = 0.4;
+      audio.preload = "none"; // Don't preload until we actually play
+      audioRef.current = audio;
+    }
 
     const audio = audioRef.current;
-    if (!audio) return;
-
-    if (mode === "spidey") {
-      const playPromise = audio.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          /* Browser autoplay policy prevented playback on refresh.
-           * Resume audio seamlessly on the very first user interaction (click/touch/key).
-           */
-          const resumeAudioOnGesture = () => {
-            if (audioRef.current && mode === "spidey") {
-              audioRef.current.play().catch(() => {});
-            }
-            window.removeEventListener("click", resumeAudioOnGesture);
-            window.removeEventListener("keydown", resumeAudioOnGesture);
-            window.removeEventListener("touchstart", resumeAudioOnGesture);
-          };
-
-          window.addEventListener("click", resumeAudioOnGesture, { once: true });
-          window.addEventListener("keydown", resumeAudioOnGesture, { once: true });
-          window.addEventListener("touchstart", resumeAudioOnGesture, { once: true });
-        });
-      }
-    } else {
-      audio.pause();
-      audio.currentTime = 0;
+    const playPromise = audio.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        /* Browser autoplay policy prevented playback.
+         * Resume on first user interaction (click/touch/key).
+         */
+        const resumeAudioOnGesture = () => {
+          if (audioRef.current && audioRef.current.paused) {
+            audioRef.current.play().catch(() => {});
+          }
+        };
+        window.addEventListener("click", resumeAudioOnGesture, { once: true });
+        window.addEventListener("keydown", resumeAudioOnGesture, { once: true });
+        window.addEventListener("touchstart", resumeAudioOnGesture, { once: true });
+      });
     }
   }, [mode]);
 
