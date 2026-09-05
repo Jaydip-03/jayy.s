@@ -61,3 +61,15 @@ export function beginIntroExit() {
   clearIntroActive();
   dispatchIntroComplete();
 }
+
+export const INTRO_REPLAY_EVENT = "intro-replay";
+
+export function replayIntro() {
+  if (typeof window === "undefined") return;
+  try {
+    sessionStorage.removeItem(INTRO_SEEN_KEY);
+    document.documentElement.setAttribute(INTRO_ACTIVE_ATTR, "true");
+    window.dispatchEvent(new CustomEvent(INTRO_REPLAY_EVENT));
+  } catch (e) {}
+}
+

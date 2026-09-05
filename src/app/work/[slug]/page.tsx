@@ -33,8 +33,9 @@ export async function generateMetadata({
 }
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
-  const { slug } = await params;
-  const project = getProjectBySlug(slug);
+  const resolved = await params;
+  const slug = resolved?.slug;
+  const project = slug ? getProjectBySlug(slug) : undefined;
 
   if (!project) notFound();
 

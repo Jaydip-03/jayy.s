@@ -91,9 +91,51 @@ export default function Navbar({ initialVisible = false }: NavbarProps) {
     }
   };
 
+  const [activeSection, setActiveSection] = useState<string | null>(null);
+  const [hoveredLink, setHoveredLink] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (pathname !== "/") {
+      setActiveSection(null);
+      return;
+    }
+
+    const sectionIds = ["projects", "experience"];
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + 200;
+      let current: string | null = null;
+      for (const id of sectionIds) {
+        const el = document.getElementById(id);
+        if (el) {
+          const top = el.offsetTop;
+          const height = el.offsetHeight;
+          if (scrollPosition >= top && scrollPosition < top + height) {
+            current = id;
+            break;
+          }
+        }
+      }
+      setActiveSection(current);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [pathname]);
+
   const isActiveLink = (href: string) => {
-    if (href === "/about" && pathname === "/about") return true;
-    if (href === "/blog" && pathname.startsWith("/blog")) return true;
+    if (href === "/#projects") {
+      if (pathname === "/work" || pathname.startsWith("/work/")) return true;
+      if (pathname === "/" && activeSection === "projects") return true;
+      return false;
+    }
+    if (href === "/#experience") {
+      if (pathname === "/experience" || pathname.startsWith("/experience/")) return true;
+      if (pathname === "/" && activeSection === "experience") return true;
+      return false;
+    }
+    if (href === "/about") return pathname === "/about";
+    if (href === "/blog") return pathname.startsWith("/blog");
     return false;
   };
 
@@ -116,56 +158,83 @@ export default function Navbar({ initialVisible = false }: NavbarProps) {
               className="group inline-flex items-center gap-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-spidey-red"
               aria-label="Jaydip Desale home"
             >
-              <span className="font-mono text-base font-medium tracking-tight text-white transition-opacity group-hover:opacity-80">
-                &lt;jayy<span className="text-spidey-blue">/</span>&gt;
+              <span className="font-mono text-base font-medium tracking-tight text-white transition-opacity group-hover:opacity-90">
+                &lt;jayy<span className={effectiveSpidey ? "text-[#006fb9]" : "text-zinc-500 transition-colors group-hover:text-emerald-400"}>/</span>&gt;
               </span>
             </Link>
           </div>
 
           {/* Center Navigation Links (Desktop) */}
-          <div className="hidden items-center justify-center gap-6 md:flex">
+          <div
+            className="hidden items-center justify-center gap-1 md:flex"
+            onMouseLeave={() => setHoveredLink(null)}
+          >
             {navLinks.map((link) => {
               const active = isActiveLink(link.href);
+              const isHovered = hoveredLink === link.name;
 
               return (
                 <Link
                   key={link.name}
                   href={link.href}
+                  onMouseEnter={() => setHoveredLink(link.name)}
                   onClick={(e) => handleNavClick(e, link.href)}
-                  className={`text-sm transition-colors duration-200 ${
+                  className={`relative px-3.5 py-1.5 text-sm font-medium transition-colors duration-200 ${
                     active
-                      ? "font-medium text-white"
-                      : "text-zinc-400 hover:text-white"
+                      ? "text-white"
+                      : isHovered
+                      ? "text-white"
+                      : "text-zinc-400 hover:text-zinc-200"
                   }`}
                 >
-                  {link.name}
+                  {/* Floating glass pill indicator */}
+                  {(isHovered || (active && !hoveredLink)) && (
+                    <motion.span
+                      layoutId="nav-pill"
+                      transition={{ type: "spring", stiffness: 450, damping: 35 }}
+                      className={`absolute inset-0 rounded-full ${
+                        effectiveSpidey
+                          ? active
+                            ? "border border-[#e23636]/40 bg-[#e23636]/20 shadow-[0_0_12px_rgba(226,54,54,0.2)]"
+                            : "border border-[#e23636]/20 bg-[#e23636]/10"
+                          : active
+                          ? "border border-white/15 bg-white/10 shadow-[0_2px_10px_rgba(0,0,0,0.2)]"
+                          : "border border-white/[0.08] bg-white/[0.05]"
+                      }`}
+                    />
+                  )}
+                  <span className="relative z-10">{link.name}</span>
+                  {active && !isHovered && (
+                    <span
+                      className={`absolute bottom-0 left-1/2 h-[2px] w-3 -translate-x-1/2 rounded-full ${
+                        effectiveSpidey ? "bg-[#e23636]" : "bg-emerald-400/80"
+                      }`}
+                    />
+                  )}
                 </Link>
               );
             })}
           </div>
 
-          {/* Actions: Mode Toggle & Let's Talk CTA */}
+          {/* Actions: Search Circle, Mode Toggle Circle & Let's Talk CTA */}
           <div className="flex items-center justify-end gap-2 sm:gap-2.5">
             
-            {/* Command Palette Trigger Button */}
+            {/* Command Palette Trigger Button (Circle) */}
             <button
               type="button"
               onClick={() => openCommandPalette()}
               aria-label="Open command palette (Cmd+K)"
-              title="Open command palette (Cmd+K or Ctrl+K)"
-              className={`group flex items-center gap-1.5 rounded-full border px-2.5 py-1.5 text-xs font-mono transition-all duration-300 ${
+              title="Search or quick jump (⌘K / Ctrl+K)"
+              className={`group relative flex h-9 w-9 items-center justify-center rounded-full transition-all duration-300 ${
                 effectiveSpidey
-                  ? "border-[#e23636]/40 bg-[#e23636]/10 text-zinc-300 hover:border-[#e23636] hover:text-white shadow-[0_0_15px_rgba(226,54,54,0.15)]"
-                  : "border-white/10 bg-white/[0.04] text-zinc-400 hover:border-white/20 hover:bg-white/[0.08] hover:text-white"
+                  ? "border border-[#e23636]/40 bg-[#e23636]/10 text-zinc-300 shadow-[0_0_15px_rgba(226,54,54,0.15)] hover:border-[#e23636] hover:text-white hover:scale-105"
+                  : "border border-white/10 bg-white/[0.04] text-zinc-400 hover:border-white/20 hover:bg-white/[0.08] hover:text-white hover:scale-105"
               }`}
             >
-              <Search className="h-3.5 w-3.5 text-zinc-400 group-hover:text-white transition-colors" />
-              <span className="hidden sm:inline text-[10.5px] font-semibold tracking-wider text-zinc-400 group-hover:text-zinc-200">
-                ⌘K
-              </span>
+              <Search className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
             </button>
 
-            {/* Minimal Icon-Only Mode Toggle */}
+            {/* Minimal Icon-Only Mode Toggle (Circle) */}
             <button
               type="button"
               onClick={toggleMode}
@@ -175,7 +244,7 @@ export default function Navbar({ initialVisible = false }: NavbarProps) {
               className={`group relative flex h-9 w-9 items-center justify-center rounded-full transition-all duration-300 ${
                 effectiveSpidey
                   ? "border border-[#e23636]/60 bg-[#e23636]/15 text-white shadow-[0_0_20px_rgba(226,54,54,0.3)] hover:border-[#e23636] hover:scale-105"
-                  : "border border-white/10 bg-white/[0.04] text-zinc-400 hover:border-white/20 hover:bg-white/[0.08] hover:text-white"
+                  : "border border-white/10 bg-white/[0.04] text-zinc-400 hover:border-white/20 hover:bg-white/[0.08] hover:text-white hover:scale-105"
               }`}
             >
               {effectiveSpidey ? (
@@ -196,27 +265,16 @@ export default function Navbar({ initialVisible = false }: NavbarProps) {
               )}
             </button>
 
-            {/* Let's Talk Button with Live Availability Indicator */}
+            {/* Let's Talk Button */}
             <Link
               href="/contact"
               onClick={() => setIsOpen(false)}
-              className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/40 px-3.5 py-1.5 text-xs text-white transition-all duration-300 hover:border-white/25 sm:px-4 sm:py-2 sm:text-sm"
-              style={{
-                borderColor: isSpideyMode ? `${SPIDEY_RED}50` : undefined,
-              }}
+              className={`group inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs text-white transition-all duration-300 sm:px-4 sm:py-2 sm:text-sm ${
+                effectiveSpidey
+                  ? "border-[#e23636]/50 bg-[#e23636]/10 hover:border-[#e23636] hover:bg-[#e23636]/20 shadow-[0_0_15px_rgba(226,54,54,0.15)]"
+                  : "border-white/10 bg-black/40 hover:border-white/25 hover:bg-white/[0.06]"
+              }`}
             >
-              <span className="relative flex h-1.5 w-1.5">
-                <span
-                  className={`absolute inline-flex h-full w-full animate-ping rounded-full opacity-75 ${
-                    isSpideyMode ? "bg-[#e23636]" : "bg-emerald-400"
-                  }`}
-                />
-                <span
-                  className={`relative inline-flex h-1.5 w-1.5 rounded-full ${
-                    isSpideyMode ? "bg-[#e23636]" : "bg-emerald-500"
-                  }`}
-                />
-              </span>
               <span>Let&apos;s Talk</span>
               <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </Link>
@@ -263,29 +321,32 @@ export default function Navbar({ initialVisible = false }: NavbarProps) {
                   <span className="rounded bg-white/10 px-2 py-0.5 text-[11px] text-zinc-400">⌘K</span>
                 </button>
 
-                {navLinks.map((link) =>
-                  link.external ? (
-                    <a
-                      key={link.name}
-                      href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={() => setIsOpen(false)}
-                      className="py-4 text-[15px] text-zinc-300 transition-colors hover:text-spidey-blue"
-                    >
-                      {link.name}
-                    </a>
-                  ) : (
+                {navLinks.map((link) => {
+                  const active = isActiveLink(link.href);
+                  return (
                     <Link
                       key={link.name}
                       href={link.href}
                       onClick={(e) => handleNavClick(e, link.href)}
-                      className="py-4 text-[15px] text-zinc-300 transition-colors hover:text-spidey-blue"
+                      className={`flex items-center justify-between py-4 text-[15px] transition-colors ${
+                        active
+                          ? effectiveSpidey
+                            ? "font-medium text-[#e23636]"
+                            : "font-medium text-emerald-400"
+                          : "text-zinc-300 hover:text-white"
+                      }`}
                     >
-                      {link.name}
+                      <span>{link.name}</span>
+                      {active && (
+                        <span
+                          className={`h-1.5 w-1.5 rounded-full ${
+                            effectiveSpidey ? "bg-[#e23636]" : "bg-emerald-400"
+                          }`}
+                        />
+                      )}
                     </Link>
-                  )
-                )}
+                  );
+                })}
               </div>
             </motion.div>
           )}

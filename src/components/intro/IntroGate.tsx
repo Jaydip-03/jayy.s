@@ -7,6 +7,7 @@ import {
   clearIntroActive,
   hasIntroBeenSeen,
   INTRO_COMPLETE_MS,
+  INTRO_REPLAY_EVENT,
 } from "@/lib/intro";
 
 export default function IntroGate() {
@@ -21,6 +22,12 @@ export default function IntroGate() {
     } else {
       clearIntroActive();
     }
+
+    const handleReplay = () => {
+      setShowIntro(true);
+    };
+    window.addEventListener(INTRO_REPLAY_EVENT, handleReplay);
+    return () => window.removeEventListener(INTRO_REPLAY_EVENT, handleReplay);
   }, []);
 
   useEffect(() => {

@@ -22,9 +22,11 @@ import {
   Cpu,
   Globe,
   ArrowRight,
+  RotateCcw,
 } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa6";
 import { useTheme } from "@/context/ThemeContext";
+import { replayIntro } from "@/lib/intro";
 
 const SPIDEY_RED = "#e23636";
 const SPIDEY_BLUE = "#006fb9";
@@ -269,6 +271,18 @@ export default function CommandPalette() {
         keywords: ["cv", "resume", "pdf", "hire", "bio", "experience"],
       },
       {
+        id: "act-replay-intro",
+        title: "Replay Welcome Intro",
+        description: "Re-run the cinematic intro sequence & greeting experience",
+        category: "Actions",
+        icon: RotateCcw,
+        action: () => {
+          closePalette();
+          replayIntro();
+        },
+        keywords: ["intro", "welcome", "greeting", "replay", "animation", "start"],
+      },
+      {
         id: "act-github",
         title: "Visit GitHub Profile",
         description: "github.com/Jaydip-03 (Repositories & open-source code)",
@@ -291,6 +305,21 @@ export default function CommandPalette() {
           closePalette();
         },
         keywords: ["linkedin", "social", "network", "connect"],
+      },
+      {
+        id: "act-konami",
+        title: "Spider Secret (Konami Code)",
+        description: "Type ↑ ↑ ↓ ↓ ← → ← → B A anywhere on your keyboard",
+        category: "Actions",
+        icon: Sparkles,
+        badge: "Easter Egg",
+        action: () => {
+          closePalette();
+          if (typeof window !== "undefined") {
+            window.dispatchEvent(new CustomEvent("trigger-konami-easter-egg"));
+          }
+        },
+        keywords: ["konami", "cheat", "secret", "easter egg", "spider", "game", "code"],
       },
     ],
     [closePalette, copyEmail, downloadResume, isSpideyMode, router, toggleMode]

@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import { Project } from "@/types/project";
 import { cn } from "@/lib/utils";
+import { SHIMMER_BLUR_DATA_URL } from "@/lib/images";
 
 type ProjectEditorialImageProps = {
   project: Project;
@@ -16,13 +17,15 @@ export default function ProjectEditorialImage({
 }: ProjectEditorialImageProps) {
   return (
     <div className={cn("relative w-full", className)}>
-      <div className="relative aspect-[16/9] overflow-hidden rounded-[7px] bg-zinc-100 ring-1 ring-zinc-900/[0.07]">
+      <div className="relative aspect-[16/9] overflow-hidden rounded-[7px] bg-[#0e0e13] ring-1 ring-zinc-900/[0.07]">
         {project.image ? (
           <Image
             src={project.image}
             alt={`${project.title} interface preview`}
             fill
             priority={priority}
+            placeholder="blur"
+            blurDataURL={SHIMMER_BLUR_DATA_URL}
             sizes="(min-width: 1024px) 300px, 90vw"
             className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.015]"
           />

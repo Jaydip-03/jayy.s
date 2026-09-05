@@ -3,6 +3,7 @@ import { ArrowUpRight } from "lucide-react";
 
 import { Project } from "@/types/project";
 import { cn } from "@/lib/utils";
+import { SHIMMER_BLUR_DATA_URL } from "@/lib/images";
 
 type ProjectImageProps = {
   project: Project;
@@ -21,9 +22,9 @@ export default function ProjectImage({
     <div className={cn("relative w-full", className)}>
       <div
         className={cn(
-          "relative overflow-hidden rounded-md bg-zinc-100 ring-1 ring-black/[0.06]",
+          "relative overflow-hidden rounded-md bg-[#0e0e13] ring-1 ring-white/10",
           "transition-all duration-500",
-          "group-hover:ring-spidey-red/20",
+          "group-hover:ring-spidey-red/30",
           aspect,
         )}
       >
@@ -33,6 +34,8 @@ export default function ProjectImage({
             alt={`${project.title} interface preview`}
             fill
             priority={priority}
+            placeholder="blur"
+            blurDataURL={SHIMMER_BLUR_DATA_URL}
             sizes="(min-width: 768px) 45vw, 94vw"
             className="
               object-cover

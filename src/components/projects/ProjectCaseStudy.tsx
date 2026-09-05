@@ -18,6 +18,7 @@ import { FaGithub } from "react-icons/fa6";
 
 import { getAdjacentProjects } from "@/lib/projects";
 import { Project } from "@/types/project";
+import { SHIMMER_BLUR_DATA_URL } from "@/lib/images";
 import { useTheme } from "@/context/ThemeContext";
 
 const SPIDEY_RED = "#e23636";
@@ -234,6 +235,8 @@ export default function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
                 alt={`${project.title} primary interface`}
                 fill
                 priority
+                placeholder="blur"
+                blurDataURL={SHIMMER_BLUR_DATA_URL}
                 sizes="(max-width: 1024px) 100vw, 1024px"
                 className="object-cover object-top transition-transform duration-700 hover:scale-[1.01]"
               />

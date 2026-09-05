@@ -73,8 +73,8 @@ export default function AboutStory() {
   const { story } = aboutContent;
 
   return (
-    <section className="relative overflow-hidden bg-[#f5f5f0] pb-16 pt-14 text-neutral-900 md:pb-24 md:pt-20">
-      {/* Spidey Mode Corner Webs */}
+    <section className="relative overflow-hidden border-b border-neutral-200 bg-[#f5f5f0] pt-20 pb-16 text-zinc-950 sm:pt-24 sm:pb-20">
+      {/* Background Decor */}
       {isSpideyMode && (
         <>
           <CornerWeb className="left-0 top-0" />
@@ -133,7 +133,9 @@ export default function AboutStory() {
               whileInView={{ opacity: 1, scale: 1, rotate: -2.5 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.15 }}
-              className="group relative mt-8 w-full max-w-[245px] rounded-xl bg-white p-3 pb-3.5 shadow-[0_14px_35px_rgba(0,0,0,0.07)] ring-1 ring-neutral-900/5 transition-all duration-300 hover:rotate-0 hover:shadow-[0_22px_45px_rgba(0,0,0,0.12)]"
+              className={`group relative mt-8 w-full rounded-xl bg-white p-3 pb-3.5 shadow-[0_14px_35px_rgba(0,0,0,0.07)] ring-1 ring-neutral-900/5 transition-all duration-300 hover:rotate-0 hover:shadow-[0_22px_45px_rgba(0,0,0,0.12)] ${
+                isSpideyMode ? "max-w-[260px]" : "max-w-[245px]"
+              }`}
             >
               {/* Spidey Mode Subtle Washi Tape Decor */}
               {isSpideyMode && (
@@ -152,13 +154,19 @@ export default function AboutStory() {
               </p>
 
               {/* Photo */}
-              <div className="relative aspect-[3/3.8] w-full overflow-hidden rounded-md bg-neutral-100 shadow-inner">
+              <div
+                className={`relative w-full overflow-hidden rounded-md bg-neutral-100 shadow-inner ${
+                  isSpideyMode ? "aspect-[710/1024]" : "aspect-[3/3.8]"
+                }`}
+              >
                 <Image
-                  src={isSpideyMode ? "/about/jayyStoryPortrait.jpg" : "/about/jayyAbout.jpg"}
+                  src={isSpideyMode ? "/about/jayySpideySelfieCollage.jpg" : "/about/jayyAbout.jpg"}
                   alt="Jaydip Desale"
                   fill
-                  sizes="245px"
-                  className="object-cover object-[center_18%] transition-transform duration-500 group-hover:scale-[1.03]"
+                  sizes="260px"
+                  className={`transition-transform duration-500 group-hover:scale-[1.03] ${
+                    isSpideyMode ? "object-cover object-center" : "object-cover object-[center_18%]"
+                  }`}
                   priority
                 />
               </div>
@@ -238,6 +246,41 @@ export default function AboutStory() {
             >
               &ldquo;{story.quote}&rdquo;
             </motion.blockquote>
+
+            {/* Spidey Mode Retro Comic Caption Box */}
+            {isSpideyMode ? (
+              <motion.div
+                initial={{ opacity: 0, rotate: -2, y: 16 }}
+                whileInView={{ opacity: 1, rotate: -1.5, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="relative mt-6 max-w-md rounded-lg border-2 border-black bg-[#fef08a] p-4 shadow-[5px_5px_0px_#000]"
+              >
+                {/* Comic Caption Box Header */}
+                <div className="mb-2 flex items-center justify-between border-b-2 border-black pb-1.5">
+                  <span className="rounded-xs bg-[#e23636] px-2 py-0.5 font-mono text-xs font-black uppercase tracking-wider text-white">
+                    MEANWHILE...
+                  </span>
+                  <span className="font-mono text-[10px] font-bold text-neutral-800">
+                    ISSUE #03 · EARTH-1610
+                  </span>
+                </div>
+                <p className="font-display text-sm font-semibold leading-relaxed text-black">
+                  &ldquo;While the city sleeps, the web-slinger refactors the backend. Java 21, Spring Boot, zero downtime.&rdquo;
+                </p>
+                <div className="mt-2.5 flex items-center justify-between font-mono text-[11px] text-neutral-700">
+                  <span className="font-bold text-[#e23636]">THWIP! 🕸️</span>
+                  <span className="italic text-neutral-600">to be continued...</span>
+                </div>
+              </motion.div>
+            ) : (
+              <div className="mt-6 flex items-center gap-3 pt-2 text-neutral-400">
+                <div className="h-px w-10 bg-neutral-300" />
+                <span className="font-handwritten text-base text-neutral-500">
+                  built with intention, shipped to last ✦
+                </span>
+              </div>
+            )}
           </div>
         </div>
       </Container>

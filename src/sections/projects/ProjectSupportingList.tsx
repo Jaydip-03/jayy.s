@@ -6,6 +6,7 @@ import { ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
 
 import { Project } from "@/types/project";
+import { SHIMMER_BLUR_DATA_URL } from "@/lib/images";
 
 type ProjectSupportingListProps = {
   projects: Project[];
@@ -47,6 +48,8 @@ export default function ProjectSupportingList({ projects }: ProjectSupportingLis
                     src={project.image}
                     alt={`${project.title} preview`}
                     fill
+                    placeholder="blur"
+                    blurDataURL={SHIMMER_BLUR_DATA_URL}
                     sizes="80px"
                     className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
                   />
