@@ -4,7 +4,7 @@ export const contactContent = {
   italic: "about what's next.",
   description:
     "Hiring, collaboration, or just curious about my work — send a message or reach out directly. I read everything.",
-  handwritten: "I actually reply ↗",
+  handwritten: "I actually reply :)",
   availability: "Open to full-time roles",
   formLabel: "Send a message",
   ribbonKeywords: [
@@ -47,6 +47,12 @@ export const contactContent = {
         question: "How fast do you reply?",
         answer:
           "Usually within 24–48 hours. For time-sensitive roles, email is best — I actually read everything.",
+      },
+      {
+        id: "collab",
+        question: "Open to freelance or side projects?",
+        answer:
+          "Selectively yes — if it's an interesting problem with a clear scope. I prefer projects where I can own the backend architecture.",
       },
     ],
   },
