@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Mail } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
@@ -25,6 +24,88 @@ const socials = [
   },
 ];
 
+// ── Die-Cut Holographic Studio Sticker ─────────────────────
+function SignOffSticker() {
+  return (
+    <motion.div
+      whileHover={{ scale: 1.08, rotate: -4 }}
+      whileTap={{ scale: 0.96 }}
+      transition={{ type: "spring", stiffness: 320, damping: 20 }}
+      className="relative shrink-0 select-none cursor-grab active:cursor-grabbing"
+    >
+      {/* Translucent Washi Tape on top */}
+      <div
+        className="pointer-events-none absolute -top-3.5 left-1/2 z-20 h-5 w-16 -translate-x-1/2 rotate-[-2.5deg] rounded-[1px] bg-amber-200/50 shadow-xs backdrop-blur-[2px]"
+        aria-hidden="true"
+      >
+        <div className="h-full w-full border-y border-amber-300/40 opacity-70" />
+      </div>
+
+      {/* Secondary mini sticker peeking behind */}
+      <div
+        className="pointer-events-none absolute -bottom-2 -right-3 z-0 flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-tr from-rose-600 via-red-500 to-amber-500 shadow-md rotate-12 ring-2 ring-black"
+        aria-hidden="true"
+      >
+        <span className="font-mono text-[9.5px] font-black text-white tracking-tight">2023</span>
+      </div>
+
+      {/* Main Die-Cut Sticker Card */}
+      <div className="relative z-10 flex h-28 w-28 flex-col items-center justify-between rounded-2xl border-2 border-white/20 bg-gradient-to-b from-zinc-800 via-[#131316] to-black p-3.5 shadow-[0_24px_48px_rgba(0,0,0,0.8)] sm:h-32 sm:w-32">
+        {/* Subtle holographic sheen overlay */}
+        <div
+          className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-tr from-transparent via-white/[0.08] to-transparent opacity-70"
+          aria-hidden="true"
+        />
+
+        {/* Top Tag */}
+        <div className="flex w-full items-center justify-between">
+          <span className="font-mono text-[8px] font-bold uppercase tracking-widest text-amber-400">
+            ★ DEV
+          </span>
+          <span className="font-mono text-[8px] text-zinc-500 tracking-wider">PUNE</span>
+        </div>
+
+        {/* Center Illustration — Sunflower Icon */}
+        <div className="relative my-auto flex items-center justify-center">
+          <div className="absolute h-10 w-10 rounded-full bg-amber-400/20 blur-md" />
+          <svg width="48" height="48" viewBox="0 0 100 100" className="relative drop-shadow-md">
+            {[0, 45, 90, 135, 180, 225, 270, 315].map((angle) => (
+              <ellipse
+                key={angle}
+                cx="50"
+                cy="20"
+                rx="7"
+                ry="16"
+                fill="#fbbf24"
+                transform={`rotate(${angle} 50 50)`}
+              />
+            ))}
+            <circle cx="50" cy="50" r="16" fill="#78350f" />
+            <circle cx="50" cy="50" r="13" fill="#451a03" />
+            {/* Cute smile face */}
+            <circle cx="45" cy="48" r="2.2" fill="#fbbf24" />
+            <circle cx="55" cy="48" r="2.2" fill="#fbbf24" />
+            <path
+              d="M45 54 Q50 58 55 54"
+              stroke="#fbbf24"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              fill="none"
+            />
+          </svg>
+        </div>
+
+        {/* Bottom Tag */}
+        <div className="flex items-center gap-1">
+          <span className="font-mono text-[10px] font-bold tracking-tight text-white/90">
+            &lt;jayy/&gt;
+          </span>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 export default function AboutSignOff() {
   return (
     <section className="relative overflow-hidden bg-black pb-24 pt-16 text-white md:pb-32 md:pt-20">
@@ -46,7 +127,7 @@ export default function AboutSignOff() {
 
       <Container>
         <div className="mx-auto max-w-3xl">
-          {/* Photo + closing statement */}
+          {/* Sticker + closing statement */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -54,20 +135,7 @@ export default function AboutSignOff() {
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className="flex flex-col items-center gap-8 text-center md:flex-row md:items-start md:gap-12 md:text-left"
           >
-            {/* Photo */}
-            <motion.div
-              whileHover={{ scale: 1.04, rotate: -1 }}
-              transition={{ duration: 0.35 }}
-              className="relative h-28 w-28 shrink-0 overflow-hidden rounded-2xl border border-white/10 shadow-[0_30px_60px_rgba(0,0,0,0.6)] sm:h-32 sm:w-32"
-            >
-              <Image
-                src="/about/jayyAbout.jpg"
-                alt="Jaydip Desale"
-                fill
-                className="object-cover object-center"
-                sizes="128px"
-              />
-            </motion.div>
+            <SignOffSticker />
 
             {/* Text */}
             <div>
