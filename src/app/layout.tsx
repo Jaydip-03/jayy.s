@@ -147,16 +147,14 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const cookieStore = await cookies();
-  const themeCookie = cookieStore.get("portfolio-theme")?.value;
-  const initialMode: "spidey" | "normal" =
-    themeCookie === "spidey" ? "spidey" : "normal";
-  const introSeen = cookieStore.get("jaydip-intro-seen")?.value === "1";
+  // Every new tab / fresh session starts in normal mode
+  const initialMode: "spidey" | "normal" = "normal";
 
   return (
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      data-theme={initialMode}
+      data-theme="normal"
       suppressHydrationWarning
     >
       <head>
@@ -170,9 +168,13 @@ export default async function RootLayout({
             __html: `
               try {
                 document.cookie = "jaydip-intro-seen=; path=/; max-age=0;";
-                var c = document.cookie.match(/(?:^|;\\s*)portfolio-theme=([^;]+)/);
-                var t = c ? c[1] : sessionStorage.getItem('portfolio-theme');
-                if (t === 'spidey' || t === 'normal') document.documentElement.dataset.theme = t;
+                document.cookie = "portfolio-theme=; path=/; max-age=0;";
+                var t = sessionStorage.getItem('portfolio-theme');
+                if (t === 'spidey' || t === 'normal') {
+                  document.documentElement.dataset.theme = t;
+                } else {
+                  document.documentElement.dataset.theme = 'normal';
+                }
               } catch(e) {}
             `,
           }}

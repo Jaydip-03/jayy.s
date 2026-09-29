@@ -36,20 +36,22 @@ export function ThemeProvider({
 
   useEffect(() => {
     try {
-      const savedCookie = document.cookie.match(/(?:^|;\s*)portfolio-theme=([^;]+)/)?.[1] as ThemeMode | undefined;
-      const savedMode = savedCookie || (window.sessionStorage.getItem(THEME_SESSION_KEY) as ThemeMode | null);
+      const savedMode = window.sessionStorage.getItem(THEME_SESSION_KEY) as ThemeMode | null;
       if (savedMode === "spidey" || savedMode === "normal") {
         setMode(savedMode);
+      } else {
+        setMode("normal");
       }
     } catch (e) {}
   }, []);
 
-  /* Sync DOM attribute + persist theme to cookie & sessionStorage on every mode change */
+  /* Sync DOM attribute + persist theme to sessionStorage only for current tab */
   useEffect(() => {
     document.documentElement.dataset.theme = mode;
     try {
       window.sessionStorage.setItem(THEME_SESSION_KEY, mode);
-      document.cookie = `${THEME_SESSION_KEY}=${mode}; path=/; max-age=31536000; SameSite=Lax`;
+      // Remove persistent cookie so closing and opening in a new tab always resets to normal mode
+      document.cookie = `${THEME_SESSION_KEY}=; path=/; max-age=0;`;
     } catch (e) {}
   }, [mode]);
 

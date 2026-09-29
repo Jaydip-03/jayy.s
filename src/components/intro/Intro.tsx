@@ -9,9 +9,6 @@ import {
   INTRO_EXIT_DURATION_S,
 } from "@/lib/intro";
 
-const SPIDEY_RED = "#e23636";
-const SPIDEY_BLUE = "#006fb9";
-
 const greetings = ["Hello", "नमस्ते", "नमस्कार", "こんにちは", "Jaydip Desale"];
 
 const TAGLINE = "Thanks for being here.";
@@ -23,6 +20,7 @@ type IntroProps = {
 
 export default function Intro({ onFinished }: IntroProps) {
   const [index, setIndex] = useState(0);
+  const [progress, setProgress] = useState(0);
   const [isExiting, setIsExiting] = useState(false);
   const exitStartedRef = useRef(false);
 
@@ -44,6 +42,25 @@ export default function Intro({ onFinished }: IntroProps) {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [triggerExit]);
+
+  // Smooth numeric counter 0 -> 100%
+  useEffect(() => {
+    const startTime = performance.now();
+    const duration = INTRO_EXIT_DELAY_S * 1000;
+
+    let animId: number;
+    const tick = (now: number) => {
+      const elapsed = now - startTime;
+      const pct = Math.min(100, Math.floor((elapsed / duration) * 100));
+      setProgress(pct);
+      if (elapsed < duration) {
+        animId = requestAnimationFrame(tick);
+      }
+    };
+    animId = requestAnimationFrame(tick);
+
+    return () => cancelAnimationFrame(animId);
+  }, []);
 
   // Auto exit timer
   useEffect(() => {
@@ -75,12 +92,14 @@ export default function Intro({ onFinished }: IntroProps) {
     }
   };
 
+  const isFinalName = index === greetings.length - 1;
+
   return (
     <motion.div
       role="button"
       tabIndex={0}
       aria-label="Welcome intro screen. Click or press space to enter immediately."
-      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden bg-[#060608] select-none cursor-pointer"
+      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden bg-[#070709] select-none cursor-pointer"
       initial={{ y: 0 }}
       animate={isExiting ? { y: "-100%" } : { y: 0 }}
       transition={{
@@ -90,92 +109,107 @@ export default function Intro({ onFinished }: IntroProps) {
       onAnimationComplete={handleAnimationComplete}
       onClick={triggerExit}
     >
-      {/* Atmospheric ambient glow & subtle star grid */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+      {/* ── Atmospheric Warm Corona & Paper Grid (Matching Normal Hero) ── */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+        {/* Amber & Slate ambient glow */}
         <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[520px] w-[520px] rounded-full blur-[130px] opacity-40 animate-pulse pointer-events-none"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[560px] w-[560px] rounded-full blur-[140px] opacity-35 animate-pulse"
           style={{
-            animationDuration: "4s",
+            animationDuration: "5s",
             background:
-              "radial-gradient(circle, rgba(0, 111, 185, 0.28) 0%, rgba(226, 54, 54, 0.2) 45%, transparent 75%)",
+              "radial-gradient(circle, rgba(251, 191, 36, 0.22) 0%, rgba(139, 155, 180, 0.12) 45%, transparent 75%)",
           }}
         />
+        {/* Subtle dot matrix texture */}
         <div
-          className="absolute inset-0 opacity-[0.12] pointer-events-none"
+          className="absolute inset-0 opacity-[0.06]"
           style={{
             backgroundImage:
-              "radial-gradient(rgba(255, 255, 255, 0.7) 1px, transparent 1px)",
-            backgroundSize: "32px 32px",
+              "radial-gradient(rgba(255, 255, 255, 0.8) 1px, transparent 1px)",
+            backgroundSize: "28px 28px",
           }}
         />
       </div>
 
-      {/* Main Intro Content */}
+      {/* ── Main Intro Center Stack ── */}
       <motion.div
-        className="relative z-10 flex flex-col items-center px-6"
+        className="relative z-10 flex flex-col items-center px-6 text-center"
         animate={
           isExiting
-            ? { opacity: 0, y: -20, filter: "blur(8px)" }
+            ? { opacity: 0, y: -24, filter: "blur(10px)" }
             : { opacity: 1, y: 0, filter: "blur(0px)" }
         }
         transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
       >
-        {/* Accent Top Hairline */}
+        {/* Warm Golden Hairline */}
         <motion.div
           aria-hidden="true"
           className="mb-5 h-[1.5px] w-14 rounded-full"
           style={{
-            background: `linear-gradient(90deg, ${SPIDEY_RED}, ${SPIDEY_BLUE})`,
-            boxShadow: `0 0 16px ${SPIDEY_RED}80`,
+            background: "linear-gradient(90deg, #f59e0b, #fbbf24, #fef08a)",
+            boxShadow: "0 0 14px rgba(251, 191, 36, 0.5)",
           }}
           initial={{ opacity: 0, scaleX: 0 }}
-          animate={{ opacity: 0.9, scaleX: 1 }}
+          animate={{ opacity: 0.95, scaleX: 1 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         />
 
-        {/* Monogram */}
+        {/* Monogram — Warm Ivory & Amber */}
         <motion.p
-          className="font-mono text-[clamp(32px,5.5vw,60px)] font-semibold tracking-[-0.04em] text-white"
+          className="font-mono text-[clamp(34px,5.5vw,62px)] font-medium tracking-[-0.04em] text-white"
           initial={{ opacity: 0, y: 16, filter: "blur(4px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
-          <span className="text-zinc-600">&lt;</span>
-          <span>jayy</span>
-          <span className="text-[#006fb9]">/</span>
-          <span className="text-zinc-600">&gt;</span>
+          <span className="text-zinc-600 font-normal">&lt;</span>
+          <span className="text-zinc-100 font-semibold tracking-tight">jayy</span>
+          <span className="text-amber-400 font-normal">/</span>
+          <span className="text-zinc-600 font-normal">&gt;</span>
         </motion.p>
 
-        {/* Greeting & Tagline */}
-        <div className="mt-3 flex flex-col items-center sm:mt-4">
-          <div className="relative h-10 overflow-hidden sm:h-12 flex items-center justify-center">
+        {/* Multilingual Greeting Cycler in Fraunces Serif */}
+        <div className="mt-3.5 flex flex-col items-center sm:mt-4">
+          <div className="relative h-12 flex items-center justify-center">
             <AnimatePresence mode="wait">
-              <motion.p
+              <motion.div
                 key={greetings[index]}
-                className={`text-xl sm:text-2xl font-normal tracking-[0.03em] ${
-                  index === greetings.length - 1
-                    ? "font-mono text-lg sm:text-xl font-semibold text-white tracking-normal"
-                    : "font-display italic text-[#006fb9]"
-                }`}
-                initial={{ opacity: 0, y: 14, filter: "blur(2px)" }}
+                className="flex items-center gap-2.5"
+                initial={{ opacity: 0, y: 12, filter: "blur(2px)" }}
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                exit={{ opacity: 0, y: -14, filter: "blur(2px)" }}
-                transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
+                exit={{ opacity: 0, y: -12, filter: "blur(2px)" }}
+                transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
               >
-                {greetings[index]}
-              </motion.p>
+                {!isFinalName ? (
+                  <>
+                    <span className="h-1.5 w-1.5 rounded-full bg-amber-400 shadow-[0_0_8px_#fbbf24]" />
+                    <p className="font-serif italic text-2xl sm:text-3xl text-zinc-100 tracking-wide">
+                      {greetings[index]}
+                    </p>
+                  </>
+                ) : (
+                  <div className="flex flex-col items-center">
+                    <p className="font-serif text-2xl sm:text-3xl font-normal text-white tracking-tight">
+                      Jaydip Desale
+                    </p>
+                    <span className="mt-1 font-mono text-[9.5px] uppercase tracking-[0.24em] text-amber-400 font-semibold">
+                      Java Full Stack Developer · Pune
+                    </span>
+                  </div>
+                )}
+              </motion.div>
             </AnimatePresence>
           </div>
 
-          <p className="mt-2 flex text-[13px] tracking-[0.04em] sm:text-sm font-sans">
+          {/* Tagline — Warm Champagne to Zinc Shimmer */}
+          <p className="mt-3 flex text-[13px] tracking-[0.04em] sm:text-sm font-sans">
             {TAGLINE.split("").map((char, i) => (
               <motion.span
                 key={i}
-                initial={{ opacity: 0, color: "rgb(226 54 54)" }}
+                initial={{ opacity: 0, color: "#fef08a" }}
                 animate={{ opacity: 1, color: "rgb(161 161 170)" }}
                 transition={{
                   delay: 0.85 + i * 0.016,
-                  duration: 0.3,
+                  duration: 0.35,
                   ease: [0.22, 1, 0.36, 1],
                 }}
               >
@@ -186,21 +220,34 @@ export default function Intro({ onFinished }: IntroProps) {
         </div>
       </motion.div>
 
-      {/* Subtle Skip Cue */}
-      <motion.div
-        initial={{ opacity: 0, y: 6 }}
-        animate={{ opacity: 0.65, y: 0 }}
-        transition={{ delay: 0.8, duration: 0.5 }}
-        className="absolute bottom-5 flex items-center gap-1.5 text-[11px] font-mono tracking-wider text-zinc-500 hover:text-zinc-300 transition-colors pointer-events-auto"
-      >
-        <span>click anywhere or press space to skip</span>
-        <span className="text-[12px] opacity-75">↵</span>
-      </motion.div>
+      {/* ── Bottom Controls: Live Precision Counter & Skip Prompt ── */}
+      <div className="absolute bottom-6 inset-x-0 px-6 sm:px-10 flex items-center justify-between text-zinc-500 pointer-events-auto">
+        {/* Skip Cue */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.7 }}
+          transition={{ delay: 0.6, duration: 0.5 }}
+          className="flex items-center gap-1.5 text-[11px] font-mono tracking-wider hover:text-zinc-300 transition-colors"
+        >
+          <span>click anywhere or space to skip</span>
+          <span className="text-[12px] opacity-75">↵</span>
+        </motion.div>
 
-      {/* Bottom Hairline Progress Bar */}
+        {/* Live Monospace Counter (00% -> 100%) */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.9 }}
+          transition={{ delay: 0.4, duration: 0.4 }}
+          className="font-mono text-xs font-semibold tabular-nums text-amber-400/90"
+        >
+          {String(progress).padStart(2, "0")}%
+        </motion.div>
+      </div>
+
+      {/* ── Bottom Hairline Progress Bar (Amber / Gold) ── */}
       <div className="absolute bottom-0 inset-x-0 h-[2px] bg-white/[0.06] overflow-hidden pointer-events-none">
         <motion.div
-          className="h-full bg-gradient-to-r from-[#e23636] via-[#006fb9] to-emerald-400"
+          className="h-full bg-gradient-to-r from-amber-600 via-amber-400 to-yellow-200 shadow-[0_0_12px_rgba(251,191,36,0.6)]"
           initial={{ width: "0%" }}
           animate={{ width: "100%" }}
           transition={{ duration: INTRO_EXIT_DELAY_S, ease: "linear" }}
