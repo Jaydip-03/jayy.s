@@ -146,7 +146,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookieStore = await cookies();
+  await cookies();
   // Every new tab / fresh session starts in normal mode
   const initialMode: "spidey" | "normal" = "normal";
 

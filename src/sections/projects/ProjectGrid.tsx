@@ -1,38 +1,38 @@
 "use client";
 
-import { getFeaturedProjects } from "@/lib/projects";
-import { useTheme } from "@/context/ThemeContext";
+import { projects } from "@/constants/projects";
 import ProjectFeatured from "./ProjectFeatured";
 import ProjectSupportingList from "./ProjectSupportingList";
 
-const SPIDEY_BLUE = "#006fb9";
-
 export default function ProjectGrid() {
-  const { isSpideyMode } = useTheme();
-  const featuredProjects = getFeaturedProjects();
-  const mainProject = featuredProjects[0];
-  const supportingProjects = featuredProjects.slice(1);
+  const displayOrder = [
+    "careersync",
+    "travel-website",
+    "fertilizer-recommendation-system",
+    "developer-management-system",
+  ];
+
+  const selectedProjects = displayOrder
+    .map((slug) => projects.find((project) => project.slug === slug))
+    .filter((project): project is (typeof projects)[number] => Boolean(project));
+
+  const mainProject = selectedProjects[0];
+  const supportingProjects = selectedProjects.slice(1);
 
   if (!mainProject) return null;
 
   return (
-    <div className="space-y-12 sm:space-y-16 lg:space-y-20">
-      {/* Featured Main Project */}
+    <div className="space-y-14 sm:space-y-16 lg:space-y-20">
       <ProjectFeatured project={mainProject} />
 
-      {/* Supporting Editorial Project List */}
       {supportingProjects.length > 0 && (
-        <div className="pt-4 sm:pt-6">
-          <div className="mb-6 flex items-center justify-between border-b border-zinc-200/80 pb-3">
-            <h4 className="text-[11px] font-mono uppercase tracking-[0.2em] text-zinc-400">
-              {isSpideyMode ? "Archived Dossiers // More Work" : "More Selected Work"}
+        <div>
+          <div className="mb-4 flex items-center justify-between">
+            <h4 className="text-xs font-semibold uppercase tracking-[0.22em] text-zinc-500">
+              More selected work
             </h4>
-            
-            <span
-              className="font-handwritten text-[16px] leading-none"
-              style={{ color: isSpideyMode ? SPIDEY_BLUE : "#71717a" }}
-            >
-              {isSpideyMode ? "built with spider-precision 🕸️" : "real backend logic & clean APIs ⤷"}
+            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-zinc-400">
+              02 — 04
             </span>
           </div>
           <ProjectSupportingList projects={supportingProjects} />

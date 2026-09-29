@@ -10,7 +10,6 @@ import {
   Volume2,
   VolumeX,
   Palette,
-  X,
 } from "lucide-react";
 import Container from "@/components/ui/Container";
 
@@ -117,20 +116,6 @@ function PushPin({ color = "red" }: { color?: "red" | "purple" | "blue" | "gold"
   );
 }
 
-// ── Realistic Masking Tape Strip ────────────────────────────────────
-function MaskingTape({ className = "", rotate = 0 }: { className?: string; rotate?: number }) {
-  return (
-    <div
-      className={`pointer-events-none absolute z-50 h-5 bg-[#fde68a]/80 shadow-[0_2px_6px_rgba(0,0,0,0.25)] backdrop-blur-[1.5px] ${className}`}
-      style={{
-        transform: `rotate(${rotate}deg)`,
-        clipPath: "polygon(2% 0%, 98% 0%, 100% 100%, 0% 100%)",
-      }}
-    >
-      <div className="h-full w-full border-y border-amber-300/30 opacity-60" />
-    </div>
-  );
-}
 
 // ── Types ───────────────────────────────────────────────────────────
 type CanvasBgOption = "grid" | "cork" | "noir" | "spidey";
@@ -241,7 +226,6 @@ export default function AboutStickerWall() {
   const [noteText, setNoteText] = useState("");
   const [authorName, setAuthorName] = useState("");
   const [noteEmoji, setNoteEmoji] = useState("🔥");
-  const [notePinColor, setNotePinColor] = useState<"red" | "purple" | "blue" | "gold">("red");
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [isHoveringCanvas, setIsHoveringCanvas] = useState(false);
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
@@ -414,7 +398,7 @@ export default function AboutStickerWall() {
               <span>Interactive Community Scrapbook</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-white font-mono">
-              THE SCRAPBOOK WALL <span className="text-neutral-500 font-sans font-normal text-xl sm:text-2xl">// PIN YOUR MARK</span>
+              THE SCRAPBOOK WALL <span className="text-neutral-500 font-sans font-normal text-xl sm:text-2xl">{"// PIN YOUR MARK"}</span>
             </h2>
             <p className="text-neutral-400 text-xs sm:text-sm mt-0.5 max-w-xl">
               An open, physical scrapbook canvas matching the collage vibe. Grab a die-cut vinyl sticker or pin a handwritten note!

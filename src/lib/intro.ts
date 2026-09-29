@@ -37,7 +37,7 @@ export function hasIntroBeenSeen() {
   if (typeof window === "undefined") return false;
   try {
     return sessionStorage.getItem(INTRO_SEEN_KEY) === "1";
-  } catch (e) {
+  } catch {
     return false;
   }
 }
@@ -48,7 +48,7 @@ export function markIntroSeen() {
     sessionStorage.setItem(INTRO_SEEN_KEY, "1");
     // Clear any persistent cookie so intro runs normally per browser session
     document.cookie = `${INTRO_SEEN_KEY}=; path=/; max-age=0;`;
-  } catch (e) {}
+  } catch {}
 }
 
 export function clearIntroActive() {
@@ -70,6 +70,6 @@ export function replayIntro() {
     sessionStorage.removeItem(INTRO_SEEN_KEY);
     document.documentElement.setAttribute(INTRO_ACTIVE_ATTR, "true");
     window.dispatchEvent(new CustomEvent(INTRO_REPLAY_EVENT));
-  } catch (e) {}
+  } catch {}
 }
 

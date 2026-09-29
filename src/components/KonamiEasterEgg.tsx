@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Sparkles, X, ShieldAlert, Volume2 } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
@@ -24,7 +24,7 @@ const SPIDEY_BLUE = "#006fb9";
 export default function KonamiEasterEgg() {
   const { isSpideyMode, toggleMode } = useTheme();
   const [unlocked, setUnlocked] = useState(false);
-  const [inputSequence, setInputSequence] = useState<string[]>([]);
+  const inputSequenceRef = useRef<string[]>([]);
   const [webBursts, setWebBursts] = useState<{ id: number; x: number; y: number; angle: number }[]>([]);
 
   const closeEasterEgg = useCallback(() => {
@@ -68,21 +68,17 @@ export default function KonamiEasterEgg() {
       }
 
       const key = e.key.toLowerCase();
-      setInputSequence((prev) => {
-        const next = [...prev, key];
-        if (next.length > KONAMI_CODE.length) {
-          next.shift();
-        }
+      const current = inputSequenceRef.current;
+      current.push(key);
+      if (current.length > KONAMI_CODE.length) {
+        current.shift();
+      }
 
-        // Check if sequence matches
-        const matches = KONAMI_CODE.every((val, index) => val === next[index]);
-        if (matches) {
-          triggerKonami();
-          return [];
-        }
-
-        return next;
-      });
+      const matches = KONAMI_CODE.every((val, index) => val === current[index]);
+      if (matches) {
+        inputSequenceRef.current = [];
+        triggerKonami();
+      }
     };
 
     window.addEventListener("keydown", handleKeyDown);

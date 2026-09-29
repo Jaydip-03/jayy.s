@@ -42,7 +42,7 @@ export function ThemeProvider({
       } else {
         setMode("normal");
       }
-    } catch (e) {}
+    } catch {}
   }, []);
 
   /* Sync DOM attribute + persist theme to sessionStorage only for current tab */
@@ -52,7 +52,7 @@ export function ThemeProvider({
       window.sessionStorage.setItem(THEME_SESSION_KEY, mode);
       // Remove persistent cookie so closing and opening in a new tab always resets to normal mode
       document.cookie = `${THEME_SESSION_KEY}=; path=/; max-age=0;`;
-    } catch (e) {}
+    } catch {}
   }, [mode]);
 
   /*

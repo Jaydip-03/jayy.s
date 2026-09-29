@@ -3,8 +3,6 @@
 import Link from "next/link";
 import { useTheme } from "@/context/ThemeContext";
 
-const SPIDEY_RED = "#e23636";
-
 export default function AvailabilityBadge() {
   const { isSpideyMode } = useTheme();
 
@@ -31,7 +29,7 @@ export default function AvailabilityBadge() {
       <span className="font-mono text-xs text-zinc-400 sm:text-[13px]">
         {isSpideyMode ? (
           <span className="text-zinc-300">
-            patrolling sector <span className="text-[#e23636] font-semibold">//</span> on call
+            patrolling sector <span className="text-[#e23636] font-semibold">{"//"}</span> on call
           </span>
         ) : (
           <>

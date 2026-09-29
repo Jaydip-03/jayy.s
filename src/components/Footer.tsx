@@ -285,7 +285,7 @@ export default function Footer() {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    onClick={(e) => handleQuickLink(e as any, link.href)}
+                    onClick={(e) => handleQuickLink(e, link.href)}
                     onMouseEnter={() => setHoveredLink(link.name)}
                     onMouseLeave={() => setHoveredLink(null)}
                     className="group flex items-center gap-1.5 text-[13.5px] text-zinc-500 transition-colors duration-200 hover:text-white"

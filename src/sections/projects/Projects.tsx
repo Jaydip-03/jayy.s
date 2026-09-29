@@ -98,26 +98,19 @@ export default function Projects() {
       )}
 
       <Container className="relative z-10">
-        {/* Editorial Section Introduction */}
         <ProjectHeader />
 
-        {/* Featured Project & Supporting Editorial Rows */}
-        <div className="mt-12 sm:mt-16 md:mt-20">
+        <div className="mt-12 sm:mt-16">
           <ProjectGrid />
         </div>
 
-        {/* Clean Editorial Bottom Link */}
-        <div className="mt-14 flex items-center justify-between border-t border-zinc-200/80 pt-8 sm:mt-20">
-          <div className="hidden sm:flex items-center gap-2 font-mono text-[11px] text-zinc-400">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-            <span>ALL SYSTEMS VERIFIED &amp; TESTED</span>
-          </div>
+        <div className="mt-12 flex justify-end border-t border-zinc-200/80 pt-7 sm:mt-16">
 
           <Link
             href="/work"
             className="group inline-flex items-center gap-2 text-sm font-medium text-zinc-600 transition-colors duration-300 hover:text-zinc-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-950"
           >
-            <span>{isSpideyMode ? "Browse all classified dossiers" : "View all projects archive"}</span>
+            <span>View All Projects</span>
             <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
         </div>

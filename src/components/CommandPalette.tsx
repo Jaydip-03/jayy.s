@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Search,
-  FileText,
   Briefcase,
   Code2,
   User,
@@ -17,7 +16,6 @@ import {
   Copy,
   Check,
   Download,
-  ExternalLink,
   Layers,
   Cpu,
   Globe,
@@ -27,9 +25,6 @@ import {
 import { FaGithub, FaLinkedin } from "react-icons/fa6";
 import { useTheme } from "@/context/ThemeContext";
 import { replayIntro } from "@/lib/intro";
-
-const SPIDEY_RED = "#e23636";
-const SPIDEY_BLUE = "#006fb9";
 
 export const COMMAND_PALETTE_EVENT = "open-command-palette";
 
@@ -339,11 +334,6 @@ export default function CommandPalette() {
     });
   }, [items, query]);
 
-  // Keep selected index in valid range
-  useEffect(() => {
-    setSelectedIndex(0);
-  }, [query]);
-
   // Global keyboard shortcuts (Cmd+K / Ctrl+K, Esc, Arrows, Enter)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -485,7 +475,10 @@ export default function CommandPalette() {
                   ref={inputRef}
                   type="text"
                   value={query}
-                  onChange={(e) => setQuery(e.target.value)}
+                  onChange={(e) => {
+                    setQuery(e.target.value);
+                    setSelectedIndex(0);
+                  }}
                   placeholder={
                     isSpideyMode
                       ? "Search mission dossier, projects, actions..."
@@ -497,7 +490,10 @@ export default function CommandPalette() {
                 {query ? (
                   <button
                     type="button"
-                    onClick={() => setQuery("")}
+                    onClick={() => {
+                      setQuery("");
+                      setSelectedIndex(0);
+                    }}
                     className="rounded-md p-1 text-zinc-400 hover:text-white transition-colors"
                   >
                     <span className="sr-only">Clear search</span>

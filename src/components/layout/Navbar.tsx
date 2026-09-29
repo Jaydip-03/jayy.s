@@ -25,7 +25,6 @@ const navLinks: {
 ];
 
 const SPIDEY_RED = "#e23636";
-const SPIDEY_BLUE = "#006fb9";
 
 type NavbarProps = {
   initialVisible?: boolean;
@@ -63,7 +62,7 @@ export default function Navbar({ initialVisible = false }: NavbarProps) {
       window.removeEventListener(INTRO_COMPLETE_EVENT, handleIntroComplete);
       window.clearTimeout(fallbackTimer);
     };
-  }, []);
+  }, [initialVisible]);
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
@@ -96,7 +95,6 @@ export default function Navbar({ initialVisible = false }: NavbarProps) {
 
   useEffect(() => {
     if (pathname !== "/") {
-      setActiveSection(null);
       return;
     }
 

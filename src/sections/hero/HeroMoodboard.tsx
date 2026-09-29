@@ -70,7 +70,7 @@ function Sunflower() {
           />
         ))}
         {/* Petal inner highlight */}
-        {petals.map((angle, i) => (
+        {petals.map((angle) => (
           <ellipse
             key={`h-${angle}`}
             cx="50" cy="22" rx="3" ry="9"
