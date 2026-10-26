@@ -34,4 +34,10 @@ export const testimonials: Testimonial[] = [
     name: "Nilam",
     role: "Friend",
   },
+  {
+    id: "5",
+    quote: "A note from Harshal is on its way.",
+    name: "Harshal",
+    role: "Friend",
+  },
 ];

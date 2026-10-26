@@ -49,32 +49,12 @@ function HangingSpiderDoodle() {
   );
 }
 
-/**
- * Exact Asymmetric Floating Layout matching Reference (Parul's portfolio):
- *  [Card 1 Left]       [Card 2 Top-Center]     [Avatar Sticker]  [Card 4 Right]
- *                      [Card 3 Bottom-Center]
- */
 const cardLayouts = [
-  {
-    mobile: "relative z-[10]",
-    desktop: "lg:left-[24px] lg:top-[90px] lg:w-[280px]",
-    z: "lg:z-[10]",
-  },
-  {
-    mobile: "relative -mt-6 z-[30]",
-    desktop: "lg:left-[285px] lg:top-[0px] lg:w-[310px]",
-    z: "lg:z-[30]",
-  },
-  {
-    mobile: "relative -mt-6 z-[20]",
-    desktop: "lg:left-[215px] lg:top-[260px] lg:w-[335px]",
-    z: "lg:z-[20]",
-  },
-  {
-    mobile: "relative -mt-6 z-[40]",
-    desktop: "lg:left-[610px] lg:top-[110px] lg:w-[280px]",
-    z: "lg:z-[40]",
-  },
+  { desktop: "lg:left-[18px] lg:top-[118px] lg:w-[280px]", z: "lg:z-[10]", tilt: "lg:-rotate-2", paper: "bg-[#1c1b1a]", tape: "bg-zinc-300/35" },
+  { desktop: "lg:left-[286px] lg:top-[8px] lg:w-[310px]", z: "lg:z-[30]", tilt: "lg:rotate-[1.5deg]", paper: "bg-[#202020]", tape: "bg-stone-200/35" },
+  { desktop: "lg:left-[202px] lg:top-[286px] lg:w-[335px]", z: "lg:z-[20]", tilt: "lg:-rotate-[1deg]", paper: "bg-[#191b1d]", tape: "bg-slate-200/35" },
+  { desktop: "lg:left-[620px] lg:top-[126px] lg:w-[280px]", z: "lg:z-[40]", tilt: "lg:rotate-2", paper: "bg-[#211b1c]", tape: "bg-zinc-200/35" },
+  { desktop: "lg:left-[542px] lg:top-[398px] lg:w-[300px]", z: "lg:z-[50]", tilt: "lg:-rotate-[1.5deg]", paper: "bg-[#1e1b21]", tape: "bg-neutral-200/35" },
 ] as const;
 
 // ── Cute Jerry-style Avatar Sticker for Normal Mode ──────────────
@@ -104,17 +84,21 @@ function ChillAvatarSticker() {
   );
 }
 
-// ── Clean Editorial Card (Exact Reference Hierarchy) ─────────────
+// ── Paper note testimonial ───────────────────────────────────────
 
 function TestimonialCard({
   item,
   index,
+  isSpideyMode,
   layout,
 }: {
   item: (typeof testimonials)[number];
   index: number;
+  isSpideyMode: boolean;
   layout: (typeof cardLayouts)[number];
 }) {
+  const tapeColor = isSpideyMode ? "bg-[#e23636]/55" : layout.tape;
+
   return (
     <motion.article
       initial={{ opacity: 0, y: 20 }}
@@ -125,19 +109,27 @@ function TestimonialCard({
         delay: index * 0.08,
         ease: [0.22, 1, 0.36, 1],
       }}
-      className={`rounded-2xl border border-white/[0.04] bg-[#141416] p-6 shadow-[0_16px_40px_rgba(0,0,0,0.6)] transition-all duration-300 hover:!z-[60] hover:border-white/15 hover:shadow-[0_24px_60px_rgba(0,0,0,0.85)] md:p-7 lg:absolute ${layout.mobile} ${layout.desktop} ${layout.z}`}
+      className={`group relative isolate rounded-[3px] ${layout.paper} p-6 text-[#342f27] shadow-[3px_12px_22px_rgba(0,0,0,0.32),0_2px_3px_rgba(0,0,0,0.18)] transition-all duration-300 hover:-translate-y-1 hover:!z-[60] hover:shadow-[5px_18px_28px_rgba(0,0,0,0.42)] md:p-7 lg:absolute ${layout.desktop} ${layout.z} ${layout.tilt} lg:hover:rotate-0`}
+      style={{
+        backgroundImage:
+          "linear-gradient(145deg, rgba(255,255,255,.055), transparent 68%), repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0px, rgba(255,255,255,.025) 1px, transparent 1px, transparent 5px)",
+      }}
     >
-      <p className="text-[14.5px] leading-[1.68] text-zinc-300 sm:text-[15px] sm:leading-[1.7]">
+      <span
+        aria-hidden="true"
+        className={`absolute -top-2.5 left-1/2 z-10 h-6 w-[72px] -translate-x-1/2 rotate-[-2deg] shadow-[0_2px_3px_rgba(0,0,0,0.12)] ${tapeColor}`}
+      />
+      <span
+        aria-hidden="true"
+        className="absolute right-0 top-0 h-7 w-7 bg-black/20 [clip-path:polygon(0_0,100%_100%,0_100%)]"
+      />
+      <p className="relative font-display text-[15px] italic leading-[1.72] text-zinc-200 sm:text-base sm:leading-[1.78]">
         {item.quote}
       </p>
 
-      <div className="mt-5 pt-1">
-        <p className="text-[15px] font-semibold text-white tracking-tight">
-          {item.name}
-        </p>
-        <p className="text-[13px] text-zinc-400 mt-0.5">
-          {item.role}
-        </p>
+      <div className="mt-5 border-t border-white/[0.12] pt-3">
+        <p className="font-display text-lg font-semibold italic tracking-tight text-white">{item.name}</p>
+        <p className="mt-0.5 text-[11px] uppercase tracking-[0.14em] text-zinc-400">{item.role}</p>
       </div>
     </motion.article>
   );
@@ -157,57 +149,36 @@ export default function AboutTestimonials() {
       )}
 
       <Container className="relative z-10">
-        
-        {/* Header matching Reference */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 0.6 }}
-          className="flex items-end justify-between max-w-3xl"
+          className="flex max-w-3xl items-end justify-between gap-8"
         >
           <div>
-            <h2 className="font-display text-[clamp(2.2rem,5vw,3.25rem)] font-normal leading-[1.12] tracking-[-0.02em] text-white">
-              Hear It From Humans I&apos;ve Worked With
+            <h2 className="font-display text-[clamp(2.5rem,6vw,3.25rem)] font-normal leading-[1.08] tracking-[-0.025em] text-white">
+              Straight from the <span className="font-display italic text-zinc-400">group chat.</span>
             </h2>
             <div className="mt-4 h-px w-full max-w-2xl bg-white/20" />
           </div>
-
           {isSpideyMode && <HangingSpiderDoodle />}
         </motion.div>
 
-        {/* Mobile View */}
         <div className="relative mx-auto mt-12 flex max-w-md flex-col items-center pb-4 lg:hidden">
           <div className="mb-6">
-            {isSpideyMode ? (
-              <SpiderMagSticker size={80} className="rotate-[-6deg]" />
-            ) : (
-              <ChillAvatarSticker />
-            )}
+            {isSpideyMode ? <SpiderMagSticker size={80} className="rotate-[-6deg]" /> : <ChillAvatarSticker />}
           </div>
           <div className="w-full space-y-4">
             {testimonials.map((item, index) => (
-              <TestimonialCard
-                key={item.id}
-                item={item}
-                index={index}
-                layout={cardLayouts[index]}
-              />
+              <TestimonialCard key={item.id} item={item} index={index} isSpideyMode={isSpideyMode} layout={cardLayouts[index]} />
             ))}
           </div>
         </div>
 
-        {/* Desktop View — Floating Canvas matching Parul's Composition */}
         <div className="mt-14 hidden w-full justify-center lg:flex">
-          <div className="relative h-[510px] w-[920px] max-w-[94vw]">
-            
-            {/* Subtle Ambient Radial Glow */}
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute left-1/2 top-[45%] h-[400px] w-[640px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.03),transparent_70%)]"
-            />
-
-            {/* Sticker / Avatar Slot */}
+          <div className="relative h-[690px] w-[920px] max-w-[94vw]">
+            <div aria-hidden="true" className="pointer-events-none absolute left-1/2 top-[46%] h-[480px] w-[680px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.035),transparent_70%)]" />
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
@@ -215,22 +186,17 @@ export default function AboutTestimonials() {
               transition={{ duration: 0.45, delay: 0.35 }}
               className="absolute left-[565px] top-[15px] z-[35]"
             >
-              {isSpideyMode ? (
-                <SpiderMagSticker size={92} />
-              ) : (
-                <ChillAvatarSticker />
-              )}
+              {isSpideyMode ? <SpiderMagSticker size={92} /> : <ChillAvatarSticker />}
             </motion.div>
-
-            {/* 4 Asymmetric Testimonial Cards */}
-            {testimonials.map((item, index) => (
-              <TestimonialCard
-                key={item.id}
-                item={item}
-                index={index}
-                layout={cardLayouts[index]}
-              />
-            ))}
+          {testimonials.map((item, index) => (
+            <TestimonialCard
+              key={item.id}
+              item={item}
+              index={index}
+              isSpideyMode={isSpideyMode}
+              layout={cardLayouts[index]}
+            />
+          ))}
           </div>
         </div>
 
